@@ -1,0 +1,390 @@
+make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.2.1
+# Built for x86_64-w64-mingw32
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+ 
+
+# Make data base, printed on Thu Aug 04 13:03:18 2022
+
+# Variables
+
+# 'override' directive
+GNUMAKEFLAGS := 
+# automatic
+<D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
+# automatic
+?F = $(notdir $?)
+# default
+.SHELLFLAGS := -c
+# makefile (from 'Makefile', line 66)
+LDSCRIPT = STM32F767ZITx_FLASH.ld
+# makefile
+MAKEFLAGS = pqrR
+# makefile (from 'Makefile', line 6)
+TARGET = main
+# automatic
+?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
+# makefile (from 'Makefile', line 40)
+AS_DEFS = 
+# makefile (from 'Makef 
+ile', line 47)
+AS_INCLUDES = 
+# automatic
+@D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
+# environment
+HOMEDRIVE = C:
+# automatic
+@F = $(notdir $@)
+# automatic
+^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
+# makefile
+CURDIR := e:/stm32f767zi/usart
+# default
+SHELL := sh.exe
+# environment
+WINDIR = C:\Windows
+# environment
+VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"a0b772d00248b7f5c117cab9736199be.zh-tw","_translationsConfigFile":"C:\\Users\\DCS_LAB\\AppDat 
+a\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\corrupted.info","_languagePackSupport":true}
+# makefile (from 
+ 'Makefile', line 24)
+SZ = $(PREFIX)size -A
+# makefile (from 'Makefile', line 62)
+CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"$(@:%.o=%.d)"
+# environment
+ONEDRIVE = C:\Users\DCS_LAB\OneDrive
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
+# makefile (from 'Makefile', line 8)
+DEBUG = 1
+# enviro 
+nment
+TMP = C:\Users\DCS_LAB\AppData\Local\Temp
+# makefile (from 'Makefile', line 22)
+AS = $(PREFIX)gcc -x assembler-with-cpp
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PROGRAMDATA = C:\ProgramData
+# environment
+VSCODE_CWD = E:\stm32f767zi\usart
+# default
+MAKE_HOST := x86_64-w64-mingw32
+# environment
+PATH = C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\MATLAB\R2022a\runtime\win64;C:\Program Files\MATLAB\R2022a\bin;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;E:\cmake-3.24.0-rc3-windows-x86_64\bin;E:\x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0\mingw64\bin;C:\Users\DCS_LAB\AppData\Local\Microsoft\WindowsApps;;C:\Users\DCS_LAB\AppData\Local\Programs\Microsoft VS Code\bin
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# environment
+PROCESSOR_ARCHITECTURE = AMD64
+# environment
+USERPROFILE = C:\Users\DCS_LAB
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+NUMBER_OF_PROCESSORS = 4
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# makefile (from 'Makefile', line 71)
+LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync
+# automatic
+%F = $(notdir $%)
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_7744_ZEDAEACZCFRYHROD
+# makefile (from 'Makefile', line 15)
+ASM_SOURCES = startup_stm32f767xx.s
+# makefile (from 'Makefile', line 52)
+OPT = -O0
+# environment
+COMPUTERNAME = DESKTOP-JH2RL94
+# environment
+PROGRAMFILES = C:\Program Files
+# default
+.LOADED := 
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+USERNAME = DCS_LAB
+# environment
+PUBLIC = C:\Users\Public
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = C:\Users\DCS_LAB
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\DCS_LAB\AppData\Roaming\Code\CachedData\3b889b090b5ad5793f524b5d1d39fda662b96a2a
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+COMMONPROGRAMFILES = C:\Program Files\Common Files
+# environment
+LOGONSERVER = \\DESKTOP-JH2RL94
+# makefile (from 'Makefile', line 18)
+PREFIX = arm-none-eabi-
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+USERDOMAIN = DESKTOP-JH2RL94
+# makefile (from 'Makefile', line 42)
+C_DEFS = 
+# environment
+MAKELEVEL := 0
+# makefile (from 'Makefile', line 37)
+MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
+# makefile (from 'Makefile', line 49)
+C_INCLUDES = $(wildcard ./Inc/*.h)
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# makefile (from 'Makefile', line 35)
+FLOAT-ABI = -mfloat-abi=hard
+# makefile (from 'Makefile', line 20)
+CC = $(PREFIX)gcc
+# makefile (from 'Makefile', line 10)
+BUILD_DIR = Build
+# makefile (from 'Makefile', line 57)
+ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+# default
+MAKE_VERSION := 4.2.1
+# makefile
+.DEFAULT_GOAL := all
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# automatic
+%D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
+# makefile (from 'Makefile', line 31)
+CPU = -mcpu=cortex-m7
+# makefile (from 'Makefile', line 33)
+FPU = -mfpu=fpv5-d16
+# environment
+LOCALAPPDATA = C:\Users\DCS_LAB\AppData\Local
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+# default
+MAKE_COMMAND := make.exe
+# makefile (from 'Makefile', line 70)
+LIBDIR = 
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+# environment
+OS = Windows_NT
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\1505c4ce8a47c0324441a7f04a6af100-1.69.2-main-sock
+# environment
+HOMEPATH = \Users\DCS_LAB
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+PROMPT = $P$G
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
+# environment
+SYSTEMROOT = C:\Windows
+# automatic
++D = $(patsubst %/,%,$(patsubst %\,%,$(dir $+)))
+# automatic
++F = $(notdir $+)
+# environment
+APPDATA = C:\Users\DCS_LAB\AppData\Roaming
+# environment
+TEMP = C:\Users\DCS_LAB\AppData\Local\Temp
+# environment
+COMSPEC = C:\Windows\system32\cmd.exe
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+LC_ALL = C
+# makefile (from 'Makefile', line 69)
+LIBS = -lc -lm -lnosys 
+# automatic
+^F = $(notdir $^)
+# makefile (from 'Makefile', line 13)
+C_SOURCES = $(wildcard ./Src/*.c)
+# default
+SUFFIXES := 
+# environment
+SYSTEMDRIVE = C:
+# environment
+SESSIONNAME = Console
+# environment
+PROCESSOR_REVISION = 3c03
+# default
+.RECIPEPREFIX := 
+# makefile (from 'Makefile', line 79)
+OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o))) $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
+# environment
+LANG = C
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+VSCODE_PID = 7744
+# environment
+USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
+# variable set hash-table stats:
+# Load=113/1024=11%, Rehash=0, Collisions=17/161=11%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (key e:/stm32f767zi/usart, mtime 1659588342): 11 files, no impossibilities.
+# Build: could not be stat'd.
+# ./Src (key e:/stm32f767zi/usart/Src, mtime 1659337758): 3 files, no impossibilities.
+
+# 14 files, no impossibilities in 3 directories.
+
+# Implicit Rules
+
+Build/%.o: %.c Makefile | Build
+#  recipe to execute (from 'Makefile', line 83):
+	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+
+Build/%.o: %.s Makefile | Build
+#  recipe to execute (from 'Makefile', line 86):
+	$(AS) -c $(CFLAGS) $< -o $@
+
+# 2 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+# Not a target:
+Build/startup_stm32f767xx.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+Build/main.o: ./Src/main.c Makefile | Build
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'main'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  recipe to execute (from 'Makefile', line 83):
+	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+
+all: Build/main.elf
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+
+Build/main.elf: Build/main.o Build/startup_stm32f767xx.o Makefile
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+#  recipe to execute (from 'Makefile', line 89):
+	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+	$(SZ) $@
+	
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-03 18:29:28
+#  File has been updated.
+#  Successfully updated.
+
+Build:
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := Build
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  recipe to execute (from 'Makefile', line 93):
+	mkdir $@		
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 96):
+	-rm -fR $(BUILD_DIR)
+
+# Not a target:
+./Src/main.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-01 15:11:42
+#  File has been updated.
+#  Successfully updated.
+
+# files hash-table stats:
+# Load=10/1024=1%, Rehash=0, Collisions=0/40=0%
+# VPATH Search Paths
+
+vpath %.c ./Src
+
+# 1 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 26 / storage  
+= 246 B / avg = 9 B
+# current buf: size = 8162 B / used = 246 B / count = 26 / avg = 9 B
+
+# strcache performance: lookups = 54 / hit rate = 51%
+# hash-table stats:
+# Load=26/8192=0%, Rehash=0, Collisions=2/54=4%
+# Finished Make data base on Thu Aug 04 13:03:18 2022
+
+ 
