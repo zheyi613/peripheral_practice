@@ -59,6 +59,9 @@ CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction
 # Adds debug tables for source-level debugging.
 CFLAGS += -gdwarf-2
 # Generate dependency information
+# -MMD create a makefile dependency file (source.d) for each source file and allow for compliation or assembly to continue.
+# -MP emits dummy dependency rules.
+# -MF specifies a filename for the makefile dependency rules.
 CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
 # LDFLAGS
@@ -66,8 +69,12 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 LDSCRIPT = STM32F767ZITx_FLASH.ld
 
 # libraries
+# use C standard, math, nosys (pass compiler without syscalls) librarys
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
+# -specs-nano.specs replace -lc (newlib) with newlib-nano
+# --cref tells the linker to add cross-reference information to the map file.
+# -Wl,--gc-sections perform a garbage collection of code and data never referenced. (only link useful function)
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 all: $(BUILD_DIR)/$(TARGET).elf
@@ -92,6 +99,7 @@ $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 $(BUILD_DIR):
 	mkdir $@		
 
+.PHONY: clean output
 clean:
 	-rm -fR $(BUILD_DIR)
   
@@ -99,5 +107,8 @@ clean:
 # dependencies
 #######################################
 -include $(wildcard $(BUILD_DIR)/*.d)
+
+output:
+	Makefile | $(BUILD_DIR)
 
 # *** EOF ***

@@ -5,9 +5,8 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Thu Aug 04 13:03:18 2022
+# Make data base, printed on Thu Aug 04 16:29:17 2022
 
 # Variables
 
@@ -19,7 +18,7 @@ GNUMAKEFLAGS :=
 ?F = $(notdir $?)
 # default
 .SHELLFLAGS := -c
-# makefile (from 'Makefile', line 66)
+# makefile (from 'Makefile', line 69)
 LDSCRIPT = STM32F767ZITx_FLASH.ld
 # makefile
 MAKEFLAGS = pqrR
@@ -29,8 +28,7 @@ TARGET = main
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # makefile (from 'Makefile', line 40)
 AS_DEFS = 
-# makefile (from 'Makef 
-ile', line 47)
+# makefile (from 'Makefile', line 47)
 AS_INCLUDES = 
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
@@ -47,12 +45,11 @@ SHELL := sh.exe
 # environment
 WINDIR = C:\Windows
 # environment
-VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"a0b772d00248b7f5c117cab9736199be.zh-tw","_translationsConfigFile":"C:\\Users\\DCS_LAB\\AppDat 
-a\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"a0b772d00248b7f5c117cab9736199be.zh-tw","_translationsConfigFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\corrupted.info","_languagePackSupport":true}
 # makefile (from 
  'Makefile', line 24)
 SZ = $(PREFIX)size -A
-# makefile (from 'Makefile', line 62)
+# makefile (from 'Makefile', line 65)
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"$(@:%.o=%.d)"
 # environment
 ONEDRIVE = C:\Users\DCS_LAB\OneDrive
@@ -64,8 +61,7 @@ MAKEFILE_LIST :=  Makefile
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # makefile (from 'Makefile', line 8)
 DEBUG = 1
-# enviro 
-nment
+# environment
 TMP = C:\Users\DCS_LAB\AppData\Local\Temp
 # makefile (from 'Makefile', line 22)
 AS = $(PREFIX)gcc -x assembler-with-cpp
@@ -91,7 +87,7 @@ ALLUSERSPROFILE = C:\ProgramData
 NUMBER_OF_PROCESSORS = 4
 # environment
 ELECTRON_RUN_AS_NODE = 1
-# makefile (from 'Makefile', line 71)
+# makefile (from 'Makefile', line 78)
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync
@@ -173,7 +169,7 @@ LOCALAPPDATA = C:\Users\DCS_LAB\AppData\Local
 PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
 # default
 MAKE_COMMAND := make.exe
-# makefile (from 'Makefile', line 70)
+# makefile (from 'Makefile', line 74)
 LIBDIR = 
 # default
 .VARIABLES := 
@@ -213,7 +209,7 @@ MAKEFILES :=
 <F = $(notdir $<)
 # environment
 LC_ALL = C
-# makefile (from 'Makefile', line 69)
+# makefile (from 'Makefile', line 73)
 LIBS = -lc -lm -lnosys 
 # automatic
 ^F = $(notdir $^)
@@ -229,7 +225,7 @@ SESSIONNAME = Console
 PROCESSOR_REVISION = 3c03
 # default
 .RECIPEPREFIX := 
-# makefile (from 'Makefile', line 79)
+# makefile (from 'Makefile', line 86)
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o))) $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 # environment
 LANG = C
@@ -250,7 +246,7 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
 
 # Directories
 
-# . (key e:/stm32f767zi/usart, mtime 1659588342): 11 files, no impossibilities.
+# . (key e:/stm32f767zi/usart, mtime 1659591374): 11 files, no impossibilities.
 # Build: could not be stat'd.
 # ./Src (key e:/stm32f767zi/usart/Src, mtime 1659337758): 3 files, no impossibilities.
 
@@ -259,11 +255,11 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
 # Implicit Rules
 
 Build/%.o: %.c Makefile | Build
-#  recipe to execute (from 'Makefile', line 83):
+#  recipe to execute (from 'Makefile', line 90):
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 Build/%.o: %.s Makefile | Build
-#  recipe to execute (from 'Makefile', line 86):
+#  recipe to execute (from 'Makefile', line 93):
 	$(AS) -c $(CFLAGS) $< -o $@
 
 # 2 implicit rules, 0 (0.0%) terminal.
@@ -284,7 +280,7 @@ Build/main.o: ./Src/main.c Makefile | Build
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
-#  recipe to execute (from 'Makefile', line 83):
+#  recipe to execute (from 'Makefile', line 90):
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 all: Build/main.elf
@@ -296,6 +292,11 @@ all: Build/main.elf
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 
+.PHONY: clean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 Build/main.elf: Build/main.o Build/startup_stm32f767xx.o Makefile
 #  Implicit rule search has not been done.
 #  File does not exist.
@@ -303,7 +304,7 @@ Build/main.elf: Build/main.o Build/startup_stm32f767xx.o Makefile
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/3=0%
-#  recipe to execute (from 'Makefile', line 89):
+#  recipe to execute (from 'Makefile', line 96):
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
 	
@@ -317,7 +318,7 @@ Build/main.elf: Build/main.o Build/startup_stm32f767xx.o Makefile
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-03 18:29:28
+#  Last modified 2022-08-04 16:28:55
 #  File has been updated.
 #  Successfully updated.
 
@@ -345,7 +346,7 @@ Build:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/12=8%
-#  recipe to execute (from 'Makefile', line 93):
+#  recipe to execute (from 'Makefile', line 100):
 	mkdir $@		
 
 # Not a target:
@@ -355,10 +356,11 @@ Build:
 #  File has not been updated.
 
 clean:
+#  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
-#  Modification time never checked.
+#  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 96):
+#  recipe to execute (from 'Makefile', line 104):
 	-rm -fR $(BUILD_DIR)
 
 # Not a target:
@@ -369,7 +371,7 @@ clean:
 #  Successfully updated.
 
 # files hash-table stats:
-# Load=10/1024=1%, Rehash=0, Collisions=0/40=0%
+# Load=11/1024=1%, Rehash=0, Collisions=0/43=0%
 # VPATH Search Paths
 
 vpath %.c ./Src
@@ -378,13 +380,12 @@ vpath %.c ./Src
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 26 / storage  
-= 246 B / avg = 9 B
-# current buf: size = 8162 B / used = 246 B / count = 26 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 27 / storage = 253 B / avg = 9 B
+# current buf: size = 8162 B / used = 253 B / count = 27 / avg = 9 B
 
-# strcache performance: lookups = 54 / hit rate = 51%
+# strcache performance: lookups = 57 / hit rate = 52%
 # hash-table stats:
-# Load=26/8192=0%, Rehash=0, Collisions=2/54=4%
-# Finished Make data base on Thu Aug 04 13:03:18 2022
+# Load=27/8192=0%, Rehash=0, Collisions=2/57=4%
+# Finished Make data base on Thu Aug 04 16:29:17 2022
 
  
