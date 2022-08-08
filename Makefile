@@ -46,7 +46,7 @@ C_DEFS = \
 # AS includes
 AS_INCLUDES = 
 # C includes
-C_INCLUDES =  $(wildcard ./Inc/*.h)
+C_INCLUDES =  -I./Inc
 
 # minimum optimization (default) 
 OPT = -O0

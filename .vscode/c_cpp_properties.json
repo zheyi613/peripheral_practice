@@ -3,21 +3,21 @@
         {
             "name": "Win ARM",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceRoot}/**",
                 "E:/gcc-arm-none-eabi-10.3-2021.10/**"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
-                "STM32F767xx",
+                "STM32F767xx"
             ],
             "cStandard": "c11",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "gcc-arm",
             "browse": {
                 "path": [
-                    "${workspaceFolder}/**",
+                    "${workspaceRoot}/**",
                     "E:/gcc-arm-none-eabi-10.3-2021.10/**"
                 ]
             }

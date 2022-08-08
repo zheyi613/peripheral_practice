@@ -6,7 +6,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Aug 08 13:21:47 2022
+# Make data base, printed on Mon Aug 08 17:23:51 2022
 
 # Variables
 
@@ -39,14 +39,13 @@ HOMEDRIVE = C:
 # automatic
 ^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
 # makefile
-CURDIR := e:/stm32f767zi/usart
+CURDIR := e:/stm32f767zi/peripheral_practice
 # default
 SHELL := sh.exe
 # environment
 WINDIR = C:\Windows
 # environment
-VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"a0b772d00248b7f5c117cab9736199be.zh-tw","_translationsConfigFile":"C:\\Users\\DCS_LAB\\AppDat 
-a\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"a0b772d00248b7f5c117cab9736199be.zh-tw","_translationsConfigFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\da76f93349a72022ca4670c1b84860304616aaa2","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\corrupted.info","_languagePackSupport":true}
 # makefile (from 'Makefile', line 24)
 SZ = $(PREFIX)size -A
 # makefile (from 'Makefile', line 65)
@@ -57,8 +56,6 @@ ONEDRIVE = C:\Users\DCS_LAB\OneDrive
 PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
 # makefile (from 'Build/main.d', line 1)
 MAKEFILE_LIST :=  Makefile Build/startup_stm32f767xx.d Build/main.d
-# environment
-FPS_BROWSER_USER_PROFILE_STRING = Default
 # makefile (from 'Makefile', line 8)
 DEBUG = 1
 # environment
@@ -70,7 +67,7 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_CWD = E:\stm32f767zi\usart
+VSCODE_CWD = E:\stm32f767zi\peripheral_practice
 # default
 MAKE_HOST := x86_64-w64-mingw32
 # environment
@@ -94,7 +91,7 @@ LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BU
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_2920_HXAHFRPGVXSKJANR
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_4988_GWOJHGRDZVANEGXT
 # makefile (from 'Makefile', line 15)
 ASM_SOURCES = startup_stm32f767xx.s
 # makefile (from 'Makefile', line 52)
@@ -114,11 +111,12 @@ USERNAME = DCS_LAB
 # environment
 PUBLIC = C:\Users\Public
 # environment
-VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+VSCODE_AMD_ENTRYPOINT = vs/workbe 
+nch/api/node/extensionHostProcess
 # environment
 HOME = C:\Users\DCS_LAB
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\DCS_LAB\AppData\Roaming\Code\CachedData\3b889b090b5ad5793f524b5d1d39fda662b96a2a
+VSCODE_CODE_CACHE_PATH = C:\Users\DCS_LAB\AppData\Roaming\Code\CachedData\da76f93349a72022ca4670c1b84860304616aaa2
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
@@ -138,7 +136,7 @@ MAKELEVEL := 0
 # makefile (from 'Makefile', line 37)
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 # makefile (from 'Makefile', line 49)
-C_INCLUDES = $(wildcard ./Inc/*.h)
+C_INCLUDES = -I./Inc
 # default
 MAKE = $(MAKE_COMMAND)
 # default
@@ -180,7 +178,7 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
 # environment
 OS = Windows_NT
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\1505c4ce8a47c0324441a7f04a6af100-1.69.2-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\1505c4ce8a47c0324441a7f04a6af100-1.70.0-main-sock
 # environment
 HOMEPATH = \Users\DCS_LAB
 # environment
@@ -199,6 +197,8 @@ SYSTEMROOT = C:\Windows
 +F = $(notdir $+)
 # environment
 APPDATA = C:\Users\DCS_LAB\AppData\Roaming
+# environment
+__COMPAT_LAYER = DetectorsAppHealth
 # environment
 TEMP = C:\Users\DCS_LAB\AppData\Local\Temp
 # environment
@@ -232,13 +232,11 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
-# environment
-VSCODE_PID = 2920
+VSCODE_PID = 4988
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
 # variable set hash-table stats:
-# Load=113/1024=11%, Rehash=0, Collisions=18/176=10%
+# Load=112/1024=11%, Rehash=0, Collisions=18/175=10%
 
 # Pattern-specific Variable Values
 
@@ -246,12 +244,11 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
 
 # Directories
 
-# . (key e:/stm32f767zi/usart, mtime 1659601776): 12 files, no impossibilities.
-# Build (key e:/stm32f767zi/usart/Build, mtime 1659602691): 9 files, no impossibilities.
-# ./Src (key e:/stm32f767zi/usart/Src, mtime 1659337758): 3 files, no impossibilities.
-# ./Inc (key e:/stm32f767zi/usart/Inc, mtime 1659336374): 2 files, no impossibilities.
+# . (key e:/stm32f767zi/peripheral_practice, mtime 1659937635): 12 files, no impossibilities.
+# Build (key e:/stm32f767zi/peripheral_practice/Build, mtime 1659949716): 9 files, no impossibilities.
+# ./Src (key e:/stm32f767zi/peripheral_practice/Src, mtime 1659337758): 3 files, no impossibilities.
 
-# 26 files, no impossibilities in 4 directories.
+# 24 files, no impossibilities in 3 directories.
 
 # Implicit Rules
 
@@ -272,10 +269,10 @@ Build/startup_stm32f767xx.o: startup_stm32f767xx.s
 #  Modification time never checked.
 #  File has not been updated.
 
-Build/main.o: ./Src/main.c Makefile Src/main.c | Build
+Build/main.o: ./Src/main.c Makefile Src/main.c Inc/peripheral_base.h | Build
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'main'
-#  Last modified 2022-08-04 16:44:51
+#  Last modified 2022-08-08 17:08:35
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
@@ -285,15 +282,15 @@ Build/main.o: ./Src/main.c Makefile Src/main.c | Build
 # automatic
 # * := main
 # automatic
-# + := ./Src/main.c Makefile Src/main.c
+# + := ./Src/main.c Makefile Src/main.c Inc/peripheral_base.h
 # automatic
 # | := Build
 # automatic
 # < := ./Src/main.c
 # automatic
-# ^ := ./Src/main.c Makefile Src/main.c
+# ^ := ./Src/main.c Makefile Src/main.c Inc/peripheral_base.h
 # automatic
-# ? := Makefile
+# ? := ./Src/main.c Makefile Src/main.c
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/26=4%
 #  recipe to execute (from 'Makefile', line 90):
@@ -308,14 +305,14 @@ all: Build/main.elf
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/14=0%
 
-.PHONY: clean output
+.PHONY: clean
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 Build/main.elf: Build/main.o Build/startup_stm32f767xx.o Makefile
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-04 16:44:51
+#  Last modified 2022-08-08 17:08:36
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
@@ -328,13 +325,19 @@ Build/main.elf: Build/main.o Build/startup_stm32f767xx.o Makefile
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-04 16:51:04
+#  Last modified 2022-08-08 17:23:26
+#  File has been updated.
+#  Successfully updated.
+
+Inc/peripheral_base.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-08 17:06:07
 #  File has been updated.
 #  Successfully updated.
 
 Build:
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-04 16:44:51
+#  Last modified 2022-08-08 17:08:36
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 100):
@@ -343,7 +346,7 @@ Build:
 # Not a target:
 Src/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-01 15:11:42
+#  Last modified 2022-08-08 17:09:19
 #  File has been updated.
 #  Successfully updated.
 
@@ -364,21 +367,21 @@ clean:
 # Not a target:
 ./Src/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-01 15:11:42
+#  Last modified 2022-08-08 17:09:19
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Build/startup_stm32f767xx.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-04 16:44:51
+#  Last modified 2022-08-08 17:08:36
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Build/main.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-04 16:44:51
+#  Last modified 2022-08-08 17:23:33
 #  File has been updated.
 #  Successfully updated.
 
@@ -387,14 +390,6 @@ startup_stm32f767xx.s:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-
-output:
-#  Phony target (prerequisite of .PHONY).
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 112):
-	Makefile | $(BUILD_DIR)
 
 # files hash-table stats:
 # Load=16/1024=2%, Rehash=0, Collisions=0/55=0%
@@ -406,12 +401,12 @@ vpath %.c ./Src
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 39 / storage = 403 B / avg = 10 B
-# current buf: size = 8162 B / used = 403 B / count = 39 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 38 / storage = 412 B / avg = 10 B
+# current buf: size = 8162 B / used = 412 B / count = 38 / avg = 10 B
 
-# strcache performance: lookups = 82 / hit rate = 52%
+# strcache performance: lookups = 79 / hit rate = 51%
 # hash-table stats:
-# Load=39/8192=0%, Rehash=0, Collisions=5/82=6%
-# Finished Make data base on Mon Aug 08 13:21:47 2022
+# Load=38/8192=0%, Rehash=0, Collisions=3/79=4%
+# Finished Make data base on Mon Aug 08 17:23:51 2022
 
  

@@ -1,12 +1,10 @@
-make.exe --dry-run --always-make --keep-going --print-directory
-make.exe: Entering directory 'e:/stm32f767zi/usart'
-mkdir Build		
+make.exe --dry-run --keep-going --print-directory
+make.exe: Entering directory 'e:/stm32f767zi/peripheral_practice'
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/main.d" -Wa,-a,-ad,-alms=Build/main.lst ./Src/main.c -o Build/main.o
  
-arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard   -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/main.d" -Wa,-a,-ad,-alms=Build/main.lst ./Src/main.c -o Build/main.o
- 
-arm-none-eabi-gcc -x assembler-with-cpp -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard   -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/startup_stm32f767xx.d" startup_stm32f767xx.s -o Build/startup_stm32f767xx.o
+arm-none-eabi-gcc -x assembler-with-cpp -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/startup_stm32f767xx.d" startup_stm32f767xx.s -o Build/startup_stm32f767xx.o
  
 arm-none-eabi-gcc Build/main.o Build/startup_stm32f767xx.o -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard -specs=nano.specs -TSTM32F767ZITx_FLASH.ld  -lc -lm -lnosys  -Wl,-Map=Build/main.map,--cref -Wl,--gc-sections -o Build/main.elf
 arm-none-eabi-size -A Build/main.elf
-make.exe: Leaving directory 'e:/stm32f767zi/usart'
+make.exe: Leaving directory 'e:/stm32f767zi/peripheral_practice'
  
