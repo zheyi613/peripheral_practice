@@ -6,7 +6,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Aug 04 16:29:17 2022
+# Make data base, printed on Mon Aug 08 13:21:47 2022
 
 # Variables
 
@@ -45,9 +45,9 @@ SHELL := sh.exe
 # environment
 WINDIR = C:\Windows
 # environment
-VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"a0b772d00248b7f5c117cab9736199be.zh-tw","_translationsConfigFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\corrupted.info","_languagePackSupport":true}
-# makefile (from 
- 'Makefile', line 24)
+VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"a0b772d00248b7f5c117cab9736199be.zh-tw","_translationsConfigFile":"C:\\Users\\DCS_LAB\\AppDat 
+a\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\a0b772d00248b7f5c117cab9736199be.zh-tw\\corrupted.info","_languagePackSupport":true}
+# makefile (from 'Makefile', line 24)
 SZ = $(PREFIX)size -A
 # makefile (from 'Makefile', line 65)
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"$(@:%.o=%.d)"
@@ -55,8 +55,8 @@ CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-
 ONEDRIVE = C:\Users\DCS_LAB\OneDrive
 # environment
 PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
-# makefile (from 'Makefile', line 1)
-MAKEFILE_LIST :=  Makefile
+# makefile (from 'Build/main.d', line 1)
+MAKEFILE_LIST :=  Makefile Build/startup_stm32f767xx.d Build/main.d
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # makefile (from 'Makefile', line 8)
@@ -74,7 +74,7 @@ VSCODE_CWD = E:\stm32f767zi\usart
 # default
 MAKE_HOST := x86_64-w64-mingw32
 # environment
-PATH = C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\MATLAB\R2022a\runtime\win64;C:\Program Files\MATLAB\R2022a\bin;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;E:\cmake-3.24.0-rc3-windows-x86_64\bin;E:\x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0\mingw64\bin;C:\Users\DCS_LAB\AppData\Local\Microsoft\WindowsApps;;C:\Users\DCS_LAB\AppData\Local\Programs\Microsoft VS Code\bin
+PATH = C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\MATLAB\R2022a\runtime\win64;C:\Program Files\MATLAB\R2022a\bin;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;E:\cmake-3.24.0-rc3-windows-x86_64\bin;E:\x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0\mingw64\bin;E:\gcc-arm-none-eabi-10.3-2021.10\bin;C:\Users\DCS_LAB\AppData\Local\Microsoft\WindowsApps;;C:\Users\DCS_LAB\AppData\Local\Programs\Microsoft VS Code\bin
 # environment
 COMMONPROGRAMW6432 = C:\Program Files\Common Files
 # environment
@@ -94,7 +94,7 @@ LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BU
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_7744_ZEDAEACZCFRYHROD
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_2920_HXAHFRPGVXSKJANR
 # makefile (from 'Makefile', line 15)
 ASM_SOURCES = startup_stm32f767xx.s
 # makefile (from 'Makefile', line 52)
@@ -234,11 +234,11 @@ PROCESSOR_LEVEL = 6
 # environment
 FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
-VSCODE_PID = 7744
+VSCODE_PID = 2920
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
 # variable set hash-table stats:
-# Load=113/1024=11%, Rehash=0, Collisions=17/161=11%
+# Load=113/1024=11%, Rehash=0, Collisions=18/176=10%
 
 # Pattern-specific Variable Values
 
@@ -246,11 +246,12 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
 
 # Directories
 
-# . (key e:/stm32f767zi/usart, mtime 1659591374): 11 files, no impossibilities.
-# Build: could not be stat'd.
+# . (key e:/stm32f767zi/usart, mtime 1659601776): 12 files, no impossibilities.
+# Build (key e:/stm32f767zi/usart/Build, mtime 1659602691): 9 files, no impossibilities.
 # ./Src (key e:/stm32f767zi/usart/Src, mtime 1659337758): 3 files, no impossibilities.
+# ./Inc (key e:/stm32f767zi/usart/Inc, mtime 1659336374): 2 files, no impossibilities.
 
-# 14 files, no impossibilities in 3 directories.
+# 26 files, no impossibilities in 4 directories.
 
 # Implicit Rules
 
@@ -266,20 +267,35 @@ Build/%.o: %.s Makefile | Build
 
 # Files
 
-# Not a target:
-Build/startup_stm32f767xx.o:
+Build/startup_stm32f767xx.o: startup_stm32f767xx.s
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-Build/main.o: ./Src/main.c Makefile | Build
+Build/main.o: ./Src/main.c Makefile Src/main.c | Build
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'main'
-#  File does not exist.
+#  Last modified 2022-08-04 16:44:51
 #  File has been updated.
 #  Needs to be updated (-q is set).
+# automatic
+# @ := Build/main.o
+# automatic
+# % := 
+# automatic
+# * := main
+# automatic
+# + := ./Src/main.c Makefile Src/main.c
+# automatic
+# | := Build
+# automatic
+# < := ./Src/main.c
+# automatic
+# ^ := ./Src/main.c Makefile Src/main.c
+# automatic
+# ? := Makefile
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+# Load=8/32=25%, Rehash=0, Collisions=1/26=4%
 #  recipe to execute (from 'Makefile', line 90):
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
@@ -290,64 +306,46 @@ all: Build/main.elf
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/14=0%
 
-.PHONY: clean
+.PHONY: clean output
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 Build/main.elf: Build/main.o Build/startup_stm32f767xx.o Makefile
 #  Implicit rule search has not been done.
-#  File does not exist.
+#  Last modified 2022-08-04 16:44:51
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/14=0%
 #  recipe to execute (from 'Makefile', line 96):
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
 	
 
 # Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-04 16:28:55
+#  Last modified 2022-08-04 16:51:04
 #  File has been updated.
 #  Successfully updated.
 
 Build:
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  File does not exist.
+#  Last modified 2022-08-04 16:44:51
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := Build
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := 
-# automatic
-# | := 
-# automatic
-# < := 
-# automatic
-# ^ := 
-# automatic
-# ? := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 100):
 	mkdir $@		
+
+# Not a target:
+Src/main.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-01 15:11:42
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 .DEFAULT:
@@ -370,8 +368,36 @@ clean:
 #  File has been updated.
 #  Successfully updated.
 
+# Not a target:
+Build/startup_stm32f767xx.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-04 16:44:51
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+Build/main.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-04 16:44:51
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+startup_stm32f767xx.s:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+output:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 112):
+	Makefile | $(BUILD_DIR)
+
 # files hash-table stats:
-# Load=11/1024=1%, Rehash=0, Collisions=0/43=0%
+# Load=16/1024=2%, Rehash=0, Collisions=0/55=0%
 # VPATH Search Paths
 
 vpath %.c ./Src
@@ -380,12 +406,12 @@ vpath %.c ./Src
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 27 / storage = 253 B / avg = 9 B
-# current buf: size = 8162 B / used = 253 B / count = 27 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 39 / storage = 403 B / avg = 10 B
+# current buf: size = 8162 B / used = 403 B / count = 39 / avg = 10 B
 
-# strcache performance: lookups = 57 / hit rate = 52%
+# strcache performance: lookups = 82 / hit rate = 52%
 # hash-table stats:
-# Load=27/8192=0%, Rehash=0, Collisions=2/57=4%
-# Finished Make data base on Thu Aug 04 16:29:17 2022
+# Load=39/8192=0%, Rehash=0, Collisions=5/82=6%
+# Finished Make data base on Mon Aug 08 13:21:47 2022
 
  

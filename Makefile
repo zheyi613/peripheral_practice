@@ -99,7 +99,7 @@ $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 $(BUILD_DIR):
 	mkdir $@		
 
-.PHONY: clean output
+.PHONY: clean
 clean:
 	-rm -fR $(BUILD_DIR)
   
@@ -107,8 +107,5 @@ clean:
 # dependencies
 #######################################
 -include $(wildcard $(BUILD_DIR)/*.d)
-
-output:
-	Makefile | $(BUILD_DIR)
 
 # *** EOF ***
