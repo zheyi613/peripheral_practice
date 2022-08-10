@@ -10,7 +10,9 @@ DEBUG = 1
 BUILD_DIR = Build
 
 # C sources
-C_SOURCES =  $(wildcard ./Src/*.c)
+C_ALL_SOURCES =  $(wildcard ./Src/*.c)
+#C_SOURCES = $(filter-out ./Src/main.c, $(C_SOURCES))
+C_SOURCES = $(filter-out ./Src/test_led_button.c, $(C_ALL_SOURCES))
 # ASM sources
 ASM_SOURCES = startup_stm32f767xx.s
 

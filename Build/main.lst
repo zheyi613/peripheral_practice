@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG3ehqh.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccKPhpBt.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -34,83 +34,108 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG3ehqh.s 			page 1
    5:./Src/main.c  ****  * @date 2022-08-01
    6:./Src/main.c  ****  */
    7:./Src/main.c  **** 
-   8:./Src/main.c  **** #include "peripheral_base.h"
-   9:./Src/main.c  **** 
-  10:./Src/main.c  **** int main(void) {
-  28              		.loc 1 10 16
+   8:./Src/main.c  **** #include "stm32f767zi_hal.h"
+   9:./Src/main.c  **** #include "stm32f767zi_user.h"
+  10:./Src/main.c  **** 
+  11:./Src/main.c  **** int main(void) {
+  28              		.loc 1 11 16
   29              		.cfi_startproc
-  30              		@ args = 0, pretend = 0, frame = 0
+  30              		@ args = 0, pretend = 0, frame = 8
   31              		@ frame_needed = 1, uses_anonymous_args = 0
   32              		@ link register save eliminated.
   33 0000 80B4     		push	{r7}
   34              	.LCFI0:
   35              		.cfi_def_cfa_offset 4
   36              		.cfi_offset 7, -4
-  37 0002 00AF     		add	r7, sp, #0
+  37 0002 83B0     		sub	sp, sp, #12
   38              	.LCFI1:
-  39              		.cfi_def_cfa_register 7
-  11:./Src/main.c  **** 
-  12:./Src/main.c  ****     // test LED1 2 3
-  13:./Src/main.c  ****     RCC_AHB1EN_REG |= GPIOB_CLK_EN;
-  40              		.loc 1 13 20
-  41 0004 0C4B     		ldr	r3, .L3
-  42 0006 1B68     		ldr	r3, [r3]
-  43 0008 0B4A     		ldr	r2, .L3
-  44 000a 43F00203 		orr	r3, r3, #2
-  45 000e 1360     		str	r3, [r2]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG3ehqh.s 			page 2
+  39              		.cfi_def_cfa_offset 16
+  40 0004 00AF     		add	r7, sp, #0
+  41              	.LCFI2:
+  42              		.cfi_def_cfa_register 7
+  12:./Src/main.c  ****     RCC->AHB1ENR |= GPIOB_CLK_EN;
+  43              		.loc 1 12 18
+  44 0006 114B     		ldr	r3, .L5
+  45 0008 1B6B     		ldr	r3, [r3, #48]
+  46 000a 104A     		ldr	r2, .L5
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccKPhpBt.s 			page 2
 
 
-  14:./Src/main.c  **** 
-  15:./Src/main.c  ****     GPIO_MODE_REG |= USER_LED1_MODER | USER_LED2_MODER;
-  46              		.loc 1 15 19
-  47 0010 0A4B     		ldr	r3, .L3+4
-  48 0012 1A68     		ldr	r2, [r3]
-  49 0014 0949     		ldr	r1, .L3+4
-  50 0016 44F20103 		movw	r3, #16385
-  51 001a 1343     		orrs	r3, r3, r2
-  52 001c 0B60     		str	r3, [r1]
+  47 000c 43F00203 		orr	r3, r3, #2
+  48 0010 1363     		str	r3, [r2, #48]
+  13:./Src/main.c  **** 
+  14:./Src/main.c  ****     GPIOB->MODER |= USER_LED1_MODE | USER_LED2_MODE;
+  49              		.loc 1 14 18
+  50 0012 0F4B     		ldr	r3, .L5+4
+  51 0014 1A68     		ldr	r2, [r3]
+  52 0016 0E49     		ldr	r1, .L5+4
+  53 0018 44F20103 		movw	r3, #16385
+  54 001c 1343     		orrs	r3, r3, r2
+  55 001e 0B60     		str	r3, [r1]
+  15:./Src/main.c  ****     GPIOC->MODER |= USER_BUTTON_MODE;
+  56              		.loc 1 15 18
+  57 0020 0C4B     		ldr	r3, .L5+8
+  58 0022 0C4A     		ldr	r2, .L5+8
+  59 0024 1B68     		ldr	r3, [r3]
+  60 0026 1360     		str	r3, [r2]
+  61              	.L4:
   16:./Src/main.c  **** 
-  17:./Src/main.c  ****     GPIO_OD_REG |= USER_LED1 | USER_LED2;
-  53              		.loc 1 17 17
-  54 001e 084B     		ldr	r3, .L3+8
-  55 0020 1B68     		ldr	r3, [r3]
-  56 0022 074A     		ldr	r2, .L3+8
-  57 0024 43F08103 		orr	r3, r3, #129
-  58 0028 1360     		str	r3, [r2]
-  18:./Src/main.c  **** 
-  19:./Src/main.c  ****     return 0;
-  59              		.loc 1 19 12
-  60 002a 0023     		movs	r3, #0
-  20:./Src/main.c  **** }...
-  61              		.loc 1 20 1
-  62 002c 1846     		mov	r0, r3
-  63 002e BD46     		mov	sp, r7
-  64              	.LCFI2:
-  65              		.cfi_def_cfa_register 13
-  66              		@ sp needed
-  67 0030 5DF8047B 		ldr	r7, [sp], #4
-  68              	.LCFI3:
-  69              		.cfi_restore 7
-  70              		.cfi_def_cfa_offset 0
-  71 0034 7047     		bx	lr
-  72              	.L4:
-  73 0036 00BF     		.align	2
+  17:./Src/main.c  ****     while (1)
+  18:./Src/main.c  ****     {
+  19:./Src/main.c  ****         // toggle LED
+  20:./Src/main.c  ****         GPIOB->ODR ^= USER_LED1 | USER_LED2;
+  62              		.loc 1 20 20
+  63 0028 094B     		ldr	r3, .L5+4
+  64 002a 5B69     		ldr	r3, [r3, #20]
+  65 002c 084A     		ldr	r2, .L5+4
+  66 002e 83F08103 		eor	r3, r3, #129
+  67 0032 5361     		str	r3, [r2, #20]
+  68              	.LBB2:
+  21:./Src/main.c  ****         for (int i = 0; i < 500000; i++);
+  69              		.loc 1 21 18
+  70 0034 0023     		movs	r3, #0
+  71 0036 7B60     		str	r3, [r7, #4]
+  72              		.loc 1 21 9
+  73 0038 02E0     		b	.L2
   74              	.L3:
-  75 0038 30380240 		.word	1073887280
-  76 003c 00040240 		.word	1073873920
-  77 0040 14040240 		.word	1073873940
-  78              		.cfi_endproc
-  79              	.LFE0:
-  81              		.text
-  82              	.Letext0:
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG3ehqh.s 			page 3
+  75              		.loc 1 21 38 discriminator 3
+  76 003a 7B68     		ldr	r3, [r7, #4]
+  77 003c 0133     		adds	r3, r3, #1
+  78 003e 7B60     		str	r3, [r7, #4]
+  79              	.L2:
+  80              		.loc 1 21 9 discriminator 1
+  81 0040 7B68     		ldr	r3, [r7, #4]
+  82 0042 054A     		ldr	r2, .L5+12
+  83 0044 9342     		cmp	r3, r2
+  84 0046 F8DD     		ble	.L3
+  85              	.LBE2:
+  20:./Src/main.c  ****         for (int i = 0; i < 500000; i++);
+  86              		.loc 1 20 20
+  87 0048 EEE7     		b	.L4
+  88              	.L6:
+  89 004a 00BF     		.align	2
+  90              	.L5:
+  91 004c 00380240 		.word	1073887232
+  92 0050 00040240 		.word	1073873920
+  93 0054 00080240 		.word	1073874944
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccKPhpBt.s 			page 3
+
+
+  94 0058 1FA10700 		.word	499999
+  95              		.cfi_endproc
+  96              	.LFE0:
+  98              		.text
+  99              	.Letext0:
+ 100              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 101              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 102              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccKPhpBt.s 			page 4
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccG3ehqh.s:19     .text.main:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccG3ehqh.s:25     .text.main:00000000 main
-C:\Users\DCS_LAB\AppData\Local\Temp\ccG3ehqh.s:75     .text.main:00000038 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccKPhpBt.s:19     .text.main:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccKPhpBt.s:25     .text.main:00000000 main
+C:\Users\DCS_LAB\AppData\Local\Temp\ccKPhpBt.s:91     .text.main:0000004c $d
 
 NO UNDEFINED SYMBOLS

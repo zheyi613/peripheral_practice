@@ -5,16 +5,21 @@
  * @date 2022-08-01
  */
 
-#include "peripheral_base.h"
+#include "stm32f767zi_hal.h"
+#include "stm32f767zi_user.h"
 
 int main(void) {
+    RCC->AHB1ENR |= GPIOB_CLK_EN;
 
-    // test LED1 2 3
-    RCC_AHB1EN_REG |= GPIOB_CLK_EN;
+    GPIOB->MODER |= USER_LED1_MODE | USER_LED2_MODE;
+    GPIOC->MODER |= USER_BUTTON_MODE;
 
-    GPIO_MODE_REG |= USER_LED1_MODER | USER_LED2_MODER;
-
-    GPIO_OD_REG |= USER_LED1 | USER_LED2;
+    while (1)
+    {
+        // toggle LED
+        GPIOB->ODR ^= USER_LED1 | USER_LED2;
+        for (int i = 0; i < 500000; i++);
+    }
 
     return 0;
 }
