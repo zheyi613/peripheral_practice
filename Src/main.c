@@ -6,20 +6,42 @@
  */
 
 #include "stm32f767zi_hal.h"
+#include "stm32f767zi_gpio.h"
+#include "stm32f767zi_usart.h"
 #include "stm32f767zi_user.h"
+#include <stdio.h>
 
 int main(void) {
-    RCC->AHB1ENR |= GPIOB_CLK_EN;
+        int n = 0;
+        char ch = '0';
+        led_init();
+        button_init();
+        usart3_default_init();
 
-    GPIOB->MODER |= USER_LED1_MODE | USER_LED2_MODE;
-    GPIOC->MODER |= USER_BUTTON_MODE;
+        while (1) {
+            printf("haha\n\rn = ");
+            scanf("%d", &n);
+            fflush(stdin);
+            printf("%d\n\r",n);    
+            for (int i = 0; i < n; i++) {
+                ch = usart_read(USART3);
+                printf("led%c toggle!\r\n", ch);
+                switch (ch)
+                {
+                case '1':
+                        led_toggle(USER_LED1);
+                        break;
+                case '2':
+                        led_toggle(USER_LED2);
+                        break;
+                case '3':
+                        led_toggle(USER_LED3);
+                        break;
+                default:
+                        break;
+                }
+            }
+        }
 
-    while (1)
-    {
-        // toggle LED
-        GPIOB->ODR ^= USER_LED1 | USER_LED2;
-        for (int i = 0; i < 500000; i++);
-    }
-
-    return 0;
+        return 0;
 }

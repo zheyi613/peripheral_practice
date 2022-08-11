@@ -8,6 +8,12 @@
 #ifndef __STM32F767ZI_USER_H
 #define __STM32F767ZI_USER_H
 
+#include "stm32f767zi_hal.h"
+#include "stm32f767zi_gpio.h"
+
+typedef uint32_t led_t;
+typedef uint32_t button_t;
+
 #define USER_LED_MODE           (1U << 0)
 #define USER_BUTTON_MODE        0U                  // Button of GPIOC input mode (default)
 
@@ -21,9 +27,13 @@
 
 #define USER_LED1               (1U << USER_LED1_PIN)           // LED1 (greed):  PIN0
 #define USER_LED2               (1U << USER_LED2_PIN)           // LED2 (blue):   PIN7
-#define USER_LED3               (1U << USER_LED3_PIN)          // LED3 (red):    PIN14
+#define USER_LED3               (1U << USER_LED3_PIN)           // LED3 (red):    PIN14
 
 #define USER_BUTTON_PIN         13
 #define USER_BUTTON             (1U << 13)          // Button:        PIN13
+
+void led_init(void);
+void button_init(void);
+void led_toggle(led_t led);
 
 #endif

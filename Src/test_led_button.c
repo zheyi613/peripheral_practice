@@ -21,8 +21,7 @@ int main(void) {
         GPIO_mode(GPIOB, USER_LED3_PIN, USER_LED_MODE);
         GPIO_mode(GPIOC, USER_BUTTON, USER_BUTTON_MODE);
 
-        while (1)
-        {
+        while (1) {
                 /* toggle LED */
                 // GPIOB->ODR ^= USER_LED1 | USER_LED2;
                 // for (int i = 0; i < 500000; i++);

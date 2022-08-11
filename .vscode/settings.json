@@ -1,4 +1,10 @@
 {
     "cortex-debug.gdbPath": "E:/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gdb.exe",
-    "cortex-debug.openocdPath": "E:/xpack-openocd-0.11.0-4/bin/openocd.exe"
+    "cortex-debug.openocdPath": "E:/xpack-openocd-0.11.0-4/bin/openocd.exe",
+    "files.associations": {
+        "stdint.h": "c",
+        "stm32f767zi_hal.h": "c",
+        "stm32f767zi_usart.h": "c",
+        "stm32f767zi_gpio.h": "c"
+    }
 }
