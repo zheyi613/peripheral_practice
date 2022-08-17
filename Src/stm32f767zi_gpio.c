@@ -7,7 +7,8 @@
 
 #include "stm32f767zi_gpio.h"
 
-void gpio_set_mode(GPIO_reg_t *GPIOx, uint32_t pin, uint32_t mode)
+void gpio_set_mode(GPIO_reg_t *GPIOx, uint32_t position, uint32_t mode)
 {
-        GPIOx->MODER = (GPIOx->MODER & ~(0x03 << (pin * 2))) | (mode << (pin * 2));
+        GPIOx->MODER &= ~(0x03 << (position * 2));
+        GPIOx->MODER |= mode << (position * 2);
 }

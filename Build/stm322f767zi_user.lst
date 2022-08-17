@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -57,8 +57,8 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 1
   43 0008 0A4A     		ldr	r2, .L2
   44 000a 43F00203 		orr	r3, r3, #2
   45 000e 1363     		str	r3, [r2, #48]
-  13:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOB, USER_LED1_PIN, USER_LED_MODE);
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 2
+  13:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOB, USER_LED1_POS, USER_LED_MODE);
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 2
 
 
   46              		.loc 1 13 9
@@ -66,13 +66,13 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 1
   48 0012 0021     		movs	r1, #0
   49 0014 0848     		ldr	r0, .L2+4
   50 0016 FFF7FEFF 		bl	gpio_set_mode
-  14:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOB, USER_LED2_PIN, USER_LED_MODE);
+  14:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOB, USER_LED2_POS, USER_LED_MODE);
   51              		.loc 1 14 9
   52 001a 0122     		movs	r2, #1
   53 001c 0721     		movs	r1, #7
   54 001e 0648     		ldr	r0, .L2+4
   55 0020 FFF7FEFF 		bl	gpio_set_mode
-  15:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOB, USER_LED3_PIN, USER_LED_MODE);
+  15:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOB, USER_LED3_POS, USER_LED_MODE);
   56              		.loc 1 15 9
   57 0024 0122     		movs	r2, #1
   58 0026 0E21     		movs	r1, #14
@@ -118,22 +118,22 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 1
   95 0006 1B6B     		ldr	r3, [r3, #48]
   96 0008 054A     		ldr	r2, .L5
   97 000a 43F00403 		orr	r3, r3, #4
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 3
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 3
 
 
   98 000e 1363     		str	r3, [r2, #48]
-  21:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOC, USER_BUTTON, USER_BUTTON_MODE);
+  21:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOC, USER_BUTTON_POS, USER_BUTTON_MODE);
   99              		.loc 1 21 9
  100 0010 0022     		movs	r2, #0
- 101 0012 4FF40051 		mov	r1, #8192
- 102 0016 0348     		ldr	r0, .L5+4
- 103 0018 FFF7FEFF 		bl	gpio_set_mode
+ 101 0012 0D21     		movs	r1, #13
+ 102 0014 0348     		ldr	r0, .L5+4
+ 103 0016 FFF7FEFF 		bl	gpio_set_mode
   22:./Src/stm322f767zi_user.c **** }
  104              		.loc 1 22 1
- 105 001c 00BF     		nop
- 106 001e 80BD     		pop	{r7, pc}
+ 105 001a 00BF     		nop
+ 106 001c 80BD     		pop	{r7, pc}
  107              	.L6:
- 108              		.align	2
+ 108 001e 00BF     		.align	2
  109              	.L5:
  110 0020 00380240 		.word	1073887232
  111 0024 00080240 		.word	1073874944
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 1
  147              		.loc 1 27 1
  148 0014 00BF     		nop
  149 0016 0C37     		adds	r7, r7, #12
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 4
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 4
 
 
  150              	.LCFI7:
@@ -204,20 +204,20 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 1
  171              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
  172              		.file 4 "./Inc/stm32f767zi_hal.h"
  173              		.file 5 "./Inc/stm32f767zi_user.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s 			page 5
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 5
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm322f767zi_user.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:19     .text.led_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:25     .text.led_init:00000000 led_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:67     .text.led_init:00000034 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:73     .text.button_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:79     .text.button_init:00000000 button_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:110    .text.button_init:00000020 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:116    .text.led_toggle:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:122    .text.led_toggle:00000000 led_toggle
-C:\Users\DCS_LAB\AppData\Local\Temp\ccakV53y.s:164    .text.led_toggle:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:19     .text.led_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:25     .text.led_init:00000000 led_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:67     .text.led_init:00000034 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:73     .text.button_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:79     .text.button_init:00000000 button_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:110    .text.button_init:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:116    .text.led_toggle:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:122    .text.led_toggle:00000000 led_toggle
+C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:164    .text.led_toggle:00000020 $d
 
 UNDEFINED SYMBOLS
 gpio_set_mode

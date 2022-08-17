@@ -15,6 +15,6 @@
 #define GPIO_MODE_ALTFN         2U
 #define GPIO_MODE_ANALOG        3U
 
-void gpio_set_mode(GPIO_reg_t *GPIOx, uint32_t pin, uint32_t mode);
+void gpio_set_mode(GPIO_reg_t *GPIOx, uint32_t position, uint32_t mode);
 
 #endif

@@ -1,7 +1,7 @@
 /**
  * @file test_led_button.c
  * @author zheyi613 (zheyi880613@gmail.com)
- * @brief test code of led and button
+ * @brief test led and button
  * @date 2022-08-09
  */
 
@@ -16,10 +16,10 @@ void GPIO_mode(GPIO_reg_t *pGPIOx, uint32_t Pin, uint32_t Mode)
 int main(void) {
         RCC->AHB1ENR |= GPIOB_CLK_EN | GPIOC_CLK_EN;
 
-        GPIO_mode(GPIOB, USER_LED1_PIN, USER_LED_MODE);
-        GPIO_mode(GPIOB, USER_LED2_PIN, USER_LED_MODE);
-        GPIO_mode(GPIOB, USER_LED3_PIN, USER_LED_MODE);
-        GPIO_mode(GPIOC, USER_BUTTON, USER_BUTTON_MODE);
+        GPIO_mode(GPIOB, USER_LED1_POS, USER_LED_MODE);
+        GPIO_mode(GPIOB, USER_LED2_POS, USER_LED_MODE);
+        GPIO_mode(GPIOB, USER_LED3_POS, USER_LED_MODE);
+        GPIO_mode(GPIOC, USER_BUTTON_POS, USER_BUTTON_MODE);
 
         while (1) {
                 /* toggle LED */

@@ -1,0 +1,263 @@
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"test_usart.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.rodata
+  19              		.align	2
+  20              	.LC0:
+  21 0000 68616861 		.ascii	"haha\012\015n = \000"
+  21      0A0D6E20 
+  21      3D2000
+  22 000b 00       		.align	2
+  23              	.LC1:
+  24 000c 256400   		.ascii	"%d\000"
+  25 000f 00       		.align	2
+  26              	.LC2:
+  27 0010 25640A0D 		.ascii	"%d\012\015\000"
+  27      00
+  28 0015 000000   		.align	2
+  29              	.LC3:
+  30 0018 6C656425 		.ascii	"led%c toggle!\015\012\000"
+  30      6320746F 
+  30      67676C65 
+  30      210D0A00 
+  31              		.section	.text.main,"ax",%progbits
+  32              		.align	1
+  33              		.global	main
+  34              		.syntax unified
+  35              		.thumb
+  36              		.thumb_func
+  38              	main:
+  39              	.LFB3:
+  40              		.file 1 "./test/test_usart.c"
+   1:./test/test_usart.c **** /**
+   2:./test/test_usart.c ****  * @file test_usart.c
+   3:./test/test_usart.c ****  * @author zheyi613 (zheyi880613@gmail.com)
+   4:./test/test_usart.c ****  * @brief test usart
+   5:./test/test_usart.c ****  * @date 2022-08-15
+   6:./test/test_usart.c ****  */
+   7:./test/test_usart.c **** 
+   8:./test/test_usart.c **** #include "stm32f767zi_hal.h"
+   9:./test/test_usart.c **** #include "stm32f767zi_gpio.h"
+  10:./test/test_usart.c **** #include "stm32f767zi_usart.h"
+  11:./test/test_usart.c **** #include "stm32f767zi_user.h"
+  12:./test/test_usart.c **** #include <stdio.h>
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s 			page 2
+
+
+  13:./test/test_usart.c **** 
+  14:./test/test_usart.c **** int main(void) {
+  41              		.loc 1 14 16
+  42              		.cfi_startproc
+  43              		@ args = 0, pretend = 0, frame = 16
+  44              		@ frame_needed = 1, uses_anonymous_args = 0
+  45 0000 80B5     		push	{r7, lr}
+  46              	.LCFI0:
+  47              		.cfi_def_cfa_offset 8
+  48              		.cfi_offset 7, -8
+  49              		.cfi_offset 14, -4
+  50 0002 84B0     		sub	sp, sp, #16
+  51              	.LCFI1:
+  52              		.cfi_def_cfa_offset 24
+  53 0004 00AF     		add	r7, sp, #0
+  54              	.LCFI2:
+  55              		.cfi_def_cfa_register 7
+  15:./test/test_usart.c ****         int n = 0;
+  56              		.loc 1 15 13
+  57 0006 0023     		movs	r3, #0
+  58 0008 7B60     		str	r3, [r7, #4]
+  16:./test/test_usart.c ****         char ch = '0';
+  59              		.loc 1 16 14
+  60 000a 3023     		movs	r3, #48
+  61 000c FB72     		strb	r3, [r7, #11]
+  17:./test/test_usart.c ****         led_init();
+  62              		.loc 1 17 9
+  63 000e FFF7FEFF 		bl	led_init
+  18:./test/test_usart.c ****         button_init();
+  64              		.loc 1 18 9
+  65 0012 FFF7FEFF 		bl	button_init
+  19:./test/test_usart.c ****         usart3_default_init();
+  66              		.loc 1 19 9
+  67 0016 FFF7FEFF 		bl	usart3_default_init
+  68              	.L9:
+  20:./test/test_usart.c ****         while (1) {
+  21:./test/test_usart.c ****                 printf("haha\n\rn = ");
+  69              		.loc 1 21 17
+  70 001a 2048     		ldr	r0, .L11
+  71 001c FFF7FEFF 		bl	printf
+  22:./test/test_usart.c ****                 scanf("%d", &n);
+  72              		.loc 1 22 17
+  73 0020 3B1D     		adds	r3, r7, #4
+  74 0022 1946     		mov	r1, r3
+  75 0024 1E48     		ldr	r0, .L11+4
+  76 0026 FFF7FEFF 		bl	scanf
+  23:./test/test_usart.c ****                 fflush(stdin);
+  77              		.loc 1 23 24
+  78 002a 1E4B     		ldr	r3, .L11+8
+  79 002c 1B68     		ldr	r3, [r3]
+  80 002e 5B68     		ldr	r3, [r3, #4]
+  81              		.loc 1 23 17
+  82 0030 1846     		mov	r0, r3
+  83 0032 FFF7FEFF 		bl	fflush
+  24:./test/test_usart.c ****                 printf("%d\n\r",n);    
+  84              		.loc 1 24 17
+  85 0036 7B68     		ldr	r3, [r7, #4]
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s 			page 3
+
+
+  86 0038 1946     		mov	r1, r3
+  87 003a 1B48     		ldr	r0, .L11+12
+  88 003c FFF7FEFF 		bl	printf
+  89              	.LBB2:
+  25:./test/test_usart.c ****                 for (int i = 0; i < n; i++) {
+  90              		.loc 1 25 26
+  91 0040 0023     		movs	r3, #0
+  92 0042 FB60     		str	r3, [r7, #12]
+  93              		.loc 1 25 17
+  94 0044 24E0     		b	.L2
+  95              	.L8:
+  26:./test/test_usart.c ****                         ch = usart_read(USART3);
+  96              		.loc 1 26 30
+  97 0046 1948     		ldr	r0, .L11+16
+  98 0048 FFF7FEFF 		bl	usart_read
+  99 004c 0346     		mov	r3, r0
+ 100 004e FB72     		strb	r3, [r7, #11]
+  27:./test/test_usart.c ****                         printf("led%c toggle!\r\n", ch);
+ 101              		.loc 1 27 25
+ 102 0050 FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+ 103 0052 1946     		mov	r1, r3
+ 104 0054 1648     		ldr	r0, .L11+20
+ 105 0056 FFF7FEFF 		bl	printf
+  28:./test/test_usart.c ****                         switch (ch)
+ 106              		.loc 1 28 25
+ 107 005a FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+ 108 005c 332B     		cmp	r3, #51
+ 109 005e 0ED0     		beq	.L3
+ 110 0060 332B     		cmp	r3, #51
+ 111 0062 11DC     		bgt	.L10
+ 112 0064 312B     		cmp	r3, #49
+ 113 0066 02D0     		beq	.L5
+ 114 0068 322B     		cmp	r3, #50
+ 115 006a 04D0     		beq	.L6
+  29:./test/test_usart.c ****                         {
+  30:./test/test_usart.c ****                         case '1':
+  31:./test/test_usart.c ****                                 led_toggle(USER_LED1);
+  32:./test/test_usart.c ****                                 break;
+  33:./test/test_usart.c ****                         case '2':
+  34:./test/test_usart.c ****                                 led_toggle(USER_LED2);
+  35:./test/test_usart.c ****                                 break;
+  36:./test/test_usart.c ****                         case '3':
+  37:./test/test_usart.c ****                                 led_toggle(USER_LED3);
+  38:./test/test_usart.c ****                                 break;
+  39:./test/test_usart.c ****                         default:
+  40:./test/test_usart.c ****                                 break;
+ 116              		.loc 1 40 33
+ 117 006c 0CE0     		b	.L10
+ 118              	.L5:
+  31:./test/test_usart.c ****                                 break;
+ 119              		.loc 1 31 33
+ 120 006e 0120     		movs	r0, #1
+ 121 0070 FFF7FEFF 		bl	led_toggle
+  32:./test/test_usart.c ****                         case '2':
+ 122              		.loc 1 32 33
+ 123 0074 09E0     		b	.L7
+ 124              	.L6:
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s 			page 4
+
+
+  34:./test/test_usart.c ****                                 break;
+ 125              		.loc 1 34 33
+ 126 0076 8020     		movs	r0, #128
+ 127 0078 FFF7FEFF 		bl	led_toggle
+  35:./test/test_usart.c ****                         case '3':
+ 128              		.loc 1 35 33
+ 129 007c 05E0     		b	.L7
+ 130              	.L3:
+  37:./test/test_usart.c ****                                 break;
+ 131              		.loc 1 37 33
+ 132 007e 4FF48040 		mov	r0, #16384
+ 133 0082 FFF7FEFF 		bl	led_toggle
+  38:./test/test_usart.c ****                         default:
+ 134              		.loc 1 38 33
+ 135 0086 00E0     		b	.L7
+ 136              	.L10:
+ 137              		.loc 1 40 33
+ 138 0088 00BF     		nop
+ 139              	.L7:
+  25:./test/test_usart.c ****                         ch = usart_read(USART3);
+ 140              		.loc 1 25 41 discriminator 2
+ 141 008a FB68     		ldr	r3, [r7, #12]
+ 142 008c 0133     		adds	r3, r3, #1
+ 143 008e FB60     		str	r3, [r7, #12]
+ 144              	.L2:
+  25:./test/test_usart.c ****                         ch = usart_read(USART3);
+ 145              		.loc 1 25 35 discriminator 1
+ 146 0090 7B68     		ldr	r3, [r7, #4]
+  25:./test/test_usart.c ****                         ch = usart_read(USART3);
+ 147              		.loc 1 25 17 discriminator 1
+ 148 0092 FA68     		ldr	r2, [r7, #12]
+ 149 0094 9A42     		cmp	r2, r3
+ 150 0096 D6DB     		blt	.L8
+ 151              	.LBE2:
+  21:./test/test_usart.c ****                 scanf("%d", &n);
+ 152              		.loc 1 21 17
+ 153 0098 BFE7     		b	.L9
+ 154              	.L12:
+ 155 009a 00BF     		.align	2
+ 156              	.L11:
+ 157 009c 00000000 		.word	.LC0
+ 158 00a0 0C000000 		.word	.LC1
+ 159 00a4 00000000 		.word	_impure_ptr
+ 160 00a8 10000000 		.word	.LC2
+ 161 00ac 00480040 		.word	1073760256
+ 162 00b0 18000000 		.word	.LC3
+ 163              		.cfi_endproc
+ 164              	.LFE3:
+ 166              		.text
+ 167              	.Letext0:
+ 168              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 169              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 170              		.file 4 "./Inc/stm32f767zi_hal.h"
+ 171              		.file 5 "e:\\gcc-arm-none-eabi-10.3-2021.10\\lib\\gcc\\arm-none-eabi\\10.3.1\\include\\stddef.h"
+ 172              		.file 6 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_types.h"
+ 173              		.file 7 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\reent.h"
+ 174              		.file 8 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\lock.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s 			page 5
+
+
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 test_usart.c
+C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s:19     .rodata:00000000 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s:32     .text.main:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s:38     .text.main:00000000 main
+C:\Users\DCS_LAB\AppData\Local\Temp\ccklbs2u.s:157    .text.main:0000009c $d
+
+UNDEFINED SYMBOLS
+led_init
+button_init
+usart3_default_init
+printf
+scanf
+fflush
+usart_read
+led_toggle
+_impure_ptr

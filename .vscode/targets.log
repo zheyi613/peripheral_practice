@@ -7,7 +7,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Mon Aug 15 09:53:54 2022
+# Make data base, printed on Wed Aug 17 13:35:23 2022
 
 # Variables
 
@@ -19,7 +19,7 @@ GNUMAKEFLAGS :=
 ?F = $(notdir $?)
 # default
 .SHELLFLAGS := -c
-# makefile (from 'Makefile', line 71)
+# makefile (from 'Makefile', line 74)
 LDSCRIPT = STM32F767ZITx_FLASH.ld
 # makefile
 MAKEFLAGS = pqrR
@@ -27,9 +27,9 @@ MAKEFLAGS = pqrR
 TARGET = main
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
-# makefile (from 'Makefile', line 42)
+# makefile (from 'Makefile', line 45)
 AS_DEFS = 
-# makefile (from 'Makefile', line 49)
+# makefile (from 'Makefile', line 52)
 AS_INCLUDES = 
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
@@ -43,29 +43,28 @@ HOMEDRIVE = C:
 CURDIR := e:/stm32f767zi/peripheral_practice
 # default
 SHELL := sh.exe
-# makefile (from 'Makefile', line 13)
-C_ALL_SOURCES = $(wildcard ./Src/*.c)
 # environment
 WINDIR = C:\Windows
 # environment
-VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"03519bb7194c1df1d1f37b998a097db3.zh-tw","_translationsConfigFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\03519bb7194c1df1d1f37b998a097db3.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\03519bb7194c1df1d1f37b998a097db3.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\03519bb7194c1df1d1f37b998a097db3.zh-tw\\6d9b74a70ca9c7733b29f0456fd8195364076dda","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\03519bb7194c1df1d1f37b998a097db3.zh-tw\\corrupted.info","_languagePackSupport":true}
-# makefile (from 'Makefile', line 26)
+VSCODE_NLS_CONFIG = {"locale":"zh-tw","availableLanguages":{"*":"zh-tw"},"_languagePackId":"03519bb7194c1df1d1f37b998a097db3.zh-tw","_translationsConfigFile":"C:\\Users\\D 
+CS_LAB\\AppData\\Roaming\\Code\\clp\\03519bb7194c1df1d1f37b998a097db3.zh-tw\\tcf.json","_cacheRoot":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\03519bb7194c1df1d1f37b998a097db3.zh-tw","_resolvedLanguagePackCoreLocation":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\03519bb7194c1df1d1f37b998a097db3.zh-tw\\6d9b74a70ca9c7733b29f0456fd8195364076dda","_corruptedFile":"C:\\Users\\DCS_LAB\\AppData\\Roaming\\Code\\clp\\03519bb7194c1df1d1f37b998a097db3.zh-tw\\corrupted.info","_languagePackSupport":true}
+# makefile (from 'Makefile', line 29)
 SZ = $(PREFIX)size -A
-# makefile (from 'Makefile', line 67)
+# makefile (from 'Makefile', line 70)
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"$(@:%.o=%.d)"
 # environment
 ONEDRIVE = C:\Users\DCS_LAB\OneDrive
 # environment
 PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
-# makefile (from 'Build/stm32f767zi_gpio.d', line 1)
-MAKEFILE_LIST :=  Makefile Build/startup_stm32f767xx.d Build/main.d Build/stm322f767zi_user.d Build/test_led_button.d Build/stm32f767zi_usart.d Build/syscalls.d Build/stm32f767zi_gpio.d
+# makefile (from 'Build/stm32f767zi_adc.d', line 1)
+MAKEFILE_LIST :=  Makefile Build/test_usart.d Build/startup_stm32f767xx.d Build/main.d Build/stm322f767zi_user.d Build/test_led_button.d Build/stm32f767zi_usart.d Build/syscalls.d Build/stm32f767zi_gpio.d Build/stm32f767zi_adc.d
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # makefile (from 'Makefile', line 8)
 DEBUG = 1
 # environment
 TMP = C:\Users\DCS_LAB\AppData\Local\Temp
-# makefile (from 'Makefile', line 24)
+# makefile (from 'Makefile', line 27)
 AS = $(PREFIX)gcc -x assembler-with-cpp
 # environment
 PROGRAMW6432 = C:\Program Files
@@ -89,17 +88,17 @@ ALLUSERSPROFILE = C:\ProgramData
 NUMBER_OF_PROCESSORS = 4
 # environment
 ELECTRON_RUN_AS_NODE = 1
-# makefile (from 'Makefile', line 80)
+# makefile (from 'Makefile', line 83)
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_12052_YRCUSBFDKAUVJSBO
-# makefile (from 'Makefile', line 17)
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_11484_IHZNBBIIWWZOVZMC
+# makefile (from 'Makefile', line 20)
 ASM_SOURCES = startup_stm32f767xx.s
-# makefile (from 'Makefile', line 54)
+# makefile (from 'Makefile', line 57)
 OPT = -O0
 # environment
 COMPUTERNAME = DESKTOP-JH2RL94
@@ -122,36 +121,36 @@ HOME = C:\Users\DCS_LAB
 # environment
 VSCODE_CODE_CACHE_PATH = C:\Users\DCS_LAB\AppData\Roaming\Code\CachedData\6d9b74a70ca9c7733b29f0456fd8195364076dda
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 COMMONPROGRAMFILES = C:\Program Files\Common Files
 # environment
 LOGONSERVER = \\DESKTOP-JH2RL94
-# makefile (from 'Makefile', line 20)
+# makefile (from 'Makefile', line 23)
 PREFIX = arm-none-eabi-
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # environment
 USERDOMAIN = DESKTOP-JH2RL94
-# makefile (from 'Makefile', line 44)
+# makefile (from 'Makefile', line 47)
 C_DEFS = 
 # environment
 MAKELEVEL := 0
-# makefile (from 'Makefile', line 39)
+# makefile (from 'Makefile', line 42)
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
-# makefile (from 'Makefile', line 51)
+# makefile (from 'Makefile', line 54)
 C_INCLUDES = -I./Inc
 # default
 MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
-# makefile (from 'Makefile', line 37)
+# makefile (from 'Makefile', line 40)
 FLOAT-ABI = -mfloat-abi=hard
-# makefile (from 'Makefile', line 22)
+# makefile (from 'Makefile', line 25)
 CC = $(PREFIX)gcc
 # makefile (from 'Makefile', line 10)
 BUILD_DIR = Build
-# makefile (from 'Makefile', line 59)
+# makefile (from 'Makefile', line 62)
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 # default
 MAKE_VERSION := 4.2.1
@@ -161,9 +160,9 @@ MAKE_VERSION := 4.2.1
 PROGRAMFILES(X86) = C:\Program Files (x86)
 # automatic
 %D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
-# makefile (from 'Makefile', line 33)
+# makefile (from 'Makefile', line 36)
 CPU = -mcpu=cortex-m7
-# makefile (from 'Makefile', line 35)
+# makefile (from 'Makefile', line 38)
 FPU = -mfpu=fpv5-d16
 # environment
 LOCALAPPDATA = C:\Users\DCS_LAB\AppData\Local
@@ -171,7 +170,7 @@ LOCALAPPDATA = C:\Users\DCS_LAB\AppData\Local
 PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
 # default
 MAKE_COMMAND := make.exe
-# makefile (from 'Makefile', line 76)
+# makefile (from 'Makefile', line 79)
 LIBDIR = 
 # default
 .VARIABLES := 
@@ -202,8 +201,6 @@ SYSTEMROOT = C:\Windows
 # environment
 APPDATA = C:\Users\DCS_LAB\AppData\Roaming
 # environment
-__COMPAT_LAYER = DetectorsAppHealth
-# environment
 TEMP = C:\Users\DCS_LAB\AppData\Local\Temp
 # environment
 COMSPEC = C:\Windows\system32\cmd.exe
@@ -213,12 +210,12 @@ MAKEFILES :=
 <F = $(notdir $<)
 # environment
 LC_ALL = C
-# makefile (from 'Makefile', line 75)
+# makefile (from 'Makefile', line 78)
 LIBS = -lc -lm -lnosys 
 # automatic
 ^F = $(notdir $^)
-# makefile (from 'Makefile', line 15)
-C_SOURCES = $(filter-out ./Src/test_led_button.c, $(C_ALL_SOURCES))
+# makefile (from 'Makefile', line 13)
+C_SOURCES = $(wildcard ./Src/*.c)
 # default
 SUFFIXES := 
 # environment
@@ -229,7 +226,7 @@ SESSIONNAME = Console
 PROCESSOR_REVISION = 3c03
 # default
 .RECIPEPREFIX := 
-# makefile (from 'Makefile', line 88)
+# makefile (from 'Makefile', line 91)
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o))) $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 # environment
 LANG = C
@@ -238,11 +235,11 @@ PROCESSOR_LEVEL = 6
 # environment
 FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
-VSCODE_PID = 12052
+VSCODE_PID = 11484
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
 # variable set hash-table stats:
-# Load=115/1024=11%, Rehash=0, Collisions=17/176=10%
+# Load=113/1024=11%, Rehash=0, Collisions=18/190=9%
 
 # Pattern-specific Variable Values
 
@@ -250,20 +247,20 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-JH2RL94
 
 # Directories
 
-# . (key e:/stm32f767zi/peripheral_practice, mtime 1660016860): 12 files, no impossibilities.
-# Build (key e:/stm32f767zi/peripheral_practice/Build, mtime 1660195328): 26 files, no impossibilities.
-# ./Src (key e:/stm32f767zi/peripheral_practice/Src, mtime 1660184191): 8 files, no impossibilities.
+# . (key e:/stm32f767zi/peripheral_practice, mtime 1660625519): 13 files, no impossibilities.
+# Build (key e:/stm32f767zi/peripheral_practice/Build, mtime 1660641973): 32 files, no impossibilities.
+# ./Src (key e:/stm32f767zi/peripheral_practice/Src, mtime 1660640745): 8 files, no impossibilities.
 
-# 46 files, no impossibilities in 3 directories.
+# 53 files, no impossibilities in 3 directories.
 
 # Implicit Rules
 
 Build/%.o: %.c Makefile | Build
-#  recipe to execute (from 'Makefile', line 92):
+#  recipe to execute (from 'Makefile', line 95):
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 Build/%.o: %.s Makefile | Build
-#  recipe to execute (from 'Makefile', line 95):
+#  recipe to execute (from 'Makefile', line 98):
 	$(AS) -c $(CFLAGS) $< -o $@
 
 # 2 implicit rules, 0 (0.0%) terminal.
@@ -272,16 +269,15 @@ Build/%.o: %.s Makefile | Build
 
 Inc/stm32f767zi_usart.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 10:08:12
+#  Last modified 2022-08-16 15:51:47
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Src/stm322f767zi_user.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-11 10:47:22
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Build/test_led_button.d:
@@ -290,39 +286,34 @@ Build/test_led_button.d:
 #  File has been updated.
 #  Successfully updated.
 
-Build/startup_stm32f767xx.o: startup_stm32f767xx.s Makefile startup_stm32f767xx.s | Build
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'startup_stm32f767xx'
-#  Last modified 2022-08-11 13:22:08
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 95):
-	$(AS) -c $(CFLAGS) $< -o $@
+Build/startup_stm32f767xx.o: startup_stm32f767xx.s
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
-Build/main.o: ./Src/main.c Makefile Src/main.c Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_usart.h Inc/stm32f767zi_gpio.h Inc/stm32f767zi_user.h | Build
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'main'
-#  Last modified 2022-08-11 13:22:08
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 92):
-	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+Build/main.o: Src/main.c Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_usart.h Inc/stm32f767zi_gpio.h Inc/stm32f767zi_user.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 all: Build/main.elf
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/14=0%
 
-Build/syscalls.o: ./Src/syscalls.c Makefile Src/syscalls.c | Build
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'syscalls'
-#  Last modified 2022-08-11 13:22:08
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 92):
-	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+Build/syscalls.o: Src/syscalls.c
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+Build/stm32f767zi_adc.o: Src/stm32f767zi_adc.c Inc/stm32f767zi_adc.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 .PHONY: clean
 #  Implicit rule search has not been done.
@@ -332,38 +323,45 @@ Build/syscalls.o: ./Src/syscalls.c Makefile Src/syscalls.c | Build
 # Not a target:
 Src/stm32f767zi_usart.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 11:29:01
+#  Last modified 2022-08-16 15:51:41
 #  File has been updated.
 #  Successfully updated.
 
-Build/main.elf: Build/stm32f767zi_usart.o Build/main.o Build/stm322f767zi_user.o Build/syscalls.o Build/stm32f767zi_gpio.o Build/startup_stm32f767xx.o Makefile
+Inc/stm32f767zi_adc.h:
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-11 13:22:08
+#  Modification time never checked.
+#  File has not been updated.
+
+Build/main.elf: Build/stm32f767zi_usart.o Build/main.o Build/stm322f767zi_user.o Build/syscalls.o Build/stm32f767zi_gpio.o Build/stm32f767zi_adc.o Build/startup_stm32f767xx.o Makefile
+#  Implicit rule search has not been done.
+#  Last modified 2022-08-16 17:26:13
 #  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 98):
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/14=0%
+#  recipe to execute (from 'Makefile', line 101):
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
 	
 
 # Not a target:
-Makefile:
+Build/test_usart.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 13:22:01
+#  Last modified 2022-08-16 15:51:52
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
-./Src/stm32f767zi_gpio.c:
+Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-10 15:21:25
+#  Last modified 2022-08-16 15:52:11
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Build/stm32f767zi_gpio.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 13:22:08
+#  Last modified 2022-08-16 17:26:13
 #  File has been updated.
 #  Successfully updated.
 
@@ -374,51 +372,53 @@ Build/test_led_button.o: Src/test_led_button.c Inc/stm32f767zi_hal.h Inc/stm32f7
 
 Build:
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-11 13:22:08
+#  Last modified 2022-08-16 17:26:13
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'Makefile', line 102):
+#  recipe to execute (from 'Makefile', line 105):
 	mkdir $@		
 
 # Not a target:
-./Src/stm322f767zi_user.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-11 10:47:22
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
 Src/main.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-11 12:21:31
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Build/stm322f767zi_user.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 13:22:08
+#  Last modified 2022-08-16 17:26:13
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Src/syscalls.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-11 12:15:52
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Src/stm32f767zi_adc.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Build/stm32f767zi_usart.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 13:22:08
+#  Last modified 2022-08-16 17:26:12
 #  File has been updated.
 #  Successfully updated.
+
+Build/test_usart.o: test/test_usart.c Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_usart.h Inc/stm32f767zi_gpio.h Inc/stm32f767zi_user.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 ./Src/stm32f767zi_usart.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 11:29:01
+#  Last modified 2022-08-16 15:51:41
 #  File has been updated.
 #  Successfully updated.
 
@@ -429,19 +429,14 @@ Build/stm32f767zi_usart.d:
 #  File has not been updated.
 
 Inc/stm32f767zi_user.h:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-11 10:44:25
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
-Build/stm32f767zi_gpio.o: ./Src/stm32f767zi_gpio.c Makefile Src/stm32f767zi_gpio.c Inc/stm32f767zi_gpio.h Inc/stm32f767zi_hal.h | Build
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'stm32f767zi_gpio'
-#  Last modified 2022-08-11 13:22:08
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 92):
-	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+Build/stm32f767zi_gpio.o: Src/stm32f767zi_gpio.c Inc/stm32f767zi_gpio.h Inc/stm32f767zi_hal.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Src/test_led_button.c:
@@ -454,91 +449,101 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 106):
+#  recipe to execute (from 'Makefile', line 109):
 	-rm -fR $(BUILD_DIR)
 
 Inc/stm32f767zi_hal.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-10 17:14:40
+#  Last modified 2022-08-16 17:43:46
 #  File has been updated.
 #  Successfully updated.
 
-Build/stm322f767zi_user.o: ./Sr 
-c/stm322f767zi_user.c Makefile Src/stm322f767zi_user.c Inc/stm32f767zi_user.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h | Build
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'stm322f767zi_user'
-#  Last modified 2022-08-11 13:22:08
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 92):
-	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+Build/stm322f767zi_user.o: Src/stm322f767zi_user.c Inc/stm32f767zi_user.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 Inc/stm32f767zi_gpio.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-10 16:35:08
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-./Src/main.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-11 12:21:31
+#  Last modified 2022-08-16 12:44:43
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Build/startup_stm32f767xx.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 13:22:08
+#  Last modified 2022-08-16 15:52:16
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Build/main.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 13:22:08
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-./Src/syscalls.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-11 12:15:52
+#  Last modified 2022-08-16 17:26:13
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 startup_stm32f767xx.s:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-04 16:36:09
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Build/syscalls.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-11 13:22:08
+#  Last modified 2022-08-16 15:52:15
 #  File has been updated.
 #  Successfully updated.
+
+# Not a target:
+Build/stm32f767zi_adc.d:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-16 17:26:13
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+test/test_usart.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 Build/stm32f767zi_usart.o: ./Src/stm32f767zi_usart.c Makefile Src/stm32f767zi_usart.c Inc/stm32f767zi_usart.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h | Build
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'stm32f767zi_usart'
-#  Last modified 2022-08-11 13:22:08
+#  Last modified 2022-08-16 17:26:12
 #  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 92):
+#  Needs to be updated (-q is set).
+# automatic
+# @ := Build/stm32f767zi_usart.o
+# automatic
+# % := 
+# automatic
+# * := stm32f767zi_usart
+# automatic
+# + := ./Src/stm32f767zi_usart.c Makefile Src/stm32f767zi_usart.c Inc/stm32f767zi_usart.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h
+# automatic
+# | := Build
+# automatic
+# < := ./Src/stm32f767zi_usart.c
+# automatic
+# ^ := ./Src/stm32f767zi_usart.c Makefile Src/stm32f767zi_usart.c Inc/stm32f767zi_usart.h Inc/stm32f767zi_hal.h Inc/stm32f767zi_gpio.h
+# automatic
+# ? := Inc/stm32f767zi_hal.h
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/26=4%
+#  recipe to execute (from 'Makefile', line 95):
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 # Not a target:
 Src/stm32f767zi_gpio.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-08-10 15:21:25
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # files hash-table stats:
-# Load=38/1024=4%, Rehash=0, Collisions=2/190=1%
+# Load=41/1024=4%, Rehash=0, Collisions=2/156=1%
 # VPATH Search Paths
 
 vpath %.c ./Src
@@ -547,12 +552,13 @@ vpath %.c ./Src
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 88 / storage = 1426 B / avg = 16 B
-# current buf: size = 8162 B / used = 1426 B / count = 88 / avg = 16 B
+# strcache buffers: 1 (0) / strings = 92 / storage = 1504 B / avg = 16 B
+# current buf: size =  
+8162 B / used = 1504 B / count = 92 / avg = 16 B
 
-# strcache performance: lookups = 225 / hit rate = 60%
+# strcache performance: lookups = 226 / hit rate = 59%
 # hash-table stats:
-# Load=88/8192=1%, Rehash=0, Collisions=6/225=3%
-# Finished Make data base on Mon Aug 15 09:53:54 2022
+# Load=92/8192=1%, Rehash=0, Collisions=3/226=1%
+# Finished Make data base on Wed Aug 17 13:35:23 2022
 
  

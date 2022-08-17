@@ -5,6 +5,12 @@
         "stdint.h": "c",
         "stm32f767zi_hal.h": "c",
         "stm32f767zi_usart.h": "c",
-        "stm32f767zi_gpio.h": "c"
+        "stm32f767zi_gpio.h": "c",
+        "arm_acle.h": "c",
+        "arm_bf16.h": "c",
+        "arm_cde.h": "c",
+        "arm_neon.h": "c",
+        "stdio.h": "c",
+        "stm32f767zi_user.h": "c"
     }
 }

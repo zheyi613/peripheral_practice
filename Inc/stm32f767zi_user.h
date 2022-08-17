@@ -21,16 +21,16 @@ typedef uint32_t button_t;
 #define USER_LED2_MODE          (1U << 14)          // LED2 of GPIOB output mode
 #define USER_LED3_MODE          (1U << 28)          // LED3 of GPIOB output mode      
 
-#define USER_LED1_PIN           0
-#define USER_LED2_PIN           7
-#define USER_LED3_PIN           14
+#define USER_LED1_POS           0
+#define USER_LED2_POS           7
+#define USER_LED3_POS           14
 
-#define USER_LED1               (1U << USER_LED1_PIN)           // LED1 (greed):  PIN0
-#define USER_LED2               (1U << USER_LED2_PIN)           // LED2 (blue):   PIN7
-#define USER_LED3               (1U << USER_LED3_PIN)           // LED3 (red):    PIN14
+#define USER_LED1               (1U << USER_LED1_POS)           // LED1 (greed):  PIN0
+#define USER_LED2               (1U << USER_LED2_POS)           // LED2 (blue):   PIN7
+#define USER_LED3               (1U << USER_LED3_POS)           // LED3 (red):    PIN14
 
-#define USER_BUTTON_PIN         13
-#define USER_BUTTON             (1U << 13)          // Button:        PIN13
+#define USER_BUTTON_POS         13
+#define USER_BUTTON             (1U << USER_BUTTON_POS)         // Button:        PIN13
 
 void led_init(void);
 void button_init(void);

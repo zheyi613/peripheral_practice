@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -18,13 +18,13 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 1
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.text.usart3_default_init,"ax",%progbits
+  18              		.section	.text.usart2_default_init,"ax",%progbits
   19              		.align	1
-  20              		.global	usart3_default_init
+  20              		.global	usart2_default_init
   21              		.syntax unified
   22              		.thumb
   23              		.thumb_func
-  25              	usart3_default_init:
+  25              	usart2_default_init:
   26              	.LFB0:
   27              		.file 1 "./Src/stm32f767zi_usart.c"
    1:./Src/stm32f767zi_usart.c **** /**
@@ -36,14 +36,9 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 1
    7:./Src/stm32f767zi_usart.c **** 
    8:./Src/stm32f767zi_usart.c **** #include "stm32f767zi_usart.h"
    9:./Src/stm32f767zi_usart.c **** 
-  10:./Src/stm32f767zi_usart.c **** // word length: 8
-  11:./Src/stm32f767zi_usart.c **** // transmit enable: enable
-  12:./Src/stm32f767zi_usart.c **** // parity: none
-  13:./Src/stm32f767zi_usart.c **** // stop bits: 1
-  14:./Src/stm32f767zi_usart.c **** // baud rate: 115200
-  15:./Src/stm32f767zi_usart.c **** void usart3_default_init(void)
-  16:./Src/stm32f767zi_usart.c **** {
-  28              		.loc 1 16 1
+  10:./Src/stm32f767zi_usart.c **** void usart2_default_init(void)
+  11:./Src/stm32f767zi_usart.c **** {
+  28              		.loc 1 11 1
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 0
   31              		@ frame_needed = 1, uses_anonymous_args = 0
@@ -55,340 +50,450 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 1
   37 0002 00AF     		add	r7, sp, #0
   38              	.LCFI1:
   39              		.cfi_def_cfa_register 7
-  17:./Src/stm32f767zi_usart.c ****         // Enable clock access to GPIOD.
-  18:./Src/stm32f767zi_usart.c ****         RCC->AHB1ENR |= GPIOD_CLK_EN;
-  40              		.loc 1 18 22
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 2
-
-
+  12:./Src/stm32f767zi_usart.c ****         // Enable clock access to GPIOD.
+  13:./Src/stm32f767zi_usart.c ****         RCC->AHB1ENR |= GPIOD_CLK_EN;
+  40              		.loc 1 13 22
   41 0004 174B     		ldr	r3, .L2
   42 0006 1B6B     		ldr	r3, [r3, #48]
   43 0008 164A     		ldr	r2, .L2
   44 000a 43F00803 		orr	r3, r3, #8
   45 000e 1363     		str	r3, [r2, #48]
-  19:./Src/stm32f767zi_usart.c ****         // Set PD8 (Tx) mode to alternate function.
-  20:./Src/stm32f767zi_usart.c ****         gpio_set_mode(GPIOD, USART3_TX_PIN, GPIO_MODE_ALTFN);
-  46              		.loc 1 20 9
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 2
+
+
+  14:./Src/stm32f767zi_usart.c ****         // Set PD5 (Tx) mode to alternate function.
+  15:./Src/stm32f767zi_usart.c ****         gpio_set_mode(GPIOD, USART2_TX_POS, GPIO_MODE_ALTFN);
+  46              		.loc 1 15 9
   47 0010 0222     		movs	r2, #2
-  48 0012 0821     		movs	r1, #8
+  48 0012 0521     		movs	r1, #5
   49 0014 1448     		ldr	r0, .L2+4
   50 0016 FFF7FEFF 		bl	gpio_set_mode
-  21:./Src/stm32f767zi_usart.c ****         // Set PD9 (Rx) mode to alternate function.
-  22:./Src/stm32f767zi_usart.c ****         gpio_set_mode(GPIOD, USART3_RX_PIN, GPIO_MODE_ALTFN);
-  51              		.loc 1 22 9
+  16:./Src/stm32f767zi_usart.c ****         // Set PD6 (Rx) mode to alternate function.
+  17:./Src/stm32f767zi_usart.c ****         gpio_set_mode(GPIOD, USART2_RX_POS, GPIO_MODE_ALTFN);
+  51              		.loc 1 17 9
   52 001a 0222     		movs	r2, #2
-  53 001c 0921     		movs	r1, #9
+  53 001c 0621     		movs	r1, #6
   54 001e 1248     		ldr	r0, .L2+4
   55 0020 FFF7FEFF 		bl	gpio_set_mode
-  23:./Src/stm32f767zi_usart.c ****         // Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7 << 4
-  24:./Src/stm32f767zi_usart.c ****         MODIFY_REG(GPIOD->AFR[1], 0xFFU, USART3_AF | (USART3_AF << 4));
-  56              		.loc 1 24 9
+  18:./Src/stm32f767zi_usart.c ****         // Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7 << 4
+  19:./Src/stm32f767zi_usart.c ****         MODIFY_REG(GPIOD->AFR[0], 0xFFU, (USART3_AF << 20) | (USART3_AF << 24));
+  56              		.loc 1 19 9
   57 0024 104B     		ldr	r3, .L2+4
-  58 0026 5B6A     		ldr	r3, [r3, #36]
-  59 0028 23F0FF03 		bic	r3, r3, #255
-  60 002c 0E4A     		ldr	r2, .L2+4
-  61 002e 43F07703 		orr	r3, r3, #119
-  62 0032 5362     		str	r3, [r2, #36]
-  25:./Src/stm32f767zi_usart.c ****         // Enable clock to USART3 module
-  26:./Src/stm32f767zi_usart.c ****         RCC->APB1ENR |= USART3_CLK_EN;
-  63              		.loc 1 26 22
-  64 0034 0B4B     		ldr	r3, .L2
-  65 0036 1B6C     		ldr	r3, [r3, #64]
-  66 0038 0A4A     		ldr	r2, .L2
-  67 003a 43F48023 		orr	r3, r3, #262144
-  68 003e 1364     		str	r3, [r2, #64]
-  27:./Src/stm32f767zi_usart.c ****         // Configure USART parameters (TE, RE, PS, PCE, M, STOP)
-  28:./Src/stm32f767zi_usart.c ****         MODIFY_REG(USART3->CR1, USART_TE_MASK | USART_RE_MASK, (1 << USART_TE_POS) | (1 << USART_RE
-  69              		.loc 1 28 9
-  70 0040 0A4B     		ldr	r3, .L2+8
-  71 0042 1B68     		ldr	r3, [r3]
-  72 0044 094A     		ldr	r2, .L2+8
-  73 0046 43F00C03 		orr	r3, r3, #12
-  74 004a 1360     		str	r3, [r2]
-  29:./Src/stm32f767zi_usart.c ****         // Set baud rate
-  30:./Src/stm32f767zi_usart.c ****         USART3->BRR = (PERIPH_CLK + (115200 / 2U)) / 115200;
-  75              		.loc 1 30 15
-  76 004c 074B     		ldr	r3, .L2+8
-  77              		.loc 1 30 21
-  78 004e 8B22     		movs	r2, #139
-  79 0050 DA60     		str	r2, [r3, #12]
-  31:./Src/stm32f767zi_usart.c ****         // enable USART3
-  32:./Src/stm32f767zi_usart.c ****         MODIFY_REG(USART3->CR1, USART_UE_MASK, 1);
-  80              		.loc 1 32 9
-  81 0052 064B     		ldr	r3, .L2+8
-  82 0054 1B68     		ldr	r3, [r3]
-  83 0056 054A     		ldr	r2, .L2+8
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 3
+  58 0026 1A6A     		ldr	r2, [r3, #32]
+  59 0028 104B     		ldr	r3, .L2+8
+  60 002a 1340     		ands	r3, r3, r2
+  61 002c 0E4A     		ldr	r2, .L2+4
+  62 002e 43F0EE63 		orr	r3, r3, #124780544
+  63 0032 1362     		str	r3, [r2, #32]
+  20:./Src/stm32f767zi_usart.c ****         // Enable clock to USART3 module
+  21:./Src/stm32f767zi_usart.c ****         RCC->APB1ENR |= USART2_CLK_EN;
+  64              		.loc 1 21 22
+  65 0034 0B4B     		ldr	r3, .L2
+  66 0036 1B6C     		ldr	r3, [r3, #64]
+  67 0038 0A4A     		ldr	r2, .L2
+  68 003a 43F40033 		orr	r3, r3, #131072
+  69 003e 1364     		str	r3, [r2, #64]
+  22:./Src/stm32f767zi_usart.c ****         // Configure USART parameters (TE, RE, PS, PCE, M, STOP)
+  23:./Src/stm32f767zi_usart.c ****         MODIFY_REG(USART2->CR1, USART_CR1_TE_MASK | USART_CR1_RE_MASK, (1 << USART_CR1_TE_POS) | (1
+  70              		.loc 1 23 9
+  71 0040 0B4B     		ldr	r3, .L2+12
+  72 0042 1B68     		ldr	r3, [r3]
+  73 0044 0A4A     		ldr	r2, .L2+12
+  74 0046 43F00C03 		orr	r3, r3, #12
+  75 004a 1360     		str	r3, [r2]
+  24:./Src/stm32f767zi_usart.c ****         // Set baud rate
+  25:./Src/stm32f767zi_usart.c ****         USART2->BRR = (PERIPH_CLK + (115200 / 2U)) / 115200;
+  76              		.loc 1 25 15
+  77 004c 084B     		ldr	r3, .L2+12
+  78              		.loc 1 25 21
+  79 004e 8B22     		movs	r2, #139
+  80 0050 DA60     		str	r2, [r3, #12]
+  26:./Src/stm32f767zi_usart.c ****         // enable USART3
+  27:./Src/stm32f767zi_usart.c ****         MODIFY_REG(USART2->CR1, USART_CR1_UE_MASK, 1);
+  81              		.loc 1 27 9
+  82 0052 074B     		ldr	r3, .L2+12
+  83 0054 1B68     		ldr	r3, [r3]
+  84 0056 064A     		ldr	r2, .L2+12
+  85 0058 43F00103 		orr	r3, r3, #1
+  86 005c 1360     		str	r3, [r2]
+  28:./Src/stm32f767zi_usart.c **** }
+  87              		.loc 1 28 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 3
 
 
-  84 0058 43F00103 		orr	r3, r3, #1
-  85 005c 1360     		str	r3, [r2]
-  33:./Src/stm32f767zi_usart.c **** }
-  86              		.loc 1 33 1
-  87 005e 00BF     		nop
-  88 0060 80BD     		pop	{r7, pc}
-  89              	.L3:
-  90 0062 00BF     		.align	2
-  91              	.L2:
-  92 0064 00380240 		.word	1073887232
-  93 0068 000C0240 		.word	1073875968
-  94 006c 00480040 		.word	1073760256
-  95              		.cfi_endproc
-  96              	.LFE0:
-  98              		.section	.text.usart_write,"ax",%progbits
-  99              		.align	1
- 100              		.global	usart_write
- 101              		.syntax unified
- 102              		.thumb
- 103              		.thumb_func
- 105              	usart_write:
- 106              	.LFB1:
-  34:./Src/stm32f767zi_usart.c **** 
-  35:./Src/stm32f767zi_usart.c **** void usart_write(USART_reg_t *USARTx, uint8_t value)
+  88 005e 00BF     		nop
+  89 0060 80BD     		pop	{r7, pc}
+  90              	.L3:
+  91 0062 00BF     		.align	2
+  92              	.L2:
+  93 0064 00380240 		.word	1073887232
+  94 0068 000C0240 		.word	1073875968
+  95 006c 00FF8FF8 		.word	-124780800
+  96 0070 00440040 		.word	1073759232
+  97              		.cfi_endproc
+  98              	.LFE0:
+ 100              		.section	.text.usart3_default_init,"ax",%progbits
+ 101              		.align	1
+ 102              		.global	usart3_default_init
+ 103              		.syntax unified
+ 104              		.thumb
+ 105              		.thumb_func
+ 107              	usart3_default_init:
+ 108              	.LFB1:
+  29:./Src/stm32f767zi_usart.c **** 
+  30:./Src/stm32f767zi_usart.c **** // word length: 8
+  31:./Src/stm32f767zi_usart.c **** // transmit enable: enable
+  32:./Src/stm32f767zi_usart.c **** // parity: none
+  33:./Src/stm32f767zi_usart.c **** // stop bits: 1
+  34:./Src/stm32f767zi_usart.c **** // baud rate: 115200
+  35:./Src/stm32f767zi_usart.c **** void usart3_default_init(void)
   36:./Src/stm32f767zi_usart.c **** {
- 107              		.loc 1 36 1
- 108              		.cfi_startproc
- 109              		@ args = 0, pretend = 0, frame = 8
- 110              		@ frame_needed = 1, uses_anonymous_args = 0
- 111              		@ link register save eliminated.
- 112 0000 80B4     		push	{r7}
- 113              	.LCFI2:
- 114              		.cfi_def_cfa_offset 4
- 115              		.cfi_offset 7, -4
- 116 0002 83B0     		sub	sp, sp, #12
- 117              	.LCFI3:
- 118              		.cfi_def_cfa_offset 16
- 119 0004 00AF     		add	r7, sp, #0
- 120              	.LCFI4:
- 121              		.cfi_def_cfa_register 7
- 122 0006 7860     		str	r0, [r7, #4]
- 123 0008 0B46     		mov	r3, r1
- 124 000a FB70     		strb	r3, [r7, #3]
-  37:./Src/stm32f767zi_usart.c ****         // Make sure transmit data register is empty
-  38:./Src/stm32f767zi_usart.c ****         while (!(USARTx->ISR & (1U << 7)));
- 125              		.loc 1 38 15
- 126 000c 00BF     		nop
- 127              	.L5:
- 128              		.loc 1 38 24 discriminator 1
- 129 000e 7B68     		ldr	r3, [r7, #4]
- 130 0010 DB69     		ldr	r3, [r3, #28]
- 131              		.loc 1 38 30 discriminator 1
- 132 0012 03F08003 		and	r3, r3, #128
- 133              		.loc 1 38 15 discriminator 1
- 134 0016 002B     		cmp	r3, #0
- 135 0018 F9D0     		beq	.L5
-  39:./Src/stm32f767zi_usart.c ****         // Write value into transmit data register
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 4
+ 109              		.loc 1 36 1
+ 110              		.cfi_startproc
+ 111              		@ args = 0, pretend = 0, frame = 0
+ 112              		@ frame_needed = 1, uses_anonymous_args = 0
+ 113 0000 80B5     		push	{r7, lr}
+ 114              	.LCFI2:
+ 115              		.cfi_def_cfa_offset 8
+ 116              		.cfi_offset 7, -8
+ 117              		.cfi_offset 14, -4
+ 118 0002 00AF     		add	r7, sp, #0
+ 119              	.LCFI3:
+ 120              		.cfi_def_cfa_register 7
+  37:./Src/stm32f767zi_usart.c ****         // Enable clock access to GPIOD.
+  38:./Src/stm32f767zi_usart.c ****         RCC->AHB1ENR |= GPIOD_CLK_EN;
+ 121              		.loc 1 38 22
+ 122 0004 174B     		ldr	r3, .L5
+ 123 0006 1B6B     		ldr	r3, [r3, #48]
+ 124 0008 164A     		ldr	r2, .L5
+ 125 000a 43F00803 		orr	r3, r3, #8
+ 126 000e 1363     		str	r3, [r2, #48]
+  39:./Src/stm32f767zi_usart.c ****         // Set PD8 (Tx) mode to alternate function.
+  40:./Src/stm32f767zi_usart.c ****         gpio_set_mode(GPIOD, USART3_TX_POS, GPIO_MODE_ALTFN);
+ 127              		.loc 1 40 9
+ 128 0010 0222     		movs	r2, #2
+ 129 0012 0821     		movs	r1, #8
+ 130 0014 1448     		ldr	r0, .L5+4
+ 131 0016 FFF7FEFF 		bl	gpio_set_mode
+  41:./Src/stm32f767zi_usart.c ****         // Set PD9 (Rx) mode to alternate function.
+  42:./Src/stm32f767zi_usart.c ****         gpio_set_mode(GPIOD, USART3_RX_POS, GPIO_MODE_ALTFN);
+ 132              		.loc 1 42 9
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 4
 
 
-  40:./Src/stm32f767zi_usart.c ****         USARTx->TDR = value;
- 136              		.loc 1 40 21
- 137 001a FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
- 138 001c 7B68     		ldr	r3, [r7, #4]
- 139 001e 9A62     		str	r2, [r3, #40]
-  41:./Src/stm32f767zi_usart.c **** }
- 140              		.loc 1 41 1
- 141 0020 00BF     		nop
- 142 0022 0C37     		adds	r7, r7, #12
- 143              	.LCFI5:
- 144              		.cfi_def_cfa_offset 4
- 145 0024 BD46     		mov	sp, r7
- 146              	.LCFI6:
- 147              		.cfi_def_cfa_register 13
- 148              		@ sp needed
- 149 0026 5DF8047B 		ldr	r7, [sp], #4
- 150              	.LCFI7:
- 151              		.cfi_restore 7
- 152              		.cfi_def_cfa_offset 0
- 153 002a 7047     		bx	lr
- 154              		.cfi_endproc
- 155              	.LFE1:
- 157              		.section	.text.usart_read,"ax",%progbits
- 158              		.align	1
- 159              		.global	usart_read
- 160              		.syntax unified
- 161              		.thumb
- 162              		.thumb_func
- 164              	usart_read:
- 165              	.LFB2:
-  42:./Src/stm32f767zi_usart.c **** 
-  43:./Src/stm32f767zi_usart.c **** uint8_t usart_read(USART_reg_t *USARTx)
-  44:./Src/stm32f767zi_usart.c **** {
- 166              		.loc 1 44 1
- 167              		.cfi_startproc
- 168              		@ args = 0, pretend = 0, frame = 8
- 169              		@ frame_needed = 1, uses_anonymous_args = 0
- 170              		@ link register save eliminated.
- 171 0000 80B4     		push	{r7}
- 172              	.LCFI8:
- 173              		.cfi_def_cfa_offset 4
- 174              		.cfi_offset 7, -4
- 175 0002 83B0     		sub	sp, sp, #12
- 176              	.LCFI9:
- 177              		.cfi_def_cfa_offset 16
- 178 0004 00AF     		add	r7, sp, #0
- 179              	.LCFI10:
- 180              		.cfi_def_cfa_register 7
- 181 0006 7860     		str	r0, [r7, #4]
-  45:./Src/stm32f767zi_usart.c ****         while (!(USARTx->ISR & (1U << 5)));
- 182              		.loc 1 45 15
- 183 0008 00BF     		nop
- 184              	.L7:
- 185              		.loc 1 45 24 discriminator 1
- 186 000a 7B68     		ldr	r3, [r7, #4]
- 187 000c DB69     		ldr	r3, [r3, #28]
- 188              		.loc 1 45 30 discriminator 1
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 5
-
-
- 189 000e 03F02003 		and	r3, r3, #32
- 190              		.loc 1 45 15 discriminator 1
- 191 0012 002B     		cmp	r3, #0
- 192 0014 F9D0     		beq	.L7
-  46:./Src/stm32f767zi_usart.c ****         return USARTx->RDR & 0xFFU;
- 193              		.loc 1 46 22
- 194 0016 7B68     		ldr	r3, [r7, #4]
- 195 0018 5B6A     		ldr	r3, [r3, #36]
- 196              		.loc 1 46 28
- 197 001a DBB2     		uxtb	r3, r3
-  47:./Src/stm32f767zi_usart.c **** }
- 198              		.loc 1 47 1
- 199 001c 1846     		mov	r0, r3
- 200 001e 0C37     		adds	r7, r7, #12
- 201              	.LCFI11:
- 202              		.cfi_def_cfa_offset 4
- 203 0020 BD46     		mov	sp, r7
- 204              	.LCFI12:
- 205              		.cfi_def_cfa_register 13
- 206              		@ sp needed
- 207 0022 5DF8047B 		ldr	r7, [sp], #4
- 208              	.LCFI13:
- 209              		.cfi_restore 7
- 210              		.cfi_def_cfa_offset 0
- 211 0026 7047     		bx	lr
- 212              		.cfi_endproc
- 213              	.LFE2:
- 215              		.section	.text.__io_putchar,"ax",%progbits
- 216              		.align	1
- 217              		.global	__io_putchar
- 218              		.syntax unified
- 219              		.thumb
- 220              		.thumb_func
- 222              	__io_putchar:
- 223              	.LFB3:
-  48:./Src/stm32f767zi_usart.c **** 
-  49:./Src/stm32f767zi_usart.c **** int __io_putchar(int ch)
-  50:./Src/stm32f767zi_usart.c **** {
- 224              		.loc 1 50 1
- 225              		.cfi_startproc
- 226              		@ args = 0, pretend = 0, frame = 8
- 227              		@ frame_needed = 1, uses_anonymous_args = 0
- 228 0000 80B5     		push	{r7, lr}
- 229              	.LCFI14:
- 230              		.cfi_def_cfa_offset 8
- 231              		.cfi_offset 7, -8
- 232              		.cfi_offset 14, -4
- 233 0002 82B0     		sub	sp, sp, #8
- 234              	.LCFI15:
- 235              		.cfi_def_cfa_offset 16
- 236 0004 00AF     		add	r7, sp, #0
- 237              	.LCFI16:
- 238              		.cfi_def_cfa_register 7
- 239 0006 7860     		str	r0, [r7, #4]
-  51:./Src/stm32f767zi_usart.c ****         usart_write(USART3, ch);
- 240              		.loc 1 51 9
- 241 0008 7B68     		ldr	r3, [r7, #4]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 6
-
-
- 242 000a DBB2     		uxtb	r3, r3
- 243 000c 1946     		mov	r1, r3
- 244 000e 0448     		ldr	r0, .L11
- 245 0010 FFF7FEFF 		bl	usart_write
-  52:./Src/stm32f767zi_usart.c ****         return ch;
- 246              		.loc 1 52 16
- 247 0014 7B68     		ldr	r3, [r7, #4]
+ 133 001a 0222     		movs	r2, #2
+ 134 001c 0921     		movs	r1, #9
+ 135 001e 1248     		ldr	r0, .L5+4
+ 136 0020 FFF7FEFF 		bl	gpio_set_mode
+  43:./Src/stm32f767zi_usart.c ****         // Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7 << 4
+  44:./Src/stm32f767zi_usart.c ****         MODIFY_REG(GPIOD->AFR[1], 0xFFU, USART3_AF | (USART3_AF << 4));
+ 137              		.loc 1 44 9
+ 138 0024 104B     		ldr	r3, .L5+4
+ 139 0026 5B6A     		ldr	r3, [r3, #36]
+ 140 0028 23F0FF03 		bic	r3, r3, #255
+ 141 002c 0E4A     		ldr	r2, .L5+4
+ 142 002e 43F07703 		orr	r3, r3, #119
+ 143 0032 5362     		str	r3, [r2, #36]
+  45:./Src/stm32f767zi_usart.c ****         // Enable clock to USART3 module
+  46:./Src/stm32f767zi_usart.c ****         RCC->APB1ENR |= USART3_CLK_EN;
+ 144              		.loc 1 46 22
+ 145 0034 0B4B     		ldr	r3, .L5
+ 146 0036 1B6C     		ldr	r3, [r3, #64]
+ 147 0038 0A4A     		ldr	r2, .L5
+ 148 003a 43F48023 		orr	r3, r3, #262144
+ 149 003e 1364     		str	r3, [r2, #64]
+  47:./Src/stm32f767zi_usart.c ****         // Configure USART parameters (TE, RE, PS, PCE, M, STOP)
+  48:./Src/stm32f767zi_usart.c ****         MODIFY_REG(USART3->CR1, USART_CR1_TE_MASK | USART_CR1_RE_MASK, (1 << USART_CR1_TE_POS) | (1
+ 150              		.loc 1 48 9
+ 151 0040 0A4B     		ldr	r3, .L5+8
+ 152 0042 1B68     		ldr	r3, [r3]
+ 153 0044 094A     		ldr	r2, .L5+8
+ 154 0046 43F00C03 		orr	r3, r3, #12
+ 155 004a 1360     		str	r3, [r2]
+  49:./Src/stm32f767zi_usart.c ****         // Set baud rate
+  50:./Src/stm32f767zi_usart.c ****         USART3->BRR = (PERIPH_CLK + (115200 / 2U)) / 115200;
+ 156              		.loc 1 50 15
+ 157 004c 074B     		ldr	r3, .L5+8
+ 158              		.loc 1 50 21
+ 159 004e 8B22     		movs	r2, #139
+ 160 0050 DA60     		str	r2, [r3, #12]
+  51:./Src/stm32f767zi_usart.c ****         // enable USART3
+  52:./Src/stm32f767zi_usart.c ****         MODIFY_REG(USART3->CR1, USART_CR1_UE_MASK, 1);
+ 161              		.loc 1 52 9
+ 162 0052 064B     		ldr	r3, .L5+8
+ 163 0054 1B68     		ldr	r3, [r3]
+ 164 0056 054A     		ldr	r2, .L5+8
+ 165 0058 43F00103 		orr	r3, r3, #1
+ 166 005c 1360     		str	r3, [r2]
   53:./Src/stm32f767zi_usart.c **** }
- 248              		.loc 1 53 1
- 249 0016 1846     		mov	r0, r3
- 250 0018 0837     		adds	r7, r7, #8
- 251              	.LCFI17:
- 252              		.cfi_def_cfa_offset 8
- 253 001a BD46     		mov	sp, r7
- 254              	.LCFI18:
- 255              		.cfi_def_cfa_register 13
- 256              		@ sp needed
- 257 001c 80BD     		pop	{r7, pc}
- 258              	.L12:
- 259 001e 00BF     		.align	2
- 260              	.L11:
- 261 0020 00480040 		.word	1073760256
- 262              		.cfi_endproc
- 263              	.LFE3:
- 265              		.section	.text.__io_getchar,"ax",%progbits
- 266              		.align	1
- 267              		.global	__io_getchar
- 268              		.syntax unified
- 269              		.thumb
- 270              		.thumb_func
- 272              	__io_getchar:
- 273              	.LFB4:
+ 167              		.loc 1 53 1
+ 168 005e 00BF     		nop
+ 169 0060 80BD     		pop	{r7, pc}
+ 170              	.L6:
+ 171 0062 00BF     		.align	2
+ 172              	.L5:
+ 173 0064 00380240 		.word	1073887232
+ 174 0068 000C0240 		.word	1073875968
+ 175 006c 00480040 		.word	1073760256
+ 176              		.cfi_endproc
+ 177              	.LFE1:
+ 179              		.section	.text.usart_write,"ax",%progbits
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 5
+
+
+ 180              		.align	1
+ 181              		.global	usart_write
+ 182              		.syntax unified
+ 183              		.thumb
+ 184              		.thumb_func
+ 186              	usart_write:
+ 187              	.LFB2:
   54:./Src/stm32f767zi_usart.c **** 
-  55:./Src/stm32f767zi_usart.c **** int __io_getchar(void)
+  55:./Src/stm32f767zi_usart.c **** void usart_write(USART_reg_t *USARTx,uint8_t value)
   56:./Src/stm32f767zi_usart.c **** {
- 274              		.loc 1 56 1
- 275              		.cfi_startproc
- 276              		@ args = 0, pretend = 0, frame = 0
- 277              		@ frame_needed = 1, uses_anonymous_args = 0
- 278 0000 80B5     		push	{r7, lr}
- 279              	.LCFI19:
- 280              		.cfi_def_cfa_offset 8
- 281              		.cfi_offset 7, -8
- 282              		.cfi_offset 14, -4
- 283 0002 00AF     		add	r7, sp, #0
- 284              	.LCFI20:
- 285              		.cfi_def_cfa_register 7
-  57:./Src/stm32f767zi_usart.c ****         return usart_read(USART3);
- 286              		.loc 1 57 16
- 287 0004 0248     		ldr	r0, .L15
- 288 0006 FFF7FEFF 		bl	usart_read
- 289 000a 0346     		mov	r3, r0
-  58:./Src/stm32f767zi_usart.c **** }...
- 290              		.loc 1 58 1
- 291 000c 1846     		mov	r0, r3
- 292 000e 80BD     		pop	{r7, pc}
- 293              	.L16:
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 7
+ 188              		.loc 1 56 1
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 8
+ 191              		@ frame_needed = 1, uses_anonymous_args = 0
+ 192              		@ link register save eliminated.
+ 193 0000 80B4     		push	{r7}
+ 194              	.LCFI4:
+ 195              		.cfi_def_cfa_offset 4
+ 196              		.cfi_offset 7, -4
+ 197 0002 83B0     		sub	sp, sp, #12
+ 198              	.LCFI5:
+ 199              		.cfi_def_cfa_offset 16
+ 200 0004 00AF     		add	r7, sp, #0
+ 201              	.LCFI6:
+ 202              		.cfi_def_cfa_register 7
+ 203 0006 7860     		str	r0, [r7, #4]
+ 204 0008 0B46     		mov	r3, r1
+ 205 000a FB70     		strb	r3, [r7, #3]
+  57:./Src/stm32f767zi_usart.c ****         // Make sure transmit data register is empty
+  58:./Src/stm32f767zi_usart.c ****         while (!(USARTx->ISR & (1U << 7)));
+ 206              		.loc 1 58 15
+ 207 000c 00BF     		nop
+ 208              	.L8:
+ 209              		.loc 1 58 24 discriminator 1
+ 210 000e 7B68     		ldr	r3, [r7, #4]
+ 211 0010 DB69     		ldr	r3, [r3, #28]
+ 212              		.loc 1 58 30 discriminator 1
+ 213 0012 03F08003 		and	r3, r3, #128
+ 214              		.loc 1 58 15 discriminator 1
+ 215 0016 002B     		cmp	r3, #0
+ 216 0018 F9D0     		beq	.L8
+  59:./Src/stm32f767zi_usart.c ****         // Write value into transmit data register
+  60:./Src/stm32f767zi_usart.c ****         USARTx->TDR = value;
+ 217              		.loc 1 60 21
+ 218 001a FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+ 219 001c 7B68     		ldr	r3, [r7, #4]
+ 220 001e 9A62     		str	r2, [r3, #40]
+  61:./Src/stm32f767zi_usart.c **** }
+ 221              		.loc 1 61 1
+ 222 0020 00BF     		nop
+ 223 0022 0C37     		adds	r7, r7, #12
+ 224              	.LCFI7:
+ 225              		.cfi_def_cfa_offset 4
+ 226 0024 BD46     		mov	sp, r7
+ 227              	.LCFI8:
+ 228              		.cfi_def_cfa_register 13
+ 229              		@ sp needed
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 6
 
 
- 294              		.align	2
- 295              	.L15:
- 296 0010 00480040 		.word	1073760256
- 297              		.cfi_endproc
- 298              	.LFE4:
- 300              		.text
- 301              	.Letext0:
- 302              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 303              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 304              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s 			page 8
+ 230 0026 5DF8047B 		ldr	r7, [sp], #4
+ 231              	.LCFI9:
+ 232              		.cfi_restore 7
+ 233              		.cfi_def_cfa_offset 0
+ 234 002a 7047     		bx	lr
+ 235              		.cfi_endproc
+ 236              	.LFE2:
+ 238              		.section	.text.usart_read,"ax",%progbits
+ 239              		.align	1
+ 240              		.global	usart_read
+ 241              		.syntax unified
+ 242              		.thumb
+ 243              		.thumb_func
+ 245              	usart_read:
+ 246              	.LFB3:
+  62:./Src/stm32f767zi_usart.c **** 
+  63:./Src/stm32f767zi_usart.c **** uint8_t usart_read(USART_reg_t *USARTx)
+  64:./Src/stm32f767zi_usart.c **** {
+ 247              		.loc 1 64 1
+ 248              		.cfi_startproc
+ 249              		@ args = 0, pretend = 0, frame = 8
+ 250              		@ frame_needed = 1, uses_anonymous_args = 0
+ 251              		@ link register save eliminated.
+ 252 0000 80B4     		push	{r7}
+ 253              	.LCFI10:
+ 254              		.cfi_def_cfa_offset 4
+ 255              		.cfi_offset 7, -4
+ 256 0002 83B0     		sub	sp, sp, #12
+ 257              	.LCFI11:
+ 258              		.cfi_def_cfa_offset 16
+ 259 0004 00AF     		add	r7, sp, #0
+ 260              	.LCFI12:
+ 261              		.cfi_def_cfa_register 7
+ 262 0006 7860     		str	r0, [r7, #4]
+  65:./Src/stm32f767zi_usart.c ****         while (!(USARTx->ISR & (1U << 5)));
+ 263              		.loc 1 65 15
+ 264 0008 00BF     		nop
+ 265              	.L10:
+ 266              		.loc 1 65 24 discriminator 1
+ 267 000a 7B68     		ldr	r3, [r7, #4]
+ 268 000c DB69     		ldr	r3, [r3, #28]
+ 269              		.loc 1 65 30 discriminator 1
+ 270 000e 03F02003 		and	r3, r3, #32
+ 271              		.loc 1 65 15 discriminator 1
+ 272 0012 002B     		cmp	r3, #0
+ 273 0014 F9D0     		beq	.L10
+  66:./Src/stm32f767zi_usart.c ****         return USARTx->RDR & 0xFFU;
+ 274              		.loc 1 66 22
+ 275 0016 7B68     		ldr	r3, [r7, #4]
+ 276 0018 5B6A     		ldr	r3, [r3, #36]
+ 277              		.loc 1 66 28
+ 278 001a DBB2     		uxtb	r3, r3
+  67:./Src/stm32f767zi_usart.c **** }
+ 279              		.loc 1 67 1
+ 280 001c 1846     		mov	r0, r3
+ 281 001e 0C37     		adds	r7, r7, #12
+ 282              	.LCFI13:
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 7
+
+
+ 283              		.cfi_def_cfa_offset 4
+ 284 0020 BD46     		mov	sp, r7
+ 285              	.LCFI14:
+ 286              		.cfi_def_cfa_register 13
+ 287              		@ sp needed
+ 288 0022 5DF8047B 		ldr	r7, [sp], #4
+ 289              	.LCFI15:
+ 290              		.cfi_restore 7
+ 291              		.cfi_def_cfa_offset 0
+ 292 0026 7047     		bx	lr
+ 293              		.cfi_endproc
+ 294              	.LFE3:
+ 296              		.section	.text.__io_putchar,"ax",%progbits
+ 297              		.align	1
+ 298              		.global	__io_putchar
+ 299              		.syntax unified
+ 300              		.thumb
+ 301              		.thumb_func
+ 303              	__io_putchar:
+ 304              	.LFB4:
+  68:./Src/stm32f767zi_usart.c **** 
+  69:./Src/stm32f767zi_usart.c **** int __io_putchar(int ch)
+  70:./Src/stm32f767zi_usart.c **** {
+ 305              		.loc 1 70 1
+ 306              		.cfi_startproc
+ 307              		@ args = 0, pretend = 0, frame = 8
+ 308              		@ frame_needed = 1, uses_anonymous_args = 0
+ 309 0000 80B5     		push	{r7, lr}
+ 310              	.LCFI16:
+ 311              		.cfi_def_cfa_offset 8
+ 312              		.cfi_offset 7, -8
+ 313              		.cfi_offset 14, -4
+ 314 0002 82B0     		sub	sp, sp, #8
+ 315              	.LCFI17:
+ 316              		.cfi_def_cfa_offset 16
+ 317 0004 00AF     		add	r7, sp, #0
+ 318              	.LCFI18:
+ 319              		.cfi_def_cfa_register 7
+ 320 0006 7860     		str	r0, [r7, #4]
+  71:./Src/stm32f767zi_usart.c ****         usart_write(USART3, ch);
+ 321              		.loc 1 71 9
+ 322 0008 7B68     		ldr	r3, [r7, #4]
+ 323 000a DBB2     		uxtb	r3, r3
+ 324 000c 1946     		mov	r1, r3
+ 325 000e 0448     		ldr	r0, .L14
+ 326 0010 FFF7FEFF 		bl	usart_write
+  72:./Src/stm32f767zi_usart.c ****         return ch;
+ 327              		.loc 1 72 16
+ 328 0014 7B68     		ldr	r3, [r7, #4]
+  73:./Src/stm32f767zi_usart.c **** }
+ 329              		.loc 1 73 1
+ 330 0016 1846     		mov	r0, r3
+ 331 0018 0837     		adds	r7, r7, #8
+ 332              	.LCFI19:
+ 333              		.cfi_def_cfa_offset 8
+ 334 001a BD46     		mov	sp, r7
+ 335              	.LCFI20:
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 8
+
+
+ 336              		.cfi_def_cfa_register 13
+ 337              		@ sp needed
+ 338 001c 80BD     		pop	{r7, pc}
+ 339              	.L15:
+ 340 001e 00BF     		.align	2
+ 341              	.L14:
+ 342 0020 00480040 		.word	1073760256
+ 343              		.cfi_endproc
+ 344              	.LFE4:
+ 346              		.section	.text.__io_getchar,"ax",%progbits
+ 347              		.align	1
+ 348              		.global	__io_getchar
+ 349              		.syntax unified
+ 350              		.thumb
+ 351              		.thumb_func
+ 353              	__io_getchar:
+ 354              	.LFB5:
+  74:./Src/stm32f767zi_usart.c **** 
+  75:./Src/stm32f767zi_usart.c **** int __io_getchar(void)
+  76:./Src/stm32f767zi_usart.c **** {
+ 355              		.loc 1 76 1
+ 356              		.cfi_startproc
+ 357              		@ args = 0, pretend = 0, frame = 0
+ 358              		@ frame_needed = 1, uses_anonymous_args = 0
+ 359 0000 80B5     		push	{r7, lr}
+ 360              	.LCFI21:
+ 361              		.cfi_def_cfa_offset 8
+ 362              		.cfi_offset 7, -8
+ 363              		.cfi_offset 14, -4
+ 364 0002 00AF     		add	r7, sp, #0
+ 365              	.LCFI22:
+ 366              		.cfi_def_cfa_register 7
+  77:./Src/stm32f767zi_usart.c ****         return usart_read(USART3);
+ 367              		.loc 1 77 16
+ 368 0004 0248     		ldr	r0, .L18
+ 369 0006 FFF7FEFF 		bl	usart_read
+ 370 000a 0346     		mov	r3, r0
+  78:./Src/stm32f767zi_usart.c **** }...
+ 371              		.loc 1 78 1
+ 372 000c 1846     		mov	r0, r3
+ 373 000e 80BD     		pop	{r7, pc}
+ 374              	.L19:
+ 375              		.align	2
+ 376              	.L18:
+ 377 0010 00480040 		.word	1073760256
+ 378              		.cfi_endproc
+ 379              	.LFE5:
+ 381              		.text
+ 382              	.Letext0:
+ 383              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 384              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 385              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f767zi_usart.c
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:19     .text.usart3_default_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:25     .text.usart3_default_init:00000000 usart3_default_init
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:92     .text.usart3_default_init:00000064 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:99     .text.usart_write:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:105    .text.usart_write:00000000 usart_write
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:158    .text.usart_read:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:164    .text.usart_read:00000000 usart_read
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:216    .text.__io_putchar:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:222    .text.__io_putchar:00000000 __io_putchar
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:261    .text.__io_putchar:00000020 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:266    .text.__io_getchar:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:272    .text.__io_getchar:00000000 __io_getchar
-C:\Users\DCS_LAB\AppData\Local\Temp\cccXlnZy.s:296    .text.__io_getchar:00000010 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:19     .text.usart2_default_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:25     .text.usart2_default_init:00000000 usart2_default_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:93     .text.usart2_default_init:00000064 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:101    .text.usart3_default_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:107    .text.usart3_default_init:00000000 usart3_default_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:173    .text.usart3_default_init:00000064 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:180    .text.usart_write:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:186    .text.usart_write:00000000 usart_write
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:239    .text.usart_read:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:245    .text.usart_read:00000000 usart_read
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:297    .text.__io_putchar:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:303    .text.__io_putchar:00000000 __io_putchar
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:342    .text.__io_putchar:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:347    .text.__io_getchar:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:353    .text.__io_getchar:00000000 __io_getchar
+C:\Users\DCS_LAB\AppData\Local\Temp\ccYUKZIz.s:377    .text.__io_getchar:00000010 $d
 
 UNDEFINED SYMBOLS
 gpio_set_mode

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCYtYXI.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJYe1de.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -36,7 +36,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCYtYXI.s 			page 1
    7:./Src/stm32f767zi_gpio.c **** 
    8:./Src/stm32f767zi_gpio.c **** #include "stm32f767zi_gpio.h"
    9:./Src/stm32f767zi_gpio.c **** 
-  10:./Src/stm32f767zi_gpio.c **** void gpio_set_mode(GPIO_reg_t *GPIOx, uint32_t pin, uint32_t mode)
+  10:./Src/stm32f767zi_gpio.c **** void gpio_set_mode(GPIO_reg_t *GPIOx, uint32_t position, uint32_t mode)
   11:./Src/stm32f767zi_gpio.c **** {
   28              		.loc 1 11 1
   29              		.cfi_startproc
@@ -56,62 +56,67 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCYtYXI.s 			page 1
   43 0006 F860     		str	r0, [r7, #12]
   44 0008 B960     		str	r1, [r7, #8]
   45 000a 7A60     		str	r2, [r7, #4]
-  12:./Src/stm32f767zi_gpio.c ****         GPIOx->MODER = (GPIOx->MODER & ~(0x03 << (pin * 2))) | (mode << (pin * 2));
-  46              		.loc 1 12 30
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCYtYXI.s 			page 2
+  12:./Src/stm32f767zi_gpio.c ****         GPIOx->MODER &= ~(0x03 << (position * 2));
+  46              		.loc 1 12 22
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJYe1de.s 			page 2
 
 
   47 000c FB68     		ldr	r3, [r7, #12]
   48 000e 1B68     		ldr	r3, [r3]
-  49              		.loc 1 12 55
+  49              		.loc 1 12 45
   50 0010 BA68     		ldr	r2, [r7, #8]
   51 0012 5200     		lsls	r2, r2, #1
-  52              		.loc 1 12 47
+  52              		.loc 1 12 32
   53 0014 0321     		movs	r1, #3
   54 0016 01FA02F2 		lsl	r2, r1, r2
-  55              		.loc 1 12 40
+  55              		.loc 1 12 25
   56 001a D243     		mvns	r2, r2
-  57              		.loc 1 12 38
+  57              		.loc 1 12 22
   58 001c 1A40     		ands	r2, r2, r3
-  59              		.loc 1 12 78
-  60 001e BB68     		ldr	r3, [r7, #8]
-  61 0020 5B00     		lsls	r3, r3, #1
-  62              		.loc 1 12 70
-  63 0022 7968     		ldr	r1, [r7, #4]
-  64 0024 01FA03F3 		lsl	r3, r1, r3
-  65              		.loc 1 12 62
-  66 0028 1A43     		orrs	r2, r2, r3
-  67              		.loc 1 12 22
-  68 002a FB68     		ldr	r3, [r7, #12]
-  69 002c 1A60     		str	r2, [r3]
-  13:./Src/stm32f767zi_gpio.c **** }...
-  70              		.loc 1 13 1
-  71 002e 00BF     		nop
-  72 0030 1437     		adds	r7, r7, #20
-  73              	.LCFI3:
-  74              		.cfi_def_cfa_offset 4
-  75 0032 BD46     		mov	sp, r7
-  76              	.LCFI4:
-  77              		.cfi_def_cfa_register 13
-  78              		@ sp needed
-  79 0034 5DF8047B 		ldr	r7, [sp], #4
-  80              	.LCFI5:
-  81              		.cfi_restore 7
-  82              		.cfi_def_cfa_offset 0
-  83 0038 7047     		bx	lr
-  84              		.cfi_endproc
-  85              	.LFE0:
-  87              		.text
-  88              	.Letext0:
-  89              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
-  90              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
-  91              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCYtYXI.s 			page 3
+  59 001e FB68     		ldr	r3, [r7, #12]
+  60 0020 1A60     		str	r2, [r3]
+  13:./Src/stm32f767zi_gpio.c ****         GPIOx->MODER |= mode << (position * 2);
+  61              		.loc 1 13 22
+  62 0022 FB68     		ldr	r3, [r7, #12]
+  63 0024 1A68     		ldr	r2, [r3]
+  64              		.loc 1 13 43
+  65 0026 BB68     		ldr	r3, [r7, #8]
+  66 0028 5B00     		lsls	r3, r3, #1
+  67              		.loc 1 13 30
+  68 002a 7968     		ldr	r1, [r7, #4]
+  69 002c 01FA03F3 		lsl	r3, r1, r3
+  70              		.loc 1 13 22
+  71 0030 1A43     		orrs	r2, r2, r3
+  72 0032 FB68     		ldr	r3, [r7, #12]
+  73 0034 1A60     		str	r2, [r3]
+  14:./Src/stm32f767zi_gpio.c **** }...
+  74              		.loc 1 14 1
+  75 0036 00BF     		nop
+  76 0038 1437     		adds	r7, r7, #20
+  77              	.LCFI3:
+  78              		.cfi_def_cfa_offset 4
+  79 003a BD46     		mov	sp, r7
+  80              	.LCFI4:
+  81              		.cfi_def_cfa_register 13
+  82              		@ sp needed
+  83 003c 5DF8047B 		ldr	r7, [sp], #4
+  84              	.LCFI5:
+  85              		.cfi_restore 7
+  86              		.cfi_def_cfa_offset 0
+  87 0040 7047     		bx	lr
+  88              		.cfi_endproc
+  89              	.LFE0:
+  91              		.text
+  92              	.Letext0:
+  93              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+  94              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+  95              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJYe1de.s 			page 3
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f767zi_gpio.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCYtYXI.s:19     .text.gpio_set_mode:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCYtYXI.s:25     .text.gpio_set_mode:00000000 gpio_set_mode
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJYe1de.s:19     .text.gpio_set_mode:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJYe1de.s:25     .text.gpio_set_mode:00000000 gpio_set_mode
 
 NO UNDEFINED SYMBOLS
