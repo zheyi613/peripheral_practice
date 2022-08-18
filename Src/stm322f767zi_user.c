@@ -23,5 +23,15 @@ void button_init(void)
 
 void led_toggle(led_t led)
 {
-        GPIOB->BSRR ^= led;
+        GPIOB->ODR ^= led;
+}
+
+void led_on(led_t led)
+{
+        GPIOB->BSRR |= led;
+}
+
+void led_off(led_t led)
+{
+        GPIOB->BSRR |= led << 16;
 }

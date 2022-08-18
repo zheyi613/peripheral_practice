@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 1
   44 000a 43F00203 		orr	r3, r3, #2
   45 000e 1363     		str	r3, [r2, #48]
   13:./Src/stm322f767zi_user.c ****         gpio_set_mode(GPIOB, USER_LED1_POS, USER_LED_MODE);
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 2
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s 			page 2
 
 
   46              		.loc 1 13 9
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 1
   95 0006 1B6B     		ldr	r3, [r3, #48]
   96 0008 054A     		ldr	r2, .L5
   97 000a 43F00403 		orr	r3, r3, #4
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 3
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s 			page 3
 
 
   98 000e 1363     		str	r3, [r2, #48]
@@ -166,19 +166,19 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 1
  137              	.LCFI6:
  138              		.cfi_def_cfa_register 7
  139 0006 7860     		str	r0, [r7, #4]
-  26:./Src/stm322f767zi_user.c ****         GPIOB->BSRR ^= led;
- 140              		.loc 1 26 21
+  26:./Src/stm322f767zi_user.c ****         GPIOB->ODR ^= led;
+ 140              		.loc 1 26 20
  141 0008 054B     		ldr	r3, .L8
- 142 000a 9A69     		ldr	r2, [r3, #24]
+ 142 000a 5A69     		ldr	r2, [r3, #20]
  143 000c 0449     		ldr	r1, .L8
  144 000e 7B68     		ldr	r3, [r7, #4]
  145 0010 5340     		eors	r3, r3, r2
- 146 0012 8B61     		str	r3, [r1, #24]
-  27:./Src/stm322f767zi_user.c **** }...
+ 146 0012 4B61     		str	r3, [r1, #20]
+  27:./Src/stm322f767zi_user.c **** }
  147              		.loc 1 27 1
  148 0014 00BF     		nop
  149 0016 0C37     		adds	r7, r7, #12
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 4
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s 			page 4
 
 
  150              	.LCFI7:
@@ -198,26 +198,153 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 1
  164 0020 00040240 		.word	1073873920
  165              		.cfi_endproc
  166              	.LFE2:
- 168              		.text
- 169              	.Letext0:
- 170              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 171              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 172              		.file 4 "./Inc/stm32f767zi_hal.h"
- 173              		.file 5 "./Inc/stm32f767zi_user.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s 			page 5
+ 168              		.section	.text.led_on,"ax",%progbits
+ 169              		.align	1
+ 170              		.global	led_on
+ 171              		.syntax unified
+ 172              		.thumb
+ 173              		.thumb_func
+ 175              	led_on:
+ 176              	.LFB3:
+  28:./Src/stm322f767zi_user.c **** 
+  29:./Src/stm322f767zi_user.c **** void led_on(led_t led)
+  30:./Src/stm322f767zi_user.c **** {
+ 177              		.loc 1 30 1
+ 178              		.cfi_startproc
+ 179              		@ args = 0, pretend = 0, frame = 8
+ 180              		@ frame_needed = 1, uses_anonymous_args = 0
+ 181              		@ link register save eliminated.
+ 182 0000 80B4     		push	{r7}
+ 183              	.LCFI10:
+ 184              		.cfi_def_cfa_offset 4
+ 185              		.cfi_offset 7, -4
+ 186 0002 83B0     		sub	sp, sp, #12
+ 187              	.LCFI11:
+ 188              		.cfi_def_cfa_offset 16
+ 189 0004 00AF     		add	r7, sp, #0
+ 190              	.LCFI12:
+ 191              		.cfi_def_cfa_register 7
+ 192 0006 7860     		str	r0, [r7, #4]
+  31:./Src/stm322f767zi_user.c ****         GPIOB->BSRR |= led;
+ 193              		.loc 1 31 21
+ 194 0008 054B     		ldr	r3, .L11
+ 195 000a 9A69     		ldr	r2, [r3, #24]
+ 196 000c 0449     		ldr	r1, .L11
+ 197 000e 7B68     		ldr	r3, [r7, #4]
+ 198 0010 1343     		orrs	r3, r3, r2
+ 199 0012 8B61     		str	r3, [r1, #24]
+  32:./Src/stm322f767zi_user.c **** }
+ 200              		.loc 1 32 1
+ 201 0014 00BF     		nop
+ 202 0016 0C37     		adds	r7, r7, #12
+ 203              	.LCFI13:
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s 			page 5
+
+
+ 204              		.cfi_def_cfa_offset 4
+ 205 0018 BD46     		mov	sp, r7
+ 206              	.LCFI14:
+ 207              		.cfi_def_cfa_register 13
+ 208              		@ sp needed
+ 209 001a 5DF8047B 		ldr	r7, [sp], #4
+ 210              	.LCFI15:
+ 211              		.cfi_restore 7
+ 212              		.cfi_def_cfa_offset 0
+ 213 001e 7047     		bx	lr
+ 214              	.L12:
+ 215              		.align	2
+ 216              	.L11:
+ 217 0020 00040240 		.word	1073873920
+ 218              		.cfi_endproc
+ 219              	.LFE3:
+ 221              		.section	.text.led_off,"ax",%progbits
+ 222              		.align	1
+ 223              		.global	led_off
+ 224              		.syntax unified
+ 225              		.thumb
+ 226              		.thumb_func
+ 228              	led_off:
+ 229              	.LFB4:
+  33:./Src/stm322f767zi_user.c **** 
+  34:./Src/stm322f767zi_user.c **** void led_off(led_t led)
+  35:./Src/stm322f767zi_user.c **** {
+ 230              		.loc 1 35 1
+ 231              		.cfi_startproc
+ 232              		@ args = 0, pretend = 0, frame = 8
+ 233              		@ frame_needed = 1, uses_anonymous_args = 0
+ 234              		@ link register save eliminated.
+ 235 0000 80B4     		push	{r7}
+ 236              	.LCFI16:
+ 237              		.cfi_def_cfa_offset 4
+ 238              		.cfi_offset 7, -4
+ 239 0002 83B0     		sub	sp, sp, #12
+ 240              	.LCFI17:
+ 241              		.cfi_def_cfa_offset 16
+ 242 0004 00AF     		add	r7, sp, #0
+ 243              	.LCFI18:
+ 244              		.cfi_def_cfa_register 7
+ 245 0006 7860     		str	r0, [r7, #4]
+  36:./Src/stm322f767zi_user.c ****         GPIOB->BSRR |= led << 16;
+ 246              		.loc 1 36 21
+ 247 0008 064B     		ldr	r3, .L14
+ 248 000a 9A69     		ldr	r2, [r3, #24]
+ 249              		.loc 1 36 28
+ 250 000c 7B68     		ldr	r3, [r7, #4]
+ 251 000e 1B04     		lsls	r3, r3, #16
+ 252              		.loc 1 36 21
+ 253 0010 0449     		ldr	r1, .L14
+ 254 0012 1343     		orrs	r3, r3, r2
+ 255 0014 8B61     		str	r3, [r1, #24]
+  37:./Src/stm322f767zi_user.c **** }...
+ 256              		.loc 1 37 1
+ 257 0016 00BF     		nop
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s 			page 6
+
+
+ 258 0018 0C37     		adds	r7, r7, #12
+ 259              	.LCFI19:
+ 260              		.cfi_def_cfa_offset 4
+ 261 001a BD46     		mov	sp, r7
+ 262              	.LCFI20:
+ 263              		.cfi_def_cfa_register 13
+ 264              		@ sp needed
+ 265 001c 5DF8047B 		ldr	r7, [sp], #4
+ 266              	.LCFI21:
+ 267              		.cfi_restore 7
+ 268              		.cfi_def_cfa_offset 0
+ 269 0020 7047     		bx	lr
+ 270              	.L15:
+ 271 0022 00BF     		.align	2
+ 272              	.L14:
+ 273 0024 00040240 		.word	1073873920
+ 274              		.cfi_endproc
+ 275              	.LFE4:
+ 277              		.text
+ 278              	.Letext0:
+ 279              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 280              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 281              		.file 4 "./Inc/stm32f767zi_hal.h"
+ 282              		.file 5 "./Inc/stm32f767zi_user.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm322f767zi_user.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:19     .text.led_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:25     .text.led_init:00000000 led_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:67     .text.led_init:00000034 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:73     .text.button_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:79     .text.button_init:00000000 button_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:110    .text.button_init:00000020 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:116    .text.led_toggle:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:122    .text.led_toggle:00000000 led_toggle
-C:\Users\DCS_LAB\AppData\Local\Temp\ccX19Jy5.s:164    .text.led_toggle:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:19     .text.led_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:25     .text.led_init:00000000 led_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:67     .text.led_init:00000034 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:73     .text.button_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:79     .text.button_init:00000000 button_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:110    .text.button_init:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:116    .text.led_toggle:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:122    .text.led_toggle:00000000 led_toggle
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:164    .text.led_toggle:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:169    .text.led_on:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:175    .text.led_on:00000000 led_on
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:217    .text.led_on:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:222    .text.led_off:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:228    .text.led_off:00000000 led_off
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbXlASn.s:273    .text.led_off:00000024 $d
 
 UNDEFINED SYMBOLS
 gpio_set_mode

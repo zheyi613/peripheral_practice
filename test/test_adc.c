@@ -1,7 +1,7 @@
 /**
  * @file test_adc.c
  * @author zheyi613 (zheyi880613@gmail.com)
- * @brief test adc
+ * @brief test analog to digital conversion
  * @date 2022-08-16
  */
 

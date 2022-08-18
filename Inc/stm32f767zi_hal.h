@@ -59,9 +59,6 @@
 
 #define SYSCFG_CLK_EN           (1U << 14)      // Enable system configuration controller clock
 
-#define SYST_CSR_ENABLE         (1U << 0)       // Enable system tick
-#define SYST_CSR_CLKSRC         (1U << 2)       // Select internal clock source
-#define SYST_CSR_COUNTFLAG      (1U << 16)      // When the counter reloads, the flag will be set
 typedef struct {
         __IO uint32_t MODER;            // GPIO port mode register                              Address offset: 0x00
         __IO uint32_t OTYPER;           // GPIO port output type register                       Address offset: 0x04
@@ -117,7 +114,8 @@ typedef struct {
         __IO uint32_t SMCR;             // TIM slave mode control register                      Address offset: 0x08
         __IO uint32_t DIER;             // TIM DMA/interrupt enable register                    Address offset: 0x0C
         __IO uint32_t SR;               // TIM status register                                  Address offset: 0x10
-        __IO uint32_t DUMMY[5];         // ...
+        __IO uint32_t EGR;              // TIM event generation register                        Address offset: 0x14
+        __IO uint32_t DUMMY[4];         // ...
         __IO uint32_t PSC;              // TIM prescaler                                        Address offset: 0x28
         __IO uint32_t ARR;              // TIM auto-reload register                             Address offset: 0x2C
 } TIM_reg_t;
@@ -139,19 +137,19 @@ typedef struct {
 
 typedef struct
 {
-  __IOM uint32_t ISER[8U];               /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register */
+        __IOM uint32_t ISER[8U];        /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register */
         uint32_t RESERVED0[24U];
-  __IOM uint32_t ICER[8U];               /*!< Offset: 0x080 (R/W)  Interrupt Clear Enable Register */
+        __IOM uint32_t ICER[8U];        /*!< Offset: 0x080 (R/W)  Interrupt Clear Enable Register */
         uint32_t RSERVED1[24U];
-  __IOM uint32_t ISPR[8U];               /*!< Offset: 0x100 (R/W)  Interrupt Set Pending Register */
+        __IOM uint32_t ISPR[8U];        /*!< Offset: 0x100 (R/W)  Interrupt Set Pending Register */
         uint32_t RESERVED2[24U];
-  __IOM uint32_t ICPR[8U];               /*!< Offset: 0x180 (R/W)  Interrupt Clear Pending Register */
+        __IOM uint32_t ICPR[8U];        /*!< Offset: 0x180 (R/W)  Interrupt Clear Pending Register */
         uint32_t RESERVED3[24U];
-  __IOM uint32_t IABR[8U];               /*!< Offset: 0x200 (R/W)  Interrupt Active bit Register */
+        __IOM uint32_t IABR[8U];        /*!< Offset: 0x200 (R/W)  Interrupt Active bit Register */
         uint32_t RESERVED4[56U];
-  __IOM uint8_t  IP[240U];               /*!< Offset: 0x300 (R/W)  Interrupt Priority Register (8Bit wide) */
+        __IOM uint8_t  IP[240U];        /*!< Offset: 0x300 (R/W)  Interrupt Priority Register (8Bit wide) */
         uint32_t RESERVED5[644U];
-  __OM  uint32_t STIR;                   /*!< Offset: 0xE00 ( /W)  Software Trigger Interrupt Register */
+        __OM  uint32_t STIR;            /*!< Offset: 0xE00 ( /W)  Software Trigger Interrupt Register */
 } NVIC_reg_t;
 
 typedef struct {

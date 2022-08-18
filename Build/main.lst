@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -18,260 +18,242 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s 			page 1
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.text.main,"ax",%progbits
-  19              		.align	1
-  20              		.global	main
-  21              		.syntax unified
-  22              		.thumb
-  23              		.thumb_func
-  25              	main:
-  26              	.LFB3:
-  27              		.file 1 "./Src/main.c"
+  18              		.global	ch
+  19              		.section	.bss.ch,"aw",%nobits
+  22              	ch:
+  23 0000 00       		.space	1
+  24              		.section	.text.main,"ax",%progbits
+  25              		.align	1
+  26              		.global	main
+  27              		.syntax unified
+  28              		.thumb
+  29              		.thumb_func
+  31              	main:
+  32              	.LFB0:
+  33              		.file 1 "./Src/main.c"
    1:./Src/main.c  **** /**
-   2:./Src/main.c  ****  * @file main.c
+   2:./Src/main.c  ****  * @file test_usart_interrupt.c
    3:./Src/main.c  ****  * @author zheyi613 (zheyi880613@gmail.com)
-   4:./Src/main.c  ****  * @brief test exti
-   5:./Src/main.c  ****  * @date 2022-08-17
+   4:./Src/main.c  ****  * @brief test interrupt of usart
+   5:./Src/main.c  ****  * @date 2022-08-18
    6:./Src/main.c  ****  */
    7:./Src/main.c  **** 
    8:./Src/main.c  **** #include "stm32f767zi_hal.h"
    9:./Src/main.c  **** #include "stm32f767zi_gpio.h"
   10:./Src/main.c  **** #include "stm32f767zi_usart.h"
   11:./Src/main.c  **** #include "stm32f767zi_user.h"
-  12:./Src/main.c  **** #include <stdio.h>
-  13:./Src/main.c  **** 
-  14:./Src/main.c  **** #define EXTI15_10_IRQn 40U
-  15:./Src/main.c  **** 
-  16:./Src/main.c  **** void pc13_exti_init(void);
-  17:./Src/main.c  **** 
-  18:./Src/main.c  **** int main(void) {
-  28              		.loc 1 18 16
-  29              		.cfi_startproc
-  30              		@ args = 0, pretend = 0, frame = 0
-  31              		@ frame_needed = 1, uses_anonymous_args = 0
-  32 0000 80B5     		push	{r7, lr}
-  33              	.LCFI0:
-  34              		.cfi_def_cfa_offset 8
-  35              		.cfi_offset 7, -8
-  36              		.cfi_offset 14, -4
-  37 0002 00AF     		add	r7, sp, #0
-  38              	.LCFI1:
-  39              		.cfi_def_cfa_register 7
-  19:./Src/main.c  ****         usart3_default_init();
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s 			page 2
+  12:./Src/main.c  **** 
+  13:./Src/main.c  **** char ch;
+  14:./Src/main.c  **** 
+  15:./Src/main.c  **** int main(void) {
+  34              		.loc 1 15 16
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 1, uses_anonymous_args = 0
+  38 0000 80B5     		push	{r7, lr}
+  39              	.LCFI0:
+  40              		.cfi_def_cfa_offset 8
+  41              		.cfi_offset 7, -8
+  42              		.cfi_offset 14, -4
+  43 0002 00AF     		add	r7, sp, #0
+  44              	.LCFI1:
+  45              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s 			page 2
 
 
-  40              		.loc 1 19 9
-  41 0004 FFF7FEFF 		bl	usart3_default_init
-  20:./Src/main.c  ****         pc13_exti_init();
-  42              		.loc 1 20 9
-  43 0008 FFF7FEFF 		bl	pc13_exti_init
-  44              	.L2:
-  21:./Src/main.c  ****         while (1) {
-  45              		.loc 1 21 15 discriminator 1
-  46 000c FEE7     		b	.L2
-  47              		.cfi_endproc
-  48              	.LFE3:
-  50              		.section	.text.pc13_exti_init,"ax",%progbits
-  51              		.align	1
-  52              		.global	pc13_exti_init
-  53              		.syntax unified
-  54              		.thumb
-  55              		.thumb_func
-  57              	pc13_exti_init:
-  58              	.LFB4:
-  22:./Src/main.c  **** 
-  23:./Src/main.c  ****         }
-  24:./Src/main.c  **** 
-  25:./Src/main.c  ****         return 0;
-  26:./Src/main.c  **** }
-  27:./Src/main.c  **** 
-  28:./Src/main.c  **** void pc13_exti_init(void)
-  29:./Src/main.c  **** {
-  59              		.loc 1 29 1
-  60              		.cfi_startproc
-  61              		@ args = 0, pretend = 0, frame = 0
-  62              		@ frame_needed = 1, uses_anonymous_args = 0
-  63 0000 80B5     		push	{r7, lr}
-  64              	.LCFI2:
-  65              		.cfi_def_cfa_offset 8
-  66              		.cfi_offset 7, -8
-  67              		.cfi_offset 14, -4
-  68 0002 00AF     		add	r7, sp, #0
-  69              	.LCFI3:
-  70              		.cfi_def_cfa_register 7
-  30:./Src/main.c  ****         // Enable clock access to PORTC
-  31:./Src/main.c  ****         RCC->AHB1ENR |= GPIOC_CLK_EN;
-  71              		.loc 1 31 22
-  72 0004 174B     		ldr	r3, .L4
-  73 0006 1B6B     		ldr	r3, [r3, #48]
-  74 0008 164A     		ldr	r2, .L4
-  75 000a 43F00403 		orr	r3, r3, #4
-  76 000e 1363     		str	r3, [r2, #48]
-  32:./Src/main.c  ****         // Set PC13 to input
-  33:./Src/main.c  ****         gpio_set_mode(GPIOC, USER_BUTTON_POS, USER_BUTTON_MODE);
-  77              		.loc 1 33 9
-  78 0010 0022     		movs	r2, #0
-  79 0012 0D21     		movs	r1, #13
-  80 0014 1448     		ldr	r0, .L4+4
-  81 0016 FFF7FEFF 		bl	gpio_set_mode
-  34:./Src/main.c  ****         // Enable clock access to SYSCFG module
-  35:./Src/main.c  ****         RCC->APB2ENR |= SYSCFG_CLK_EN;
-  82              		.loc 1 35 22
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s 			page 3
+  16:./Src/main.c  ****         led_init();
+  46              		.loc 1 16 9
+  47 0004 FFF7FEFF 		bl	led_init
+  17:./Src/main.c  ****         usart3_interrupt_default_init();
+  48              		.loc 1 17 9
+  49 0008 FFF7FEFF 		bl	usart3_interrupt_default_init
+  50              	.L9:
+  18:./Src/main.c  **** 
+  19:./Src/main.c  ****         while (1) {
+  20:./Src/main.c  ****                 switch (ch)
+  51              		.loc 1 20 17
+  52 000c 114B     		ldr	r3, .L11
+  53 000e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  54 0010 303B     		subs	r3, r3, #48
+  55 0012 032B     		cmp	r3, #3
+  56 0014 1CD8     		bhi	.L10
+  57 0016 01A2     		adr	r2, .L4
+  58 0018 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+  59              		.p2align 2
+  60              	.L4:
+  61 001c 2D000000 		.word	.L7+1
+  62 0020 37000000 		.word	.L6+1
+  63 0024 3F000000 		.word	.L5+1
+  64 0028 47000000 		.word	.L3+1
+  65              		.p2align 1
+  66              	.L7:
+  21:./Src/main.c  ****                 {
+  22:./Src/main.c  ****                 case '0':
+  23:./Src/main.c  ****                         led_off(USER_LED1 | USER_LED2 | USER_LED3);
+  67              		.loc 1 23 25
+  68 002c 44F28100 		movw	r0, #16513
+  69 0030 FFF7FEFF 		bl	led_off
+  24:./Src/main.c  ****                         break;
+  70              		.loc 1 24 25
+  71 0034 0DE0     		b	.L8
+  72              	.L6:
+  25:./Src/main.c  ****                 case '1':
+  26:./Src/main.c  ****                         led_on(USER_LED1);
+  73              		.loc 1 26 25
+  74 0036 0120     		movs	r0, #1
+  75 0038 FFF7FEFF 		bl	led_on
+  27:./Src/main.c  ****                         break;
+  76              		.loc 1 27 25
+  77 003c 09E0     		b	.L8
+  78              	.L5:
+  28:./Src/main.c  ****                 case '2':
+  29:./Src/main.c  ****                         led_on(USER_LED2);
+  79              		.loc 1 29 25
+  80 003e 8020     		movs	r0, #128
+  81 0040 FFF7FEFF 		bl	led_on
+  30:./Src/main.c  ****                         break;
+  82              		.loc 1 30 25
+  83 0044 05E0     		b	.L8
+  84              	.L3:
+  31:./Src/main.c  ****                 case '3':
+  32:./Src/main.c  ****                         led_on(USER_LED3);
+  85              		.loc 1 32 25
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s 			page 3
 
 
-  83 001a 124B     		ldr	r3, .L4
-  84 001c 5B6C     		ldr	r3, [r3, #68]
-  85 001e 114A     		ldr	r2, .L4
-  86 0020 43F48043 		orr	r3, r3, #16384
-  87 0024 5364     		str	r3, [r2, #68]
-  36:./Src/main.c  ****         // Clear port selection for EXTI13
-  37:./Src/main.c  ****         SYSCFG->EXTICR[3] &= ~(0xFU << 4);
-  88              		.loc 1 37 27
-  89 0026 114B     		ldr	r3, .L4+8
-  90 0028 5B69     		ldr	r3, [r3, #20]
-  91 002a 104A     		ldr	r2, .L4+8
-  92 002c 23F0F003 		bic	r3, r3, #240
-  93 0030 5361     		str	r3, [r2, #20]
-  38:./Src/main.c  ****         // Select PORTC for EXTI13
-  39:./Src/main.c  ****         SYSCFG->EXTICR[3] |= 1U << 5;
-  94              		.loc 1 39 27
-  95 0032 0E4B     		ldr	r3, .L4+8
-  96 0034 5B69     		ldr	r3, [r3, #20]
-  97 0036 0D4A     		ldr	r2, .L4+8
-  98 0038 43F02003 		orr	r3, r3, #32
-  99 003c 5361     		str	r3, [r2, #20]
-  40:./Src/main.c  ****         // Unmask EXTI13
-  41:./Src/main.c  ****         EXTI->IMR |= USER_BUTTON;
- 100              		.loc 1 41 19
- 101 003e 0C4B     		ldr	r3, .L4+12
- 102 0040 1B68     		ldr	r3, [r3]
- 103 0042 0B4A     		ldr	r2, .L4+12
- 104 0044 43F40053 		orr	r3, r3, #8192
- 105 0048 1360     		str	r3, [r2]
-  42:./Src/main.c  ****         // Select falling edge trigger
-  43:./Src/main.c  ****         EXTI->FTSR |= USER_BUTTON;
- 106              		.loc 1 43 20
- 107 004a 094B     		ldr	r3, .L4+12
- 108 004c DB68     		ldr	r3, [r3, #12]
- 109 004e 084A     		ldr	r2, .L4+12
- 110 0050 43F40053 		orr	r3, r3, #8192
- 111 0054 D360     		str	r3, [r2, #12]
-  44:./Src/main.c  ****         // Enable EXTI13 in NVIC
-  45:./Src/main.c  ****         NVIC->ISER[(((uint32_t)EXTI15_10_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)EXTI15_10_I
- 112              		.loc 1 45 13
- 113 0056 074B     		ldr	r3, .L4+16
- 114              		.loc 1 45 57
- 115 0058 4FF48072 		mov	r2, #256
- 116 005c 5A60     		str	r2, [r3, #4]
-  46:./Src/main.c  **** }
- 117              		.loc 1 46 1
- 118 005e 00BF     		nop
- 119 0060 80BD     		pop	{r7, pc}
- 120              	.L5:
- 121 0062 00BF     		.align	2
- 122              	.L4:
- 123 0064 00380240 		.word	1073887232
- 124 0068 00080240 		.word	1073874944
- 125 006c 00380140 		.word	1073821696
- 126 0070 003C0140 		.word	1073822720
- 127 0074 00E100E0 		.word	-536813312
- 128              		.cfi_endproc
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s 			page 4
+  86 0046 4FF48040 		mov	r0, #16384
+  87 004a FFF7FEFF 		bl	led_on
+  33:./Src/main.c  ****                         break;
+  88              		.loc 1 33 25
+  89 004e 00E0     		b	.L8
+  90              	.L10:
+  34:./Src/main.c  ****                 default:
+  35:./Src/main.c  ****                         break;
+  91              		.loc 1 35 25
+  92 0050 00BF     		nop
+  93              	.L8:
+  20:./Src/main.c  ****                 {
+  94              		.loc 1 20 17
+  95 0052 DBE7     		b	.L9
+  96              	.L12:
+  97              		.align	2
+  98              	.L11:
+  99 0054 00000000 		.word	ch
+ 100              		.cfi_endproc
+ 101              	.LFE0:
+ 103              		.section	.text.USART3_IRQHandler,"ax",%progbits
+ 104              		.align	1
+ 105              		.global	USART3_IRQHandler
+ 106              		.syntax unified
+ 107              		.thumb
+ 108              		.thumb_func
+ 110              	USART3_IRQHandler:
+ 111              	.LFB1:
+  36:./Src/main.c  ****                 }
+  37:./Src/main.c  ****         }
+  38:./Src/main.c  **** 
+  39:./Src/main.c  ****         return 0;
+  40:./Src/main.c  **** }
+  41:./Src/main.c  **** 
+  42:./Src/main.c  **** void USART3_IRQHandler(void)
+  43:./Src/main.c  **** {
+ 112              		.loc 1 43 1
+ 113              		.cfi_startproc
+ 114              		@ args = 0, pretend = 0, frame = 0
+ 115              		@ frame_needed = 1, uses_anonymous_args = 0
+ 116              		@ link register save eliminated.
+ 117 0000 80B4     		push	{r7}
+ 118              	.LCFI2:
+ 119              		.cfi_def_cfa_offset 4
+ 120              		.cfi_offset 7, -4
+ 121 0002 00AF     		add	r7, sp, #0
+ 122              	.LCFI3:
+ 123              		.cfi_def_cfa_register 7
+  44:./Src/main.c  ****         if ((USART3->ISR & USART_ISR_TXE) == USART_ISR_TXE)
+ 124              		.loc 1 44 20
+ 125 0004 0C4B     		ldr	r3, .L17
+ 126 0006 DB69     		ldr	r3, [r3, #28]
+ 127              		.loc 1 44 26
+ 128 0008 03F08003 		and	r3, r3, #128
+ 129              		.loc 1 44 12
+ 130 000c 802B     		cmp	r3, #128
+ 131 000e 02D1     		bne	.L14
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s 			page 4
 
 
- 129              	.LFE4:
- 131              		.section	.rodata
- 132              		.align	2
- 133              	.LC0:
- 134 0000 42757474 		.ascii	"Button pressed...\012\015\000"
- 134      6F6E2070 
- 134      72657373 
- 134      65642E2E 
- 134      2E0A0D00 
- 135              		.section	.text.EXTI15_10_IRQHandler,"ax",%progbits
- 136              		.align	1
- 137              		.global	EXTI15_10_IRQHandler
- 138              		.syntax unified
- 139              		.thumb
- 140              		.thumb_func
- 142              	EXTI15_10_IRQHandler:
- 143              	.LFB5:
-  47:./Src/main.c  **** 
-  48:./Src/main.c  **** void EXTI15_10_IRQHandler(void)
-  49:./Src/main.c  **** {
- 144              		.loc 1 49 1
- 145              		.cfi_startproc
- 146              		@ args = 0, pretend = 0, frame = 0
- 147              		@ frame_needed = 1, uses_anonymous_args = 0
- 148 0000 80B5     		push	{r7, lr}
- 149              	.LCFI4:
- 150              		.cfi_def_cfa_offset 8
- 151              		.cfi_offset 7, -8
- 152              		.cfi_offset 14, -4
- 153 0002 00AF     		add	r7, sp, #0
- 154              	.LCFI5:
- 155              		.cfi_def_cfa_register 7
-  50:./Src/main.c  ****         if ((EXTI->PR & USER_BUTTON) != 0) {
- 156              		.loc 1 50 18
- 157 0004 084B     		ldr	r3, .L9
- 158 0006 5B69     		ldr	r3, [r3, #20]
- 159              		.loc 1 50 23
- 160 0008 03F40053 		and	r3, r3, #8192
- 161              		.loc 1 50 12
- 162 000c 002B     		cmp	r3, #0
- 163 000e 08D0     		beq	.L8
-  51:./Src/main.c  ****                 // Clear PR flag
-  52:./Src/main.c  ****                 EXTI->PR |= USER_BUTTON;
- 164              		.loc 1 52 26
- 165 0010 054B     		ldr	r3, .L9
- 166 0012 5B69     		ldr	r3, [r3, #20]
- 167 0014 044A     		ldr	r2, .L9
- 168 0016 43F40053 		orr	r3, r3, #8192
- 169 001a 5361     		str	r3, [r2, #20]
-  53:./Src/main.c  ****                 // Print message
-  54:./Src/main.c  ****                 printf("Button pressed...\n\r");
- 170              		.loc 1 54 17
- 171 001c 0348     		ldr	r0, .L9+4
- 172 001e FFF7FEFF 		bl	printf
- 173              	.L8:
-  55:./Src/main.c  ****         }
-  56:./Src/main.c  **** }...
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s 			page 5
-
-
- 174              		.loc 1 56 1
- 175 0022 00BF     		nop
- 176 0024 80BD     		pop	{r7, pc}
- 177              	.L10:
- 178 0026 00BF     		.align	2
- 179              	.L9:
- 180 0028 003C0140 		.word	1073822720
- 181 002c 00000000 		.word	.LC0
- 182              		.cfi_endproc
- 183              	.LFE5:
- 185              		.text
- 186              	.Letext0:
- 187              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 188              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 189              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s 			page 6
+  45:./Src/main.c  ****         {
+  46:./Src/main.c  ****                 // transmit a ASCII code
+  47:./Src/main.c  ****                 USART3->TDR = 'R';
+ 132              		.loc 1 47 23
+ 133 0010 094B     		ldr	r3, .L17
+ 134              		.loc 1 47 29
+ 135 0012 5222     		movs	r2, #82
+ 136 0014 9A62     		str	r2, [r3, #40]
+ 137              	.L14:
+  48:./Src/main.c  ****         }
+  49:./Src/main.c  ****         if ((USART3->ISR & USART_ISR_RXNE) == USART_ISR_RXNE)
+ 138              		.loc 1 49 20
+ 139 0016 084B     		ldr	r3, .L17
+ 140 0018 DB69     		ldr	r3, [r3, #28]
+ 141              		.loc 1 49 26
+ 142 001a 03F02003 		and	r3, r3, #32
+ 143              		.loc 1 49 12
+ 144 001e 202B     		cmp	r3, #32
+ 145 0020 04D1     		bne	.L16
+  50:./Src/main.c  ****         {
+  51:./Src/main.c  ****                 // receive a ASCII code
+  52:./Src/main.c  ****                 ch = USART3->RDR & 0xFFU;
+ 146              		.loc 1 52 28
+ 147 0022 054B     		ldr	r3, .L17
+ 148 0024 5B6A     		ldr	r3, [r3, #36]
+ 149              		.loc 1 52 20
+ 150 0026 DAB2     		uxtb	r2, r3
+ 151 0028 044B     		ldr	r3, .L17+4
+ 152 002a 1A70     		strb	r2, [r3]
+ 153              	.L16:
+  53:./Src/main.c  ****         }
+  54:./Src/main.c  **** }...
+ 154              		.loc 1 54 1
+ 155 002c 00BF     		nop
+ 156 002e BD46     		mov	sp, r7
+ 157              	.LCFI4:
+ 158              		.cfi_def_cfa_register 13
+ 159              		@ sp needed
+ 160 0030 5DF8047B 		ldr	r7, [sp], #4
+ 161              	.LCFI5:
+ 162              		.cfi_restore 7
+ 163              		.cfi_def_cfa_offset 0
+ 164 0034 7047     		bx	lr
+ 165              	.L18:
+ 166 0036 00BF     		.align	2
+ 167              	.L17:
+ 168 0038 00480040 		.word	1073760256
+ 169 003c 00000000 		.word	ch
+ 170              		.cfi_endproc
+ 171              	.LFE1:
+ 173              		.text
+ 174              	.Letext0:
+ 175              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 176              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 177              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s 			page 5
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:19     .text.main:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:25     .text.main:00000000 main
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:57     .text.pc13_exti_init:00000000 pc13_exti_init
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:51     .text.pc13_exti_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:123    .text.pc13_exti_init:00000064 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:132    .rodata:00000000 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:136    .text.EXTI15_10_IRQHandler:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:142    .text.EXTI15_10_IRQHandler:00000000 EXTI15_10_IRQHandler
-C:\Users\DCS_LAB\AppData\Local\Temp\cc4OL1Jg.s:180    .text.EXTI15_10_IRQHandler:00000028 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:22     .bss.ch:00000000 ch
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:23     .bss.ch:00000000 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:25     .text.main:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:31     .text.main:00000000 main
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:61     .text.main:0000001c $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:65     .text.main:0000002c $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:99     .text.main:00000054 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:104    .text.USART3_IRQHandler:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:110    .text.USART3_IRQHandler:00000000 USART3_IRQHandler
+C:\Users\DCS_LAB\AppData\Local\Temp\ccshlg19.s:168    .text.USART3_IRQHandler:00000038 $d
 
 UNDEFINED SYMBOLS
-usart3_default_init
-gpio_set_mode
-printf
+led_init
+usart3_interrupt_default_init
+led_off
+led_on
