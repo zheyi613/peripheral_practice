@@ -33,6 +33,7 @@
 
 #define USART2_BASE             (APB1_BASE + 0x4400UL)          // USART 2
 #define USART3_BASE             (APB1_BASE + 0x4800UL)          // USART 3
+#define I2C2_BASE               (APB1_BASE + 0x5800UL)          // I2C 2
 
 #define APB2_BASE               (PERIPH_BASE + 0x00010000UL)    // Advanced High Performance Bus 2
 
@@ -56,6 +57,7 @@
 
 #define TIM1_CLK_EN             1U              // Enable timer 1 clock
 #define ADC1_CLK_EN             (1U << 8)       // Enable PA4 ADC clock at RCC APB2EN PIN8 
+#define I2C2_CLK_EN             (1U << 22)      // Enable I2C 2 clock
 
 #define SYSCFG_CLK_EN           (1U << 14)      // Enable system configuration controller clock
 
@@ -135,6 +137,13 @@ typedef struct {
         __IO uint32_t PR;               // Pending register                                     Address offset: 0x14            
 } EXTI_reg_t;
 
+typedef struct {
+        __IO uint32_t CR1;              // Control register 1                                   Address offset: 0x00
+        __IO uint32_t CR2;              // Control register 2                                   Address offset: 0x04
+        __IO uint32_t OAR1;             // Own address 1 register                               Address offset: 0x08
+        __IO uint32_t OAR2;             // Own address 2 register                               Address offset: 0x0C 
+} I2C_reg_t;
+
 typedef struct
 {
         __IOM uint32_t ISER[8U];        /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register */
@@ -170,6 +179,7 @@ typedef struct {
 #define TIM1            ((TIM_reg_t *)TIM1_BASE)
 #define SYSCFG          ((SYSCFG_reg_t *)SYSCFG_BASE)
 #define EXTI            ((EXTI_reg_t *)EXTI_BASE)
+#define I2C2            ((I2C_reg_t *)I2C2_BASE)
 
 #define NVIC            ((NVIC_reg_t *)NVIC_BASE)
 #define SYST            ((SYST_reg_t *)SYST_BASE)

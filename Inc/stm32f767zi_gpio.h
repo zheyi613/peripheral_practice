@@ -15,6 +15,13 @@
 #define GPIO_MODE_ALTFN         2U
 #define GPIO_MODE_ANALOG        3U
 
+#define GPIO_OTYPER_PUSH_PULL   0U
+#define GPIO_OTYPER_OPEN_DRAIN  1U
+
+#define GPIO_PUPDR_NO           0U
+#define GPIO_PUPDR_PULL_UP      1U
+#define GPIO_PUPDR_PULL_DOWN    2U
+
 void gpio_set_mode(GPIO_reg_t *GPIOx, uint32_t position, uint32_t mode);
 
 #endif
