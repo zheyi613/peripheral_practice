@@ -8,8 +8,8 @@
 #ifndef __STM32F767ZI_USART_H
 #define __STM32F767ZI_USART_H
 
-#include "stm32f767zi_hal.h"
 #include "stm32f767zi_gpio.h"
+#include "stm32f767zi_hal.h"
 
 // Control register 1
 #define USART_CR1_UE_POS        0

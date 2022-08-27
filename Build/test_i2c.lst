@@ -1,0 +1,487 @@
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"test_i2c.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	msg
+  19              		.section	.rodata.msg,"a"
+  20              		.align	2
+  23              	msg:
+  24 0000 48454C4C 		.ascii	"HELLO\000"
+  24      4F00
+  25              		.global	p_tx_buff
+  26              		.section	.data.p_tx_buff,"aw"
+  27              		.align	2
+  30              	p_tx_buff:
+  31 0000 00000000 		.word	msg
+  32              		.global	tx_size
+  33              		.section	.data.tx_size,"aw"
+  36              	tx_size:
+  37 0000 06       		.byte	6
+  38              		.global	tx_index
+  39              		.section	.bss.tx_index,"aw",%nobits
+  42              	tx_index:
+  43 0000 00       		.space	1
+  44              		.global	rx_buff
+  45              		.section	.bss.rx_buff,"aw",%nobits
+  46              		.align	2
+  49              	rx_buff:
+  50 0000 00000000 		.space	6
+  50      0000
+  51              		.global	rx_size
+  52              		.section	.data.rx_size,"aw"
+  55              	rx_size:
+  56 0000 06       		.byte	6
+  57              		.global	rx_index
+  58              		.section	.bss.rx_index,"aw",%nobits
+  61              	rx_index:
+  62 0000 00       		.space	1
+  63              		.section	.text.main,"ax",%progbits
+  64              		.align	1
+  65              		.global	main
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  70              	main:
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 2
+
+
+  71              	.LFB3:
+  72              		.file 1 "./test/test_i2c.c"
+   1:./test/test_i2c.c **** /**
+   2:./test/test_i2c.c ****  * @file test_i2c.c
+   3:./test/test_i2c.c ****  * @author zheyi613 (zheyi880613@gmail.com)
+   4:./test/test_i2c.c ****  * @brief test i2c interface by self
+   5:./test/test_i2c.c ****  * @date 2022-08-23
+   6:./test/test_i2c.c ****  */
+   7:./test/test_i2c.c **** 
+   8:./test/test_i2c.c **** #include "stm32f767zi_hal.h"
+   9:./test/test_i2c.c **** #include "stm32f767zi_gpio.h"
+  10:./test/test_i2c.c **** #include "stm32f767zi_i2c.h"
+  11:./test/test_i2c.c **** #include "stm32f767zi_usart.h"
+  12:./test/test_i2c.c **** #include <stdio.h>
+  13:./test/test_i2c.c **** 
+  14:./test/test_i2c.c **** /*
+  15:./test/test_i2c.c ****  * Connect I2C2_SCL (PB10) to I2C1_SCL (PB6).
+  16:./test/test_i2c.c ****  * Connect I2C2_SDA (PB11) to I2C1_SDA (PB9).
+  17:./test/test_i2c.c ****  */
+  18:./test/test_i2c.c **** 
+  19:./test/test_i2c.c **** // Buffer used for transmission
+  20:./test/test_i2c.c **** const uint8_t msg[] = "HELLO";
+  21:./test/test_i2c.c **** uint8_t *p_tx_buff = (uint8_t*)msg;
+  22:./test/test_i2c.c **** uint8_t tx_size = sizeof(msg);
+  23:./test/test_i2c.c **** volatile uint8_t tx_index = 0;
+  24:./test/test_i2c.c **** 
+  25:./test/test_i2c.c **** // Buffer used for reception
+  26:./test/test_i2c.c **** uint8_t rx_buff[sizeof(msg)];
+  27:./test/test_i2c.c **** uint8_t rx_size = sizeof(msg);
+  28:./test/test_i2c.c **** volatile uint8_t rx_index = 0;
+  29:./test/test_i2c.c **** 
+  30:./test/test_i2c.c **** static void handle_i2c_master(void);
+  31:./test/test_i2c.c **** 
+  32:./test/test_i2c.c **** int main(void) {
+  73              		.loc 1 32 16
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 1, uses_anonymous_args = 0
+  77 0000 80B5     		push	{r7, lr}
+  78              	.LCFI0:
+  79              		.cfi_def_cfa_offset 8
+  80              		.cfi_offset 7, -8
+  81              		.cfi_offset 14, -4
+  82 0002 00AF     		add	r7, sp, #0
+  83              	.LCFI1:
+  84              		.cfi_def_cfa_register 7
+  33:./test/test_i2c.c ****         usart3_default_init();
+  85              		.loc 1 33 9
+  86 0004 FFF7FEFF 		bl	usart3_default_init
+  34:./test/test_i2c.c ****         i2c1_master_default_init();
+  87              		.loc 1 34 9
+  88 0008 FFF7FEFF 		bl	i2c1_master_default_init
+  35:./test/test_i2c.c ****         i2c2_slave_default_init();
+  89              		.loc 1 35 9
+  90 000c FFF7FEFF 		bl	i2c2_slave_default_init
+  36:./test/test_i2c.c ****         handle_i2c_master();
+  91              		.loc 1 36 9
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 3
+
+
+  92 0010 FFF7FEFF 		bl	handle_i2c_master
+  93              	.L2:
+  37:./test/test_i2c.c **** 
+  38:./test/test_i2c.c ****         while (1) {
+  94              		.loc 1 38 15 discriminator 1
+  95 0014 FEE7     		b	.L2
+  96              		.cfi_endproc
+  97              	.LFE3:
+  99              		.section	.text.handle_i2c_master,"ax",%progbits
+ 100              		.align	1
+ 101              		.syntax unified
+ 102              		.thumb
+ 103              		.thumb_func
+ 105              	handle_i2c_master:
+ 106              	.LFB4:
+  39:./test/test_i2c.c **** 
+  40:./test/test_i2c.c ****         }
+  41:./test/test_i2c.c **** 
+  42:./test/test_i2c.c ****         return 0;
+  43:./test/test_i2c.c **** }
+  44:./test/test_i2c.c **** 
+  45:./test/test_i2c.c **** static void handle_i2c_master(void)
+  46:./test/test_i2c.c **** {
+ 107              		.loc 1 46 1
+ 108              		.cfi_startproc
+ 109              		@ args = 0, pretend = 0, frame = 0
+ 110              		@ frame_needed = 1, uses_anonymous_args = 0
+ 111              		@ link register save eliminated.
+ 112 0000 80B4     		push	{r7}
+ 113              	.LCFI2:
+ 114              		.cfi_def_cfa_offset 4
+ 115              		.cfi_offset 7, -4
+ 116 0002 00AF     		add	r7, sp, #0
+ 117              	.LCFI3:
+ 118              		.cfi_def_cfa_register 7
+  47:./test/test_i2c.c ****         // Set slave address
+  48:./test/test_i2c.c ****         I2C1->CR2 |= I2C_SLAVE_OWN_ADDRESS << 1;
+ 119              		.loc 1 48 19
+ 120 0004 244B     		ldr	r3, .L6
+ 121 0006 5B68     		ldr	r3, [r3, #4]
+ 122 0008 234A     		ldr	r2, .L6
+ 123 000a 43F05A03 		orr	r3, r3, #90
+ 124 000e 5360     		str	r3, [r2, #4]
+  49:./test/test_i2c.c ****         // 7-bits address mode
+  50:./test/test_i2c.c ****         I2C1->CR2 &= ~I2C_CR2_ADD10;
+ 125              		.loc 1 50 19
+ 126 0010 214B     		ldr	r3, .L6
+ 127 0012 5B68     		ldr	r3, [r3, #4]
+ 128 0014 204A     		ldr	r2, .L6
+ 129 0016 23F40063 		bic	r3, r3, #2048
+ 130 001a 5360     		str	r3, [r2, #4]
+  51:./test/test_i2c.c ****         // Set transfer size
+  52:./test/test_i2c.c ****         I2C1->CR2 |= (tx_size << I2C_CR2_NBYTES_POS);
+ 131              		.loc 1 52 19
+ 132 001c 1E4B     		ldr	r3, .L6
+ 133 001e 5B68     		ldr	r3, [r3, #4]
+ 134              		.loc 1 52 31
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 4
+
+
+ 135 0020 1E4A     		ldr	r2, .L6+4
+ 136 0022 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 137 0024 1204     		lsls	r2, r2, #16
+ 138 0026 1146     		mov	r1, r2
+ 139              		.loc 1 52 19
+ 140 0028 1B4A     		ldr	r2, .L6
+ 141 002a 0B43     		orrs	r3, r3, r1
+ 142 002c 5360     		str	r3, [r2, #4]
+  53:./test/test_i2c.c ****         // Set automatic end mode
+  54:./test/test_i2c.c ****         I2C1->CR2 |= I2C_CR2_AUTOEND;
+ 143              		.loc 1 54 19
+ 144 002e 1A4B     		ldr	r3, .L6
+ 145 0030 5B68     		ldr	r3, [r3, #4]
+ 146 0032 194A     		ldr	r2, .L6
+ 147 0034 43F00073 		orr	r3, r3, #33554432
+ 148 0038 5360     		str	r3, [r2, #4]
+  55:./test/test_i2c.c ****         I2C1->TXDR = (*p_tx_buff++);
+ 149              		.loc 1 55 33
+ 150 003a 194B     		ldr	r3, .L6+8
+ 151 003c 1B68     		ldr	r3, [r3]
+ 152 003e 5A1C     		adds	r2, r3, #1
+ 153 0040 1749     		ldr	r1, .L6+8
+ 154 0042 0A60     		str	r2, [r1]
+ 155              		.loc 1 55 23
+ 156 0044 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 157              		.loc 1 55 13
+ 158 0046 144B     		ldr	r3, .L6
+ 159              		.loc 1 55 20
+ 160 0048 9A62     		str	r2, [r3, #40]
+  56:./test/test_i2c.c ****         // Generate start condition
+  57:./test/test_i2c.c ****         I2C1->CR2 |= I2C_CR2_START;
+ 161              		.loc 1 57 19
+ 162 004a 134B     		ldr	r3, .L6
+ 163 004c 5B68     		ldr	r3, [r3, #4]
+ 164 004e 124A     		ldr	r2, .L6
+ 165 0050 43F40053 		orr	r3, r3, #8192
+ 166 0054 5360     		str	r3, [r2, #4]
+  58:./test/test_i2c.c ****         // Loop until STOP flag is raised
+  59:./test/test_i2c.c ****         while (!(I2C1->ISR & I2C_ISR_STOPF)) {
+ 167              		.loc 1 59 15
+ 168 0056 0DE0     		b	.L4
+ 169              	.L5:
+  60:./test/test_i2c.c ****                 // check TXIS flag value in ISR register
+  61:./test/test_i2c.c ****                 if (I2C1->ISR & I2C_ISR_TXIS) {
+ 170              		.loc 1 61 25
+ 171 0058 0F4B     		ldr	r3, .L6
+ 172 005a 9B69     		ldr	r3, [r3, #24]
+ 173              		.loc 1 61 31
+ 174 005c 03F00203 		and	r3, r3, #2
+ 175              		.loc 1 61 20
+ 176 0060 002B     		cmp	r3, #0
+ 177 0062 07D0     		beq	.L4
+  62:./test/test_i2c.c ****                         // Write data in transmmit data register.
+  63:./test/test_i2c.c ****                         // TXIS flag is cleared by writing data in TXDR register
+  64:./test/test_i2c.c ****                         I2C1->TXDR = (*p_tx_buff++);
+ 178              		.loc 1 64 49
+ 179 0064 0E4B     		ldr	r3, .L6+8
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 5
+
+
+ 180 0066 1B68     		ldr	r3, [r3]
+ 181 0068 5A1C     		adds	r2, r3, #1
+ 182 006a 0D49     		ldr	r1, .L6+8
+ 183 006c 0A60     		str	r2, [r1]
+ 184              		.loc 1 64 39
+ 185 006e 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 186              		.loc 1 64 29
+ 187 0070 094B     		ldr	r3, .L6
+ 188              		.loc 1 64 36
+ 189 0072 9A62     		str	r2, [r3, #40]
+ 190              	.L4:
+  59:./test/test_i2c.c ****                 // check TXIS flag value in ISR register
+ 191              		.loc 1 59 22
+ 192 0074 084B     		ldr	r3, .L6
+ 193 0076 9B69     		ldr	r3, [r3, #24]
+  59:./test/test_i2c.c ****                 // check TXIS flag value in ISR register
+ 194              		.loc 1 59 28
+ 195 0078 03F02003 		and	r3, r3, #32
+  59:./test/test_i2c.c ****                 // check TXIS flag value in ISR register
+ 196              		.loc 1 59 15
+ 197 007c 002B     		cmp	r3, #0
+ 198 007e EBD0     		beq	.L5
+  65:./test/test_i2c.c ****                 }
+  66:./test/test_i2c.c ****         }
+  67:./test/test_i2c.c ****         // Clear stop flag
+  68:./test/test_i2c.c ****         I2C1->ICR |= I2C_ICR_STOPCF;
+ 199              		.loc 1 68 19
+ 200 0080 054B     		ldr	r3, .L6
+ 201 0082 DB69     		ldr	r3, [r3, #28]
+ 202 0084 044A     		ldr	r2, .L6
+ 203 0086 43F02003 		orr	r3, r3, #32
+ 204 008a D361     		str	r3, [r2, #28]
+  69:./test/test_i2c.c **** }
+ 205              		.loc 1 69 1
+ 206 008c 00BF     		nop
+ 207 008e BD46     		mov	sp, r7
+ 208              	.LCFI4:
+ 209              		.cfi_def_cfa_register 13
+ 210              		@ sp needed
+ 211 0090 5DF8047B 		ldr	r7, [sp], #4
+ 212              	.LCFI5:
+ 213              		.cfi_restore 7
+ 214              		.cfi_def_cfa_offset 0
+ 215 0094 7047     		bx	lr
+ 216              	.L7:
+ 217 0096 00BF     		.align	2
+ 218              	.L6:
+ 219 0098 00540040 		.word	1073763328
+ 220 009c 00000000 		.word	tx_size
+ 221 00a0 00000000 		.word	p_tx_buff
+ 222              		.cfi_endproc
+ 223              	.LFE4:
+ 225              		.section	.rodata
+ 226              		.align	2
+ 227              	.LC0:
+ 228 0000 5472616E 		.ascii	"Transmission complete...\012\015\000"
+ 228      736D6973 
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 6
+
+
+ 228      73696F6E 
+ 228      20636F6D 
+ 228      706C6574 
+ 229              		.section	.text.I2C2_EV_IRQHandler,"ax",%progbits
+ 230              		.align	1
+ 231              		.global	I2C2_EV_IRQHandler
+ 232              		.syntax unified
+ 233              		.thumb
+ 234              		.thumb_func
+ 236              	I2C2_EV_IRQHandler:
+ 237              	.LFB5:
+  70:./test/test_i2c.c **** 
+  71:./test/test_i2c.c **** void I2C2_EV_IRQHandler(void)
+  72:./test/test_i2c.c **** {
+ 238              		.loc 1 72 1
+ 239              		.cfi_startproc
+ 240              		@ args = 0, pretend = 0, frame = 0
+ 241              		@ frame_needed = 1, uses_anonymous_args = 0
+ 242 0000 80B5     		push	{r7, lr}
+ 243              	.LCFI6:
+ 244              		.cfi_def_cfa_offset 8
+ 245              		.cfi_offset 7, -8
+ 246              		.cfi_offset 14, -4
+ 247 0002 00AF     		add	r7, sp, #0
+ 248              	.LCFI7:
+ 249              		.cfi_def_cfa_register 7
+  73:./test/test_i2c.c ****         // Check ADDR flag value in ISR register
+  74:./test/test_i2c.c ****         if (I2C2->ISR & I2C_ISR_ADDR) {
+ 250              		.loc 1 74 17
+ 251 0004 1E4B     		ldr	r3, .L13
+ 252 0006 9B69     		ldr	r3, [r3, #24]
+ 253              		.loc 1 74 23
+ 254 0008 03F00803 		and	r3, r3, #8
+ 255              		.loc 1 74 12
+ 256 000c 002B     		cmp	r3, #0
+ 257 000e 12D0     		beq	.L9
+  75:./test/test_i2c.c ****                 // Verify the address match with the own slave address
+  76:./test/test_i2c.c ****                 if (i2c_get_address_matchcode(I2C2) == I2C_SLAVE_OWN_ADDRESS) {
+ 258              		.loc 1 76 21
+ 259 0010 1B48     		ldr	r0, .L13
+ 260 0012 FFF7FEFF 		bl	i2c_get_address_matchcode
+ 261 0016 0346     		mov	r3, r0
+ 262              		.loc 1 76 20
+ 263 0018 2D2B     		cmp	r3, #45
+ 264 001a 2FD1     		bne	.L12
+  77:./test/test_i2c.c ****                         // Clear ADDR flag value in ISR register
+  78:./test/test_i2c.c ****                         I2C2->ICR |= I2C_ICR_ADDRCF;
+ 265              		.loc 1 78 35
+ 266 001c 184B     		ldr	r3, .L13
+ 267 001e DB69     		ldr	r3, [r3, #28]
+ 268 0020 174A     		ldr	r2, .L13
+ 269 0022 43F00803 		orr	r3, r3, #8
+ 270 0026 D361     		str	r3, [r2, #28]
+  79:./test/test_i2c.c ****                         // Enable receive interrupt
+  80:./test/test_i2c.c ****                         I2C2->CR1 |= I2C_CR1_RXIE;
+ 271              		.loc 1 80 35
+ 272 0028 154B     		ldr	r3, .L13
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 7
+
+
+ 273 002a 1B68     		ldr	r3, [r3]
+ 274 002c 144A     		ldr	r2, .L13
+ 275 002e 43F00403 		orr	r3, r3, #4
+ 276 0032 1360     		str	r3, [r2]
+  81:./test/test_i2c.c ****                 }
+  82:./test/test_i2c.c ****         } else if (I2C2->ISR & I2C_ISR_RXNE) {
+  83:./test/test_i2c.c ****                 rx_buff[rx_index++] = (I2C2->RXDR & 0xFF);
+  84:./test/test_i2c.c ****         } else if (I2C2->ISR & I2C_ISR_STOPF) {
+  85:./test/test_i2c.c ****                 I2C2->ICR |= I2C_ICR_STOPCF;
+  86:./test/test_i2c.c ****                 printf("Transmission complete...\n\r");
+  87:./test/test_i2c.c ****         }
+  88:./test/test_i2c.c **** }...
+ 277              		.loc 1 88 1
+ 278 0034 22E0     		b	.L12
+ 279              	.L9:
+  82:./test/test_i2c.c ****         } else if (I2C2->ISR & I2C_ISR_RXNE) {
+ 280              		.loc 1 82 24
+ 281 0036 124B     		ldr	r3, .L13
+ 282 0038 9B69     		ldr	r3, [r3, #24]
+  82:./test/test_i2c.c ****         } else if (I2C2->ISR & I2C_ISR_RXNE) {
+ 283              		.loc 1 82 30
+ 284 003a 03F00403 		and	r3, r3, #4
+  82:./test/test_i2c.c ****         } else if (I2C2->ISR & I2C_ISR_RXNE) {
+ 285              		.loc 1 82 19
+ 286 003e 002B     		cmp	r3, #0
+ 287 0040 0DD0     		beq	.L11
+  83:./test/test_i2c.c ****                 rx_buff[rx_index++] = (I2C2->RXDR & 0xFF);
+ 288              		.loc 1 83 44
+ 289 0042 0F4B     		ldr	r3, .L13
+ 290 0044 596A     		ldr	r1, [r3, #36]
+  83:./test/test_i2c.c ****                 rx_buff[rx_index++] = (I2C2->RXDR & 0xFF);
+ 291              		.loc 1 83 33
+ 292 0046 0F4B     		ldr	r3, .L13+4
+ 293 0048 1B78     		ldrb	r3, [r3]
+ 294 004a DBB2     		uxtb	r3, r3
+ 295 004c 5A1C     		adds	r2, r3, #1
+ 296 004e D0B2     		uxtb	r0, r2
+ 297 0050 0C4A     		ldr	r2, .L13+4
+ 298 0052 1070     		strb	r0, [r2]
+ 299 0054 1A46     		mov	r2, r3
+  83:./test/test_i2c.c ****                 rx_buff[rx_index++] = (I2C2->RXDR & 0xFF);
+ 300              		.loc 1 83 37
+ 301 0056 C9B2     		uxtb	r1, r1
+ 302 0058 0B4B     		ldr	r3, .L13+8
+ 303 005a 9954     		strb	r1, [r3, r2]
+ 304              		.loc 1 88 1
+ 305 005c 0EE0     		b	.L12
+ 306              	.L11:
+  84:./test/test_i2c.c ****         } else if (I2C2->ISR & I2C_ISR_STOPF) {
+ 307              		.loc 1 84 24
+ 308 005e 084B     		ldr	r3, .L13
+ 309 0060 9B69     		ldr	r3, [r3, #24]
+  84:./test/test_i2c.c ****         } else if (I2C2->ISR & I2C_ISR_STOPF) {
+ 310              		.loc 1 84 30
+ 311 0062 03F02003 		and	r3, r3, #32
+  84:./test/test_i2c.c ****         } else if (I2C2->ISR & I2C_ISR_STOPF) {
+ 312              		.loc 1 84 19
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 8
+
+
+ 313 0066 002B     		cmp	r3, #0
+ 314 0068 08D0     		beq	.L12
+  85:./test/test_i2c.c ****                 I2C2->ICR |= I2C_ICR_STOPCF;
+ 315              		.loc 1 85 27
+ 316 006a 054B     		ldr	r3, .L13
+ 317 006c DB69     		ldr	r3, [r3, #28]
+ 318 006e 044A     		ldr	r2, .L13
+ 319 0070 43F02003 		orr	r3, r3, #32
+ 320 0074 D361     		str	r3, [r2, #28]
+  86:./test/test_i2c.c ****                 printf("Transmission complete...\n\r");
+ 321              		.loc 1 86 17
+ 322 0076 0548     		ldr	r0, .L13+12
+ 323 0078 FFF7FEFF 		bl	printf
+ 324              	.L12:
+ 325              		.loc 1 88 1
+ 326 007c 00BF     		nop
+ 327 007e 80BD     		pop	{r7, pc}
+ 328              	.L14:
+ 329              		.align	2
+ 330              	.L13:
+ 331 0080 00580040 		.word	1073764352
+ 332 0084 00000000 		.word	rx_index
+ 333 0088 00000000 		.word	rx_buff
+ 334 008c 00000000 		.word	.LC0
+ 335              		.cfi_endproc
+ 336              	.LFE5:
+ 338              		.text
+ 339              	.Letext0:
+ 340              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 341              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 342              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 test_i2c.c
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:23     .rodata.msg:00000000 msg
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:20     .rodata.msg:00000000 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:30     .data.p_tx_buff:00000000 p_tx_buff
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:27     .data.p_tx_buff:00000000 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:36     .data.tx_size:00000000 tx_size
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:42     .bss.tx_index:00000000 tx_index
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:43     .bss.tx_index:00000000 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:49     .bss.rx_buff:00000000 rx_buff
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:46     .bss.rx_buff:00000000 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:55     .data.rx_size:00000000 rx_size
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:61     .bss.rx_index:00000000 rx_index
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:62     .bss.rx_index:00000000 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:64     .text.main:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:70     .text.main:00000000 main
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:105    .text.handle_i2c_master:00000000 handle_i2c_master
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:100    .text.handle_i2c_master:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:219    .text.handle_i2c_master:00000098 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:226    .rodata:00000000 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:230    .text.I2C2_EV_IRQHandler:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:236    .text.I2C2_EV_IRQHandler:00000000 I2C2_EV_IRQHandler
+C:\Users\DCS_LAB\AppData\Local\Temp\ccJUpCJf.s:331    .text.I2C2_EV_IRQHandler:00000080 $d
+
+UNDEFINED SYMBOLS
+usart3_default_init
+i2c1_master_default_init
+i2c2_slave_default_init
+i2c_get_address_matchcode
+printf

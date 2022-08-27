@@ -1,0 +1,225 @@
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"mpu6050.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.mpu6050_init,"ax",%progbits
+  18              		.align	1
+  19              		.global	mpu6050_init
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	mpu6050_init:
+  25              	.LFB0:
+  26              		.file 1 "./Src/mpu6050.c"
+   1:./Src/mpu6050.c **** /**
+   2:./Src/mpu6050.c ****  * @file mpu6050.c
+   3:./Src/mpu6050.c ****  * @author zheyi613 (zheyi880613@gmail.com)
+   4:./Src/mpu6050.c ****  * @brief MPU6050 library for stm32f767zi
+   5:./Src/mpu6050.c ****  * @date 2022-08-24
+   6:./Src/mpu6050.c ****  */
+   7:./Src/mpu6050.c **** 
+   8:./Src/mpu6050.c **** #include "mpu6050.h"
+   9:./Src/mpu6050.c **** 
+  10:./Src/mpu6050.c **** void mpu6050_init(void)
+  11:./Src/mpu6050.c **** {
+  27              		.loc 1 11 1
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31 0000 80B5     		push	{r7, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 84B0     		sub	sp, sp, #16
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 24
+  39 0004 02AF     		add	r7, sp, #8
+  40              	.LCFI2:
+  41              		.cfi_def_cfa 7, 16
+  12:./Src/mpu6050.c **** 	// P2 setting
+  13:./Src/mpu6050.c **** 	RCC->AHB1ENR |= GPIOG_CLK_EN;
+  42              		.loc 1 13 15
+  43 0006 114B     		ldr	r3, .L2
+  44 0008 1B6B     		ldr	r3, [r3, #48]
+  45 000a 104A     		ldr	r2, .L2
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s 			page 2
+
+
+  46 000c 43F04003 		orr	r3, r3, #64
+  47 0010 1363     		str	r3, [r2, #48]
+  14:./Src/mpu6050.c **** 	GPIOG->MODER |= GPIO_MODE_OUTPUT << 4;
+  48              		.loc 1 14 15
+  49 0012 0F4B     		ldr	r3, .L2+4
+  50 0014 1B68     		ldr	r3, [r3]
+  51 0016 0E4A     		ldr	r2, .L2+4
+  52 0018 43F01003 		orr	r3, r3, #16
+  53 001c 1360     		str	r3, [r2]
+  15:./Src/mpu6050.c **** 	GPIOG->BSRR |= (1U << 2);
+  54              		.loc 1 15 14
+  55 001e 0C4B     		ldr	r3, .L2+4
+  56 0020 9B69     		ldr	r3, [r3, #24]
+  57 0022 0B4A     		ldr	r2, .L2+4
+  58 0024 43F00403 		orr	r3, r3, #4
+  59 0028 9361     		str	r3, [r2, #24]
+  16:./Src/mpu6050.c **** 	systick_delay_ms(100);
+  60              		.loc 1 16 2
+  61 002a 6420     		movs	r0, #100
+  62 002c FFF7FEFF 		bl	systick_delay_ms
+  17:./Src/mpu6050.c **** 	// Wake up
+  18:./Src/mpu6050.c **** 	uint8_t tmp = 0;
+  63              		.loc 1 18 10
+  64 0030 0023     		movs	r3, #0
+  65 0032 FB71     		strb	r3, [r7, #7]
+  19:./Src/mpu6050.c **** 	i2c_transmit(I2C1, MPU6050_ADDRESS, MPU6050_PWR_MGMT_1, 1, &tmp);
+  66              		.loc 1 19 2
+  67 0034 FB1D     		adds	r3, r7, #7
+  68 0036 0093     		str	r3, [sp]
+  69 0038 0123     		movs	r3, #1
+  70 003a 6B22     		movs	r2, #107
+  71 003c 6821     		movs	r1, #104
+  72 003e 0548     		ldr	r0, .L2+8
+  73 0040 FFF7FEFF 		bl	i2c_transmit
+  20:./Src/mpu6050.c **** }
+  74              		.loc 1 20 1
+  75 0044 00BF     		nop
+  76 0046 0837     		adds	r7, r7, #8
+  77              	.LCFI3:
+  78              		.cfi_def_cfa_offset 8
+  79 0048 BD46     		mov	sp, r7
+  80              	.LCFI4:
+  81              		.cfi_def_cfa_register 13
+  82              		@ sp needed
+  83 004a 80BD     		pop	{r7, pc}
+  84              	.L3:
+  85              		.align	2
+  86              	.L2:
+  87 004c 00380240 		.word	1073887232
+  88 0050 00180240 		.word	1073879040
+  89 0054 00540040 		.word	1073763328
+  90              		.cfi_endproc
+  91              	.LFE0:
+  93              		.global	__aeabi_i2f
+  94              		.global	__aeabi_fdiv
+  95              		.global	__aeabi_fadd
+  96              		.section	.text.mpu6050_get_temperature,"ax",%progbits
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s 			page 3
+
+
+  97              		.align	1
+  98              		.global	mpu6050_get_temperature
+  99              		.syntax unified
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	mpu6050_get_temperature:
+ 104              	.LFB1:
+  21:./Src/mpu6050.c **** /*
+  22:./Src/mpu6050.c ****  * Temperature in degree C = (TEMP_OUT register value as a signed quantity) / 340 + 36.53
+  23:./Src/mpu6050.c ****  */
+  24:./Src/mpu6050.c **** float mpu6050_get_temperature(void)
+  25:./Src/mpu6050.c **** {
+ 105              		.loc 1 25 1
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 8
+ 108              		@ frame_needed = 1, uses_anonymous_args = 0
+ 109 0000 80B5     		push	{r7, lr}
+ 110              	.LCFI5:
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 7, -8
+ 113              		.cfi_offset 14, -4
+ 114 0002 84B0     		sub	sp, sp, #16
+ 115              	.LCFI6:
+ 116              		.cfi_def_cfa_offset 24
+ 117 0004 02AF     		add	r7, sp, #8
+ 118              	.LCFI7:
+ 119              		.cfi_def_cfa 7, 16
+  26:./Src/mpu6050.c **** 	int16_t tmp = 0;
+ 120              		.loc 1 26 10
+ 121 0006 0023     		movs	r3, #0
+ 122 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+  27:./Src/mpu6050.c **** 	i2c_receive(I2C1, MPU6050_ADDRESS, MPU6050_TEMP_OUT, 2, (uint8_t *)&tmp);
+ 123              		.loc 1 27 2
+ 124 000a BB1D     		adds	r3, r7, #6
+ 125 000c 0093     		str	r3, [sp]
+ 126 000e 0223     		movs	r3, #2
+ 127 0010 4222     		movs	r2, #66
+ 128 0012 6821     		movs	r1, #104
+ 129 0014 0B48     		ldr	r0, .L6
+ 130 0016 FFF7FEFF 		bl	i2c_receive
+  28:./Src/mpu6050.c ****         return (float)tmp / 340.0F + 36.53F;
+ 131              		.loc 1 28 16
+ 132 001a B7F90630 		ldrsh	r3, [r7, #6]
+ 133 001e 1846     		mov	r0, r3
+ 134 0020 FFF7FEFF 		bl	__aeabi_i2f
+ 135 0024 0346     		mov	r3, r0
+ 136              		.loc 1 28 27
+ 137 0026 0849     		ldr	r1, .L6+4
+ 138 0028 1846     		mov	r0, r3
+ 139 002a FFF7FEFF 		bl	__aeabi_fdiv
+ 140 002e 0346     		mov	r3, r0
+ 141              		.loc 1 28 36
+ 142 0030 0649     		ldr	r1, .L6+8
+ 143 0032 1846     		mov	r0, r3
+ 144 0034 FFF7FEFF 		bl	__aeabi_fadd
+ 145 0038 0346     		mov	r3, r0
+  29:./Src/mpu6050.c **** }
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s 			page 4
+
+
+ 146              		.loc 1 29 1
+ 147 003a 1846     		mov	r0, r3
+ 148 003c 0837     		adds	r7, r7, #8
+ 149              	.LCFI8:
+ 150              		.cfi_def_cfa_offset 8
+ 151 003e BD46     		mov	sp, r7
+ 152              	.LCFI9:
+ 153              		.cfi_def_cfa_register 13
+ 154              		@ sp needed
+ 155 0040 80BD     		pop	{r7, pc}
+ 156              	.L7:
+ 157 0042 00BF     		.align	2
+ 158              	.L6:
+ 159 0044 00540040 		.word	1073763328
+ 160 0048 0000AA43 		.word	1135214592
+ 161 004c B81E1242 		.word	1108483768
+ 162              		.cfi_endproc
+ 163              	.LFE1:
+ 165              		.text
+ 166              	.Letext0:
+ 167              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 168              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 169              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 mpu6050.c
+C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s:18     .text.mpu6050_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s:24     .text.mpu6050_init:00000000 mpu6050_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s:87     .text.mpu6050_init:0000004c $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s:97     .text.mpu6050_get_temperature:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s:103    .text.mpu6050_get_temperature:00000000 mpu6050_get_temperature
+C:\Users\DCS_LAB\AppData\Local\Temp\ccG7M8h3.s:159    .text.mpu6050_get_temperature:00000044 $d
+
+UNDEFINED SYMBOLS
+systick_delay_ms
+i2c_transmit
+__aeabi_i2f
+__aeabi_fdiv
+__aeabi_fadd
+i2c_receive

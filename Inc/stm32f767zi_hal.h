@@ -26,13 +26,17 @@
 #define GPIOB_BASE              (AHB1_BASE + 0x0400UL)          // Gereral Purpose Input/Output B
 #define GPIOC_BASE              (AHB1_BASE + 0x0800UL)          // Gereral Purpose Input/Output C
 #define GPIOD_BASE              (AHB1_BASE + 0x0C00UL)          // Gereral Purpose Input/Output D
-       
+#define GPIOE_BASE              (AHB1_BASE + 0x1000UL)          // Gereral Purpose Input/Output E
+#define GPIOF_BASE              (AHB1_BASE + 0x1400UL)          // Gereral Purpose Input/Output F
+#define GPIOG_BASE              (AHB1_BASE + 0x1800UL)          // Gereral Purpose Input/Output G
+
 #define RCC_BASE                (AHB1_BASE + 0x3800UL)          // Reset Clock Control
 
 #define APB1_BASE               PERIPH_BASE
 
 #define USART2_BASE             (APB1_BASE + 0x4400UL)          // USART 2
 #define USART3_BASE             (APB1_BASE + 0x4800UL)          // USART 3
+#define I2C1_BASE               (APB1_BASE + 0x5400UL)          // I2C 1
 #define I2C2_BASE               (APB1_BASE + 0x5800UL)          // I2C 2
 
 #define APB2_BASE               (PERIPH_BASE + 0x00010000UL)    // Advanced High Performance Bus 2
@@ -51,12 +55,16 @@
 #define GPIOB_CLK_EN            (1U << 1)       // Enable GPIOB clock at RCC AHB1EN PIN1
 #define GPIOC_CLK_EN            (1U << 2)       // Enable GPIOC clock at RCC AHB1EN PIN2
 #define GPIOD_CLK_EN            (1U << 3)       // Enable GPIOD clock at RCC AHB1EN PIN3
+#define GPIOE_CLK_EN            (1U << 4)       // Enable GPIOE clock at RCC AHB1EN PIN4
+#define GPIOF_CLK_EN            (1U << 5)       // Enable GPIOF clock at RCC AHB1EN PIN5
+#define GPIOG_CLK_EN            (1U << 6)       // Enable GPIOG clock at RCC AHB1EN PIN6
 
 #define USART2_CLK_EN           (1U << 17)      // Enable USART3 clock at RCC APB1EN PIN17
 #define USART3_CLK_EN           (1U << 18)      // Enable USART3 clock at RCC APB1EN PIN18
 
 #define TIM1_CLK_EN             1U              // Enable timer 1 clock
-#define ADC1_CLK_EN             (1U << 8)       // Enable PA4 ADC clock at RCC APB2EN PIN8 
+#define ADC1_CLK_EN             (1U << 8)       // Enable PA4 ADC clock at RCC APB2EN PIN8
+#define I2C1_CLK_EN             (1U << 21)      // Enable I2C 1 clock
 #define I2C2_CLK_EN             (1U << 22)      // Enable I2C 2 clock
 
 #define SYSCFG_CLK_EN           (1U << 14)      // Enable system configuration controller clock
@@ -141,7 +149,14 @@ typedef struct {
         __IO uint32_t CR1;              // Control register 1                                   Address offset: 0x00
         __IO uint32_t CR2;              // Control register 2                                   Address offset: 0x04
         __IO uint32_t OAR1;             // Own address 1 register                               Address offset: 0x08
-        __IO uint32_t OAR2;             // Own address 2 register                               Address offset: 0x0C 
+        __IO uint32_t OAR2;             // Own address 2 register                               Address offset: 0x0C
+        __IO uint32_t TIMINGR;          // Timing register                                      Address offset: 0x10
+        __IO uint32_t TIMEOUTR;         // Timeout register                                     Address offset: 0x14
+        __IO uint32_t ISR;              // Interrupt and status register                        Address offset: 0x18
+        __IO uint32_t ICR;              // Interrupt clear register                             Address offset: 0x1C
+        __IO uint32_t PECR;             // Packet error checking register                       Address offset: 0x20
+        __IO uint32_t RXDR;             // Receive data register                                Address offset: 0x24
+        __IO uint32_t TXDR;             // Transmit data register                               Address offset: 0x28
 } I2C_reg_t;
 
 typedef struct
@@ -172,6 +187,9 @@ typedef struct {
 #define GPIOB           ((GPIO_reg_t *)GPIOB_BASE)
 #define GPIOC           ((GPIO_reg_t *)GPIOC_BASE)
 #define GPIOD           ((GPIO_reg_t *)GPIOD_BASE)
+#define GPIOE           ((GPIO_reg_t *)GPIOE_BASE)
+#define GPIOF           ((GPIO_reg_t *)GPIOF_BASE)
+#define GPIOG           ((GPIO_reg_t *)GPIOG_BASE)
 #define RCC             ((RCC_reg_t *)RCC_BASE)
 #define USART2          ((USART_reg_t *)USART2_BASE)
 #define USART3          ((USART_reg_t *)USART3_BASE)
@@ -179,6 +197,7 @@ typedef struct {
 #define TIM1            ((TIM_reg_t *)TIM1_BASE)
 #define SYSCFG          ((SYSCFG_reg_t *)SYSCFG_BASE)
 #define EXTI            ((EXTI_reg_t *)EXTI_BASE)
+#define I2C1            ((I2C_reg_t *)I2C1_BASE)
 #define I2C2            ((I2C_reg_t *)I2C2_BASE)
 
 #define NVIC            ((NVIC_reg_t *)NVIC_BASE)

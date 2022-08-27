@@ -6,23 +6,23 @@
  */
 
 #include "stm32f767zi_hal.h"
-#include "stm32f767zi_usart.h"
 #include "stm32f767zi_systick.h"
+#include "stm32f767zi_usart.h"
 #include <stdio.h>
 
-int main(void) {
-        usart3_default_init();
-        systick_1hz_interrupt();
+int main(void)
+{
+	usart3_default_init();
+	systick_1hz_interrupt();
 
-        while (1) {
+	while (1) {
+	}
 
-        }
-
-        return 0;
+	return 0;
 }
 
 void SysTick_Handler(void)
 {
-        // print message
-        printf("One second just passed!\n\r");
+	// print message
+	printf("One second just passed!\n\r");
 }

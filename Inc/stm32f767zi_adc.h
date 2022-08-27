@@ -15,9 +15,9 @@
 // Control register 1
 #define ADC_CR1_EOCIE   (1U << 5)   
 // Control register 2
-#define ADC_CR2_ADON        (1U << 0)
+#define ADC_CR2_ADON    (1U << 0)
 #define ADC_CR2_CONT    (1U << 1)
-#define ADC_CR2_SWSTART     (1U << 30)
+#define ADC_CR2_SWSTART (1U << 30)
 // Regular sequence register 1
 #define ADC_SEQLEN_1    0
 // Regular sequence register 3

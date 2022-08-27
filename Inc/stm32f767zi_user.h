@@ -8,8 +8,8 @@
 #ifndef __STM32F767ZI_USER_H
 #define __STM32F767ZI_USER_H
 
-#include "stm32f767zi_hal.h"
 #include "stm32f767zi_gpio.h"
+#include "stm32f767zi_hal.h"
 
 typedef uint32_t led_t;
 typedef uint32_t button_t;

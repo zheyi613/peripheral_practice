@@ -1,32 +1,31 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s 			page 1
 
 
    1              		.cpu cortex-m7
    2              		.arch armv7e-m
-   3              		.fpu fpv5-d16
-   4              		.eabi_attribute 28, 1
-   5              		.eabi_attribute 20, 1
-   6              		.eabi_attribute 21, 1
-   7              		.eabi_attribute 23, 3
-   8              		.eabi_attribute 24, 1
-   9              		.eabi_attribute 25, 1
-  10              		.eabi_attribute 26, 1
-  11              		.eabi_attribute 30, 6
-  12              		.eabi_attribute 34, 1
-  13              		.eabi_attribute 18, 4
-  14              		.file	"stm32f767zi_systick.c"
-  15              		.text
-  16              	.Ltext0:
-  17              		.cfi_sections	.debug_frame
-  18              		.section	.text.systick_delay_ms,"ax",%progbits
-  19              		.align	1
-  20              		.global	systick_delay_ms
-  21              		.syntax unified
-  22              		.thumb
-  23              		.thumb_func
-  25              	systick_delay_ms:
-  26              	.LFB0:
-  27              		.file 1 "./Src/stm32f767zi_systick.c"
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32f767zi_systick.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.systick_delay_ms,"ax",%progbits
+  18              		.align	1
+  19              		.global	systick_delay_ms
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	systick_delay_ms:
+  25              	.LFB0:
+  26              		.file 1 "./Src/stm32f767zi_systick.c"
    1:./Src/stm32f767zi_systick.c **** /**
    2:./Src/stm32f767zi_systick.c ****  * @file stm32f767zi_systick.c
    3:./Src/stm32f767zi_systick.c ****  * @author zheyi613 (zheyi880613@gmail.com)
@@ -38,200 +37,201 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s 			page 1
    9:./Src/stm32f767zi_systick.c **** 
   10:./Src/stm32f767zi_systick.c **** void systick_delay_ms(int delay)
   11:./Src/stm32f767zi_systick.c **** {
-  28              		.loc 1 11 1
-  29              		.cfi_startproc
-  30              		@ args = 0, pretend = 0, frame = 16
-  31              		@ frame_needed = 1, uses_anonymous_args = 0
-  32              		@ link register save eliminated.
-  33 0000 80B4     		push	{r7}
-  34              	.LCFI0:
-  35              		.cfi_def_cfa_offset 4
-  36              		.cfi_offset 7, -4
-  37 0002 85B0     		sub	sp, sp, #20
-  38              	.LCFI1:
-  39              		.cfi_def_cfa_offset 24
-  40 0004 00AF     		add	r7, sp, #0
-  41              	.LCFI2:
-  42              		.cfi_def_cfa_register 7
-  43 0006 7860     		str	r0, [r7, #4]
-  12:./Src/stm32f767zi_systick.c ****         // Reload the number of clocks per millisecond
-  13:./Src/stm32f767zi_systick.c ****         SYST->RVR = SYSTICK_LOAD_VAL;
-  44              		.loc 1 13 13
-  45 0008 114B     		ldr	r3, .L5
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s 			page 2
+  27              		.loc 1 11 1
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 16
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 80B4     		push	{r7}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 85B0     		sub	sp, sp, #20
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 24
+  39 0004 00AF     		add	r7, sp, #0
+  40              	.LCFI2:
+  41              		.cfi_def_cfa_register 7
+  42 0006 7860     		str	r0, [r7, #4]
+  12:./Src/stm32f767zi_systick.c **** 	// Reload the number of clocks per millisecond
+  13:./Src/stm32f767zi_systick.c **** 	SYST->RVR = SYSTICK_LOAD_VAL;
+  43              		.loc 1 13 6
+  44 0008 114B     		ldr	r3, .L5
+  45              		.loc 1 13 12
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s 			page 2
 
 
-  46              		.loc 1 13 19
-  47 000a 43F67F62 		movw	r2, #15999
-  48 000e 5A60     		str	r2, [r3, #4]
-  14:./Src/stm32f767zi_systick.c ****         // Clear the current value register
-  15:./Src/stm32f767zi_systick.c ****         SYST->CVR = 0;
-  49              		.loc 1 15 13
-  50 0010 0F4B     		ldr	r3, .L5
-  51              		.loc 1 15 19
-  52 0012 0022     		movs	r2, #0
-  53 0014 9A60     		str	r2, [r3, #8]
-  16:./Src/stm32f767zi_systick.c ****         // Select clock source and enable systick
-  17:./Src/stm32f767zi_systick.c ****         SYST->CSR = SYST_CSR_ENABLE | SYST_CSR_CLKSRC;
-  54              		.loc 1 17 13
-  55 0016 0E4B     		ldr	r3, .L5
-  56              		.loc 1 17 19
-  57 0018 0522     		movs	r2, #5
-  58 001a 1A60     		str	r2, [r3]
-  59              	.LBB2:
+  46 000a 43F67F62 		movw	r2, #15999
+  47 000e 5A60     		str	r2, [r3, #4]
+  14:./Src/stm32f767zi_systick.c **** 	// Clear the current value register
+  15:./Src/stm32f767zi_systick.c **** 	SYST->CVR = 0;
+  48              		.loc 1 15 6
+  49 0010 0F4B     		ldr	r3, .L5
+  50              		.loc 1 15 12
+  51 0012 0022     		movs	r2, #0
+  52 0014 9A60     		str	r2, [r3, #8]
+  16:./Src/stm32f767zi_systick.c **** 	// Select clock source and enable systick
+  17:./Src/stm32f767zi_systick.c **** 	SYST->CSR = SYST_CSR_ENABLE | SYST_CSR_CLKSRC;
+  53              		.loc 1 17 6
+  54 0016 0E4B     		ldr	r3, .L5
+  55              		.loc 1 17 12
+  56 0018 0522     		movs	r2, #5
+  57 001a 1A60     		str	r2, [r3]
+  58              	.LBB2:
   18:./Src/stm32f767zi_systick.c **** 
-  19:./Src/stm32f767zi_systick.c ****         for (int i = 0; i < delay; i++)
-  60              		.loc 1 19 18
-  61 001c 0023     		movs	r3, #0
-  62 001e FB60     		str	r3, [r7, #12]
-  63              		.loc 1 19 9
-  64 0020 09E0     		b	.L2
-  65              	.L4:
-  20:./Src/stm32f767zi_systick.c ****                 while (!(SYST->CSR & SYST_CSR_COUNTFLAG));
-  66              		.loc 1 20 23
-  67 0022 00BF     		nop
-  68              	.L3:
-  69              		.loc 1 20 30 discriminator 1
-  70 0024 0A4B     		ldr	r3, .L5
-  71 0026 1B68     		ldr	r3, [r3]
-  72              		.loc 1 20 36 discriminator 1
-  73 0028 03F48033 		and	r3, r3, #65536
-  74              		.loc 1 20 23 discriminator 1
-  75 002c 002B     		cmp	r3, #0
-  76 002e F9D0     		beq	.L3
-  19:./Src/stm32f767zi_systick.c ****                 while (!(SYST->CSR & SYST_CSR_COUNTFLAG));
-  77              		.loc 1 19 37 discriminator 2
-  78 0030 FB68     		ldr	r3, [r7, #12]
-  79 0032 0133     		adds	r3, r3, #1
-  80 0034 FB60     		str	r3, [r7, #12]
-  81              	.L2:
-  19:./Src/stm32f767zi_systick.c ****                 while (!(SYST->CSR & SYST_CSR_COUNTFLAG));
-  82              		.loc 1 19 9 discriminator 1
-  83 0036 FA68     		ldr	r2, [r7, #12]
-  84 0038 7B68     		ldr	r3, [r7, #4]
-  85 003a 9A42     		cmp	r2, r3
-  86 003c F1DB     		blt	.L4
-  87              	.LBE2:
-  21:./Src/stm32f767zi_systick.c ****         
-  22:./Src/stm32f767zi_systick.c ****         SYST->CSR = 0;
-  88              		.loc 1 22 13
-  89 003e 044B     		ldr	r3, .L5
-  90              		.loc 1 22 19
-  91 0040 0022     		movs	r2, #0
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s 			page 3
+  19:./Src/stm32f767zi_systick.c **** 	for (int i = 0; i < delay; i++)
+  59              		.loc 1 19 11
+  60 001c 0023     		movs	r3, #0
+  61 001e FB60     		str	r3, [r7, #12]
+  62              		.loc 1 19 2
+  63 0020 09E0     		b	.L2
+  64              	.L4:
+  20:./Src/stm32f767zi_systick.c **** 		while (!(SYST->CSR & SYST_CSR_COUNTFLAG))
+  65              		.loc 1 20 9
+  66 0022 00BF     		nop
+  67              	.L3:
+  68              		.loc 1 20 16 discriminator 1
+  69 0024 0A4B     		ldr	r3, .L5
+  70 0026 1B68     		ldr	r3, [r3]
+  71              		.loc 1 20 22 discriminator 1
+  72 0028 03F48033 		and	r3, r3, #65536
+  73              		.loc 1 20 9 discriminator 1
+  74 002c 002B     		cmp	r3, #0
+  75 002e F9D0     		beq	.L3
+  19:./Src/stm32f767zi_systick.c **** 		while (!(SYST->CSR & SYST_CSR_COUNTFLAG))
+  76              		.loc 1 19 30 discriminator 2
+  77 0030 FB68     		ldr	r3, [r7, #12]
+  78 0032 0133     		adds	r3, r3, #1
+  79 0034 FB60     		str	r3, [r7, #12]
+  80              	.L2:
+  19:./Src/stm32f767zi_systick.c **** 		while (!(SYST->CSR & SYST_CSR_COUNTFLAG))
+  81              		.loc 1 19 2 discriminator 1
+  82 0036 FA68     		ldr	r2, [r7, #12]
+  83 0038 7B68     		ldr	r3, [r7, #4]
+  84 003a 9A42     		cmp	r2, r3
+  85 003c F1DB     		blt	.L4
+  86              	.LBE2:
+  21:./Src/stm32f767zi_systick.c **** 			;
+  22:./Src/stm32f767zi_systick.c **** 
+  23:./Src/stm32f767zi_systick.c **** 	SYST->CSR = 0;
+  87              		.loc 1 23 6
+  88 003e 044B     		ldr	r3, .L5
+  89              		.loc 1 23 12
+  90 0040 0022     		movs	r2, #0
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s 			page 3
 
 
-  92 0042 1A60     		str	r2, [r3]
-  23:./Src/stm32f767zi_systick.c **** }
-  93              		.loc 1 23 1
-  94 0044 00BF     		nop
-  95 0046 1437     		adds	r7, r7, #20
-  96              	.LCFI3:
-  97              		.cfi_def_cfa_offset 4
-  98 0048 BD46     		mov	sp, r7
-  99              	.LCFI4:
- 100              		.cfi_def_cfa_register 13
- 101              		@ sp needed
- 102 004a 5DF8047B 		ldr	r7, [sp], #4
- 103              	.LCFI5:
- 104              		.cfi_restore 7
- 105              		.cfi_def_cfa_offset 0
- 106 004e 7047     		bx	lr
- 107              	.L6:
- 108              		.align	2
- 109              	.L5:
- 110 0050 10E000E0 		.word	-536813552
- 111              		.cfi_endproc
- 112              	.LFE0:
- 114              		.section	.text.systick_1hz_interrupt,"ax",%progbits
- 115              		.align	1
- 116              		.global	systick_1hz_interrupt
- 117              		.syntax unified
- 118              		.thumb
- 119              		.thumb_func
- 121              	systick_1hz_interrupt:
- 122              	.LFB1:
-  24:./Src/stm32f767zi_systick.c **** 
-  25:./Src/stm32f767zi_systick.c **** void systick_1hz_interrupt(void)
-  26:./Src/stm32f767zi_systick.c **** {
- 123              		.loc 1 26 1
- 124              		.cfi_startproc
- 125              		@ args = 0, pretend = 0, frame = 0
- 126              		@ frame_needed = 1, uses_anonymous_args = 0
- 127              		@ link register save eliminated.
- 128 0000 80B4     		push	{r7}
- 129              	.LCFI6:
- 130              		.cfi_def_cfa_offset 4
- 131              		.cfi_offset 7, -4
- 132 0002 00AF     		add	r7, sp, #0
- 133              	.LCFI7:
- 134              		.cfi_def_cfa_register 7
-  27:./Src/stm32f767zi_systick.c ****         // Reload the number of clocks per millisecond
-  28:./Src/stm32f767zi_systick.c ****         SYST->RVR = ONE_SEC_LOAD_VAL;
- 135              		.loc 1 28 13
- 136 0004 094B     		ldr	r3, .L8
- 137              		.loc 1 28 19
- 138 0006 0A4A     		ldr	r2, .L8+4
- 139 0008 5A60     		str	r2, [r3, #4]
-  29:./Src/stm32f767zi_systick.c ****         // Clear the current value register
-  30:./Src/stm32f767zi_systick.c ****         SYST->CVR = 0;
- 140              		.loc 1 30 13
- 141 000a 084B     		ldr	r3, .L8
- 142              		.loc 1 30 19
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s 			page 4
+  91 0042 1A60     		str	r2, [r3]
+  24:./Src/stm32f767zi_systick.c **** }
+  92              		.loc 1 24 1
+  93 0044 00BF     		nop
+  94 0046 1437     		adds	r7, r7, #20
+  95              	.LCFI3:
+  96              		.cfi_def_cfa_offset 4
+  97 0048 BD46     		mov	sp, r7
+  98              	.LCFI4:
+  99              		.cfi_def_cfa_register 13
+ 100              		@ sp needed
+ 101 004a 80BC     		pop	{r7}
+ 102              	.LCFI5:
+ 103              		.cfi_restore 7
+ 104              		.cfi_def_cfa_offset 0
+ 105 004c 7047     		bx	lr
+ 106              	.L6:
+ 107 004e 00BF     		.align	2
+ 108              	.L5:
+ 109 0050 10E000E0 		.word	-536813552
+ 110              		.cfi_endproc
+ 111              	.LFE0:
+ 113              		.section	.text.systick_1hz_interrupt,"ax",%progbits
+ 114              		.align	1
+ 115              		.global	systick_1hz_interrupt
+ 116              		.syntax unified
+ 117              		.thumb
+ 118              		.thumb_func
+ 120              	systick_1hz_interrupt:
+ 121              	.LFB1:
+  25:./Src/stm32f767zi_systick.c **** 
+  26:./Src/stm32f767zi_systick.c **** void systick_1hz_interrupt(void)
+  27:./Src/stm32f767zi_systick.c **** {
+ 122              		.loc 1 27 1
+ 123              		.cfi_startproc
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 1, uses_anonymous_args = 0
+ 126              		@ link register save eliminated.
+ 127 0000 80B4     		push	{r7}
+ 128              	.LCFI6:
+ 129              		.cfi_def_cfa_offset 4
+ 130              		.cfi_offset 7, -4
+ 131 0002 00AF     		add	r7, sp, #0
+ 132              	.LCFI7:
+ 133              		.cfi_def_cfa_register 7
+  28:./Src/stm32f767zi_systick.c **** 	// Reload the number of clocks per millisecond
+  29:./Src/stm32f767zi_systick.c **** 	SYST->RVR = ONE_SEC_LOAD_VAL;
+ 134              		.loc 1 29 6
+ 135 0004 094B     		ldr	r3, .L8
+ 136              		.loc 1 29 12
+ 137 0006 0A4A     		ldr	r2, .L8+4
+ 138 0008 5A60     		str	r2, [r3, #4]
+  30:./Src/stm32f767zi_systick.c **** 	// Clear the current value register
+  31:./Src/stm32f767zi_systick.c **** 	SYST->CVR = 0;
+ 139              		.loc 1 31 6
+ 140 000a 084B     		ldr	r3, .L8
+ 141              		.loc 1 31 12
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s 			page 4
 
 
- 143 000c 0022     		movs	r2, #0
- 144 000e 9A60     		str	r2, [r3, #8]
-  31:./Src/stm32f767zi_systick.c ****         // Select clock source and enable systick
-  32:./Src/stm32f767zi_systick.c ****         SYST->CSR = SYST_CSR_ENABLE | SYST_CSR_CLKSRC;
- 145              		.loc 1 32 13
- 146 0010 064B     		ldr	r3, .L8
- 147              		.loc 1 32 19
- 148 0012 0522     		movs	r2, #5
- 149 0014 1A60     		str	r2, [r3]
-  33:./Src/stm32f767zi_systick.c ****         // Enable systick interrupt
-  34:./Src/stm32f767zi_systick.c ****         SYST->CSR |= SYST_CSR_TICKINT;
- 150              		.loc 1 34 19
- 151 0016 054B     		ldr	r3, .L8
- 152 0018 1B68     		ldr	r3, [r3]
- 153 001a 044A     		ldr	r2, .L8
- 154 001c 43F00203 		orr	r3, r3, #2
- 155 0020 1360     		str	r3, [r2]
-  35:./Src/stm32f767zi_systick.c **** }
- 156              		.loc 1 35 1
- 157 0022 00BF     		nop
- 158 0024 BD46     		mov	sp, r7
- 159              	.LCFI8:
- 160              		.cfi_def_cfa_register 13
- 161              		@ sp needed
- 162 0026 5DF8047B 		ldr	r7, [sp], #4
- 163              	.LCFI9:
- 164              		.cfi_restore 7
- 165              		.cfi_def_cfa_offset 0
- 166 002a 7047     		bx	lr
- 167              	.L9:
- 168              		.align	2
- 169              	.L8:
- 170 002c 10E000E0 		.word	-536813552
- 171 0030 FF23F400 		.word	15999999
- 172              		.cfi_endproc
- 173              	.LFE1:
- 175              		.text
- 176              	.Letext0:
- 177              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 178              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 179              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s 			page 5
+ 142 000c 0022     		movs	r2, #0
+ 143 000e 9A60     		str	r2, [r3, #8]
+  32:./Src/stm32f767zi_systick.c **** 	// Select clock source and enable systick
+  33:./Src/stm32f767zi_systick.c **** 	SYST->CSR = SYST_CSR_ENABLE | SYST_CSR_CLKSRC;
+ 144              		.loc 1 33 6
+ 145 0010 064B     		ldr	r3, .L8
+ 146              		.loc 1 33 12
+ 147 0012 0522     		movs	r2, #5
+ 148 0014 1A60     		str	r2, [r3]
+  34:./Src/stm32f767zi_systick.c **** 	// Enable systick interrupt
+  35:./Src/stm32f767zi_systick.c **** 	SYST->CSR |= SYST_CSR_TICKINT;
+ 149              		.loc 1 35 12
+ 150 0016 054B     		ldr	r3, .L8
+ 151 0018 1B68     		ldr	r3, [r3]
+ 152 001a 044A     		ldr	r2, .L8
+ 153 001c 43F00203 		orr	r3, r3, #2
+ 154 0020 1360     		str	r3, [r2]
+  36:./Src/stm32f767zi_systick.c **** }
+ 155              		.loc 1 36 1
+ 156 0022 00BF     		nop
+ 157 0024 BD46     		mov	sp, r7
+ 158              	.LCFI8:
+ 159              		.cfi_def_cfa_register 13
+ 160              		@ sp needed
+ 161 0026 80BC     		pop	{r7}
+ 162              	.LCFI9:
+ 163              		.cfi_restore 7
+ 164              		.cfi_def_cfa_offset 0
+ 165 0028 7047     		bx	lr
+ 166              	.L9:
+ 167 002a 00BF     		.align	2
+ 168              	.L8:
+ 169 002c 10E000E0 		.word	-536813552
+ 170 0030 FF23F400 		.word	15999999
+ 171              		.cfi_endproc
+ 172              	.LFE1:
+ 174              		.text
+ 175              	.Letext0:
+ 176              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 177              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 178              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s 			page 5
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f767zi_systick.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s:19     .text.systick_delay_ms:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s:25     .text.systick_delay_ms:00000000 systick_delay_ms
-C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s:110    .text.systick_delay_ms:00000050 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s:115    .text.systick_1hz_interrupt:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s:121    .text.systick_1hz_interrupt:00000000 systick_1hz_interrupt
-C:\Users\DCS_LAB\AppData\Local\Temp\ccfXE1Rb.s:170    .text.systick_1hz_interrupt:0000002c $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s:18     .text.systick_delay_ms:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s:24     .text.systick_delay_ms:00000000 systick_delay_ms
+C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s:109    .text.systick_delay_ms:00000050 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s:114    .text.systick_1hz_interrupt:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s:120    .text.systick_1hz_interrupt:00000000 systick_1hz_interrupt
+C:\Users\DCS_LAB\AppData\Local\Temp\ccnX5Xjd.s:169    .text.systick_1hz_interrupt:0000002c $d
 
 NO UNDEFINED SYMBOLS

@@ -16,6 +16,7 @@ C_SOURCES =  $(wildcard ./Src/*.c)
 # C_SOURCES = $(filter-out ./Src/main.c, $(ALL_C_SOURCES))
 # C_SOURCES += ./test/test_led_button.c
 # C_SOURCES += ./test/test_usart.c
+# C_SOURCES += ./test/test_i2c.c
 # ASM sources
 ASM_SOURCES = startup_stm32f767xx.s
 
@@ -37,7 +38,7 @@ CPU = -mcpu=cortex-m7
 # fpu (floating-point hardware)
 FPU = -mfpu=fpv5-d16
 # use hardware floating-point instructions and hareware floating-point linkage
-FLOAT-ABI = -mfloat-abi=hard
+FLOAT-ABI = -mfloat-abi=soft
 # mcu
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 
@@ -75,7 +76,8 @@ LDSCRIPT = STM32F767ZITx_FLASH.ld
 
 # libraries
 # use C standard, math, nosys (pass compiler without syscalls) librarys
-LIBS = -lc -lm -lnosys 
+# use float with printf and scanf from newlib-nano
+LIBS = -lc -lm -lnosys -u _printf_float -u _scanf_float
 LIBDIR = 
 # -specs-nano.specs replace -lc (newlib) with newlib-nano
 # --cref tells the linker to add cross-reference information to the map file.

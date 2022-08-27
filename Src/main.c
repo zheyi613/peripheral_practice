@@ -1,54 +1,31 @@
 /**
- * @file test_usart_interrupt.c
+ * @file test_mpu6050.c
  * @author zheyi613 (zheyi880613@gmail.com)
- * @brief test interrupt of usart
- * @date 2022-08-18
+ * @brief test i2c for mpu6050
+ * @date 2022-08-26
  */
 
-#include "stm32f767zi_hal.h"
+#include "mpu6050.h"
 #include "stm32f767zi_gpio.h"
+#include "stm32f767zi_hal.h"
+#include "stm32f767zi_i2c.h"
+#include "stm32f767zi_systick.h"
 #include "stm32f767zi_usart.h"
-#include "stm32f767zi_user.h"
+#include <stdio.h>
 
-char ch;
-
-int main(void) {
-        led_init();
-        usart3_interrupt_default_init();
-
-        while (1) {
-                switch (ch)
-                {
-                case '0':
-                        led_off(USER_LED1 | USER_LED2 | USER_LED3);
-                        break;
-                case '1':
-                        led_on(USER_LED1);
-                        break;
-                case '2':
-                        led_on(USER_LED2);
-                        break;
-                case '3':
-                        led_on(USER_LED3);
-                        break;
-                default:
-                        break;
-                }
-        }
-
-        return 0;
-}
-
-void USART3_IRQHandler(void)
+int main(void)
 {
-        if ((USART3->ISR & USART_ISR_TXE) == USART_ISR_TXE)
-        {
-                // transmit a ASCII code
-                USART3->TDR = 'R';
-        }
-        if ((USART3->ISR & USART_ISR_RXNE) == USART_ISR_RXNE)
-        {
-                // receive a ASCII code
-                ch = USART3->RDR & 0xFFU;
-        }
+	int16_t get = 0;
+	float tmp = 0;
+	usart3_default_init();
+	i2c1_master_default_init();
+	mpu6050_init();
+	// i2c_transmit(I2C1, 0b1101010, 0x0F, 0b10100001, 1, &div);
+
+	while (1) {
+		// i2c_receive(I2C1, MPU6050_ADDRESS, MPU6050_TEMP_OUT, 2, &div_get);
+		printf("t = %f\r\n", mpu6050_get_temperature());
+		systick_delay_ms(500);
+	}
+	return 0;
 }
