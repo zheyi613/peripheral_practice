@@ -10,7 +10,8 @@
 
 void GPIO_mode(GPIO_reg_t *pGPIOx, uint32_t Pin, uint32_t Mode)
 {
-	pGPIOx->MODER = (pGPIOx->MODER & ~(0x03 << (Pin * 2))) | (Mode << (Pin * 2));
+	pGPIOx->MODER =
+		(pGPIOx->MODER & ~(0x03 << (Pin * 2))) | (Mode << (Pin * 2));
 }
 
 int main(void)
@@ -30,7 +31,8 @@ int main(void)
 		if (GPIOC->IDR & USER_BUTTON) {
 			GPIOB->BSRR |= USER_LED1 | USER_LED2 | USER_LED3;
 		} else {
-			GPIOB->BSRR |= (USER_LED1 | USER_LED2 | USER_LED3) << 16;
+			GPIOB->BSRR |= (USER_LED1 | USER_LED2 | USER_LED3)
+				       << 16;
 		}
 	}
 

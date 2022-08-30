@@ -71,8 +71,10 @@
 
 void i2c2_slave_default_init(void);
 void i2c1_master_default_init(void);
-uint32_t i2c_get_address_matchcode(I2C_reg_t *I2Cx);
-void i2c_transmit(I2C_reg_t *I2Cx, const uint16_t address, const uint8_t reg, const uint8_t size, uint8_t *data);
-void i2c_receive(I2C_reg_t *I2Cx, const uint16_t address, const uint8_t reg, const uint8_t size, uint8_t *data);
+uint32_t i2c_get_addr_matchcode(I2C_reg_t *I2Cx);
+void i2c_write_reg(I2C_reg_t *I2Cx, const uint16_t addr, const uint8_t reg,
+                   const uint8_t size, uint8_t *data);
+void i2c_read_reg(I2C_reg_t *I2Cx, const uint16_t addr, const uint8_t reg,
+                  const uint8_t size, uint8_t *data);
 
 #endif

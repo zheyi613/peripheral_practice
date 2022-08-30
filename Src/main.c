@@ -15,17 +15,32 @@
 
 int main(void)
 {
-	int16_t get = 0;
-	float tmp = 0;
+	float get[7] = {0};
+	float err[6] = {0};
+
 	usart3_default_init();
 	i2c1_master_default_init();
-	mpu6050_init();
-	// i2c_transmit(I2C1, 0b1101010, 0x0F, 0b10100001, 1, &div);
+	mpu6050_power_on();
+
+	mpu6050_selftest(err);
+	printf("Change from Factory Trim: ");
+	
+	for (int i = 0; i < 6; i++) {
+		printf("%.2f, ", err[i]);
+	}
+
+	printf("\r\n");
+	mpu6050_init(20, 2, 250);
 
 	while (1) {
-		// i2c_receive(I2C1, MPU6050_ADDRESS, MPU6050_TEMP_OUT, 2, &div_get);
-		printf("t = %f\r\n", mpu6050_get_temperature());
-		systick_delay_ms(500);
+		mpu6050_get_all(get);
+
+		for (int i = 0; i < 7; i++)
+			printf("d%d = %.2f ", i, get[i]);
+
+		printf("\r\n");
+		systick_delay_ms(100);
 	}
+
 	return 0;
 }

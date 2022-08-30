@@ -57,7 +57,8 @@ void pa4_adc1_interrupt_init(void)
 	// Enable end-of-conversion interrupt
 	ADC1->CR1 |= ADC_CR1_EOCIE;
 	// Enable ADC interrupt in NVIC
-	NVIC->ISER[(((uint32_t)ADC_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)ADC_IRQn) & 0x1FUL));
+	NVIC->ISER[(((uint32_t)ADC_IRQn) >> 5UL)] =
+		(uint32_t)(1UL << (((uint32_t)ADC_IRQn) & 0x1FUL));
 }
 
 void adc1_start_conversion(void)

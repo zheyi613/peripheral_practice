@@ -72,7 +72,7 @@ void I2C2_EV_IRQHandler(void)
 	// Check ADDR flag value in ISR register
 	if (I2C2->ISR & I2C_ISR_ADDR) {
 		// Verify the address match with the own slave address
-		if (i2c_get_address_matchcode(I2C2) == I2C_SLAVE_OWN_ADDRESS) {
+		if (i2c_get_addr_matchcode(I2C2) == I2C_SLAVE_OWN_ADDRESS) {
 			// Clear ADDR flag value in ISR register
 			I2C2->ICR |= I2C_ICR_ADDRCF;
 			// Enable receive interrupt

@@ -9,6 +9,6 @@
 
 void gpio_set_mode(GPIO_reg_t *GPIOx, uint32_t position, uint32_t mode)
 {
-        GPIOx->MODER &= ~(0x03 << (position * 2));
-        GPIOx->MODER |= mode << (position * 2);
+	GPIOx->MODER &= ~(0x03 << (position * 2));
+	GPIOx->MODER |= mode << (position * 2);
 }

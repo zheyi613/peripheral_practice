@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
   41 0006 1B6B     		ldr	r3, [r3, #48]
   42 0008 114A     		ldr	r2, .L2
   43 000a 43F00103 		orr	r3, r3, #1
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 2
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 2
 
 
   44 000e 1363     		str	r3, [r2, #48]
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
   82              		.cfi_restore 7
   83              		.cfi_def_cfa_offset 0
   84 004e 7047     		bx	lr
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 3
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 3
 
 
   85              	.L3:
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
  127              		.loc 1 45 15
  128 001c 144B     		ldr	r3, .L5
  129 001e 5B6C     		ldr	r3, [r3, #68]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 4
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 4
 
 
  130 0020 134A     		ldr	r2, .L5
@@ -227,20 +227,21 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
  160 005a 43F02003 		orr	r3, r3, #32
  161 005e 5360     		str	r3, [r2, #4]
   59:./Src/stm32f767zi_adc.c **** 	// Enable ADC interrupt in NVIC
-  60:./Src/stm32f767zi_adc.c **** 	NVIC->ISER[(((uint32_t)ADC_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)ADC_IRQn) & 0x1FUL));
+  60:./Src/stm32f767zi_adc.c **** 	NVIC->ISER[(((uint32_t)ADC_IRQn) >> 5UL)] =
  162              		.loc 1 60 6
  163 0060 064B     		ldr	r3, .L5+12
  164              		.loc 1 60 44
  165 0062 4FF48022 		mov	r2, #262144
  166 0066 1A60     		str	r2, [r3]
-  61:./Src/stm32f767zi_adc.c **** }
- 167              		.loc 1 61 1
+  61:./Src/stm32f767zi_adc.c **** 		(uint32_t)(1UL << (((uint32_t)ADC_IRQn) & 0x1FUL));
+  62:./Src/stm32f767zi_adc.c **** }
+ 167              		.loc 1 62 1
  168 0068 00BF     		nop
  169 006a BD46     		mov	sp, r7
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 5
+
+
  170              	.LCFI6:
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 5
-
-
  171              		.cfi_def_cfa_register 13
  172              		@ sp needed
  173 006c 80BC     		pop	{r7}
@@ -265,10 +266,10 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
  193              		.thumb_func
  195              	adc1_start_conversion:
  196              	.LFB2:
-  62:./Src/stm32f767zi_adc.c **** 
-  63:./Src/stm32f767zi_adc.c **** void adc1_start_conversion(void)
-  64:./Src/stm32f767zi_adc.c **** {
- 197              		.loc 1 64 1
+  63:./Src/stm32f767zi_adc.c **** 
+  64:./Src/stm32f767zi_adc.c **** void adc1_start_conversion(void)
+  65:./Src/stm32f767zi_adc.c **** {
+ 197              		.loc 1 65 1
  198              		.cfi_startproc
  199              		@ args = 0, pretend = 0, frame = 0
  200              		@ frame_needed = 1, uses_anonymous_args = 0
@@ -280,16 +281,16 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
  206 0002 00AF     		add	r7, sp, #0
  207              	.LCFI9:
  208              		.cfi_def_cfa_register 7
-  65:./Src/stm32f767zi_adc.c **** 	// Start conversion
-  66:./Src/stm32f767zi_adc.c **** 	ADC1->CR2 |= ADC_CR2_SWSTART;
- 209              		.loc 1 66 12
+  66:./Src/stm32f767zi_adc.c **** 	// Start conversion
+  67:./Src/stm32f767zi_adc.c **** 	ADC1->CR2 |= ADC_CR2_SWSTART;
+ 209              		.loc 1 67 12
  210 0004 044B     		ldr	r3, .L8
  211 0006 9B68     		ldr	r3, [r3, #8]
  212 0008 034A     		ldr	r2, .L8
  213 000a 43F08043 		orr	r3, r3, #1073741824
  214 000e 9360     		str	r3, [r2, #8]
-  67:./Src/stm32f767zi_adc.c **** }
- 215              		.loc 1 67 1
+  68:./Src/stm32f767zi_adc.c **** }
+ 215              		.loc 1 68 1
  216 0010 00BF     		nop
  217 0012 BD46     		mov	sp, r7
  218              	.LCFI10:
@@ -297,10 +298,10 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
  220              		@ sp needed
  221 0014 80BC     		pop	{r7}
  222              	.LCFI11:
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 6
+
+
  223              		.cfi_restore 7
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 6
-
-
  224              		.cfi_def_cfa_offset 0
  225 0016 7047     		bx	lr
  226              	.L9:
@@ -317,10 +318,10 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
  238              		.thumb_func
  240              	adc1_get_data:
  241              	.LFB3:
-  68:./Src/stm32f767zi_adc.c **** 
-  69:./Src/stm32f767zi_adc.c **** uint32_t adc1_get_data(void)
-  70:./Src/stm32f767zi_adc.c **** {
- 242              		.loc 1 70 1
+  69:./Src/stm32f767zi_adc.c **** 
+  70:./Src/stm32f767zi_adc.c **** uint32_t adc1_get_data(void)
+  71:./Src/stm32f767zi_adc.c **** {
+ 242              		.loc 1 71 1
  243              		.cfi_startproc
  244              		@ args = 0, pretend = 0, frame = 0
  245              		@ frame_needed = 1, uses_anonymous_args = 0
@@ -332,35 +333,35 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
  251 0002 00AF     		add	r7, sp, #0
  252              	.LCFI13:
  253              		.cfi_def_cfa_register 7
-  71:./Src/stm32f767zi_adc.c **** 	// Wait for End-of-Conversion flag
-  72:./Src/stm32f767zi_adc.c **** 	while (!(ADC1->SR & ADC_SR_EOC))
- 254              		.loc 1 72 8
+  72:./Src/stm32f767zi_adc.c **** 	// Wait for End-of-Conversion flag
+  73:./Src/stm32f767zi_adc.c **** 	while (!(ADC1->SR & ADC_SR_EOC))
+ 254              		.loc 1 73 8
  255 0004 00BF     		nop
  256              	.L11:
- 257              		.loc 1 72 15 discriminator 1
+ 257              		.loc 1 73 15 discriminator 1
  258 0006 064B     		ldr	r3, .L13
  259 0008 1B68     		ldr	r3, [r3]
- 260              		.loc 1 72 20 discriminator 1
+ 260              		.loc 1 73 20 discriminator 1
  261 000a 03F00203 		and	r3, r3, #2
- 262              		.loc 1 72 8 discriminator 1
+ 262              		.loc 1 73 8 discriminator 1
  263 000e 002B     		cmp	r3, #0
  264 0010 F9D0     		beq	.L11
-  73:./Src/stm32f767zi_adc.c **** 		;
-  74:./Src/stm32f767zi_adc.c **** 	// Read results
-  75:./Src/stm32f767zi_adc.c **** 	return ADC1->DR;
- 265              		.loc 1 75 13
+  74:./Src/stm32f767zi_adc.c **** 		;
+  75:./Src/stm32f767zi_adc.c **** 	// Read results
+  76:./Src/stm32f767zi_adc.c **** 	return ADC1->DR;
+ 265              		.loc 1 76 13
  266 0012 034B     		ldr	r3, .L13
  267 0014 DB6C     		ldr	r3, [r3, #76]
-  76:./Src/stm32f767zi_adc.c **** }...
- 268              		.loc 1 76 1
+  77:./Src/stm32f767zi_adc.c **** }...
+ 268              		.loc 1 77 1
  269 0016 1846     		mov	r0, r3
  270 0018 BD46     		mov	sp, r7
  271              	.LCFI14:
  272              		.cfi_def_cfa_register 13
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 7
+
+
  273              		@ sp needed
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 7
-
-
  274 001a 80BC     		pop	{r7}
  275              	.LCFI15:
  276              		.cfi_restore 7
@@ -377,22 +378,22 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 1
  288              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
  289              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
  290              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s 			page 8
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f767zi_adc.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:18     .text.pa4_adc1_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:24     .text.pa4_adc1_init:00000000 pa4_adc1_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:88     .text.pa4_adc1_init:00000050 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:95     .text.pa4_adc1_interrupt_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:101    .text.pa4_adc1_interrupt_init:00000000 pa4_adc1_interrupt_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:181    .text.pa4_adc1_interrupt_init:00000070 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:189    .text.adc1_start_conversion:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:195    .text.adc1_start_conversion:00000000 adc1_start_conversion
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:229    .text.adc1_start_conversion:00000018 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:234    .text.adc1_get_data:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:240    .text.adc1_get_data:00000000 adc1_get_data
-C:\Users\DCS_LAB\AppData\Local\Temp\ccCATfVM.s:282    .text.adc1_get_data:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:18     .text.pa4_adc1_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:24     .text.pa4_adc1_init:00000000 pa4_adc1_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:88     .text.pa4_adc1_init:00000050 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:95     .text.pa4_adc1_interrupt_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:101    .text.pa4_adc1_interrupt_init:00000000 pa4_adc1_interrupt_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:181    .text.pa4_adc1_interrupt_init:00000070 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:189    .text.adc1_start_conversion:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:195    .text.adc1_start_conversion:00000000 adc1_start_conversion
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:229    .text.adc1_start_conversion:00000018 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:234    .text.adc1_get_data:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:240    .text.adc1_get_data:00000000 adc1_get_data
+C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:282    .text.adc1_get_data:00000020 $d
 
 NO UNDEFINED SYMBOLS

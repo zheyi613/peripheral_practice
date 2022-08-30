@@ -43,7 +43,8 @@ void pc13_exti_init(void)
 	// Select falling edge trigger
 	EXTI->FTSR |= USER_BUTTON;
 	// Enable EXTI13 in NVIC
-	NVIC->ISER[(((uint32_t)EXTI15_10_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)EXTI15_10_IRQn) & 0x1FUL));
+	NVIC->ISER[(((uint32_t)EXTI15_10_IRQn) >> 5UL)] =
+		(uint32_t)(1UL << (((uint32_t)EXTI15_10_IRQn) & 0x1FUL));
 }
 
 void EXTI15_10_IRQHandler(void)

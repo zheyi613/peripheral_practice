@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccETP2xD.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQXz4ag.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -55,36 +55,36 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccETP2xD.s 			page 1
   42 0006 F860     		str	r0, [r7, #12]
   43 0008 B960     		str	r1, [r7, #8]
   44 000a 7A60     		str	r2, [r7, #4]
-  12:./Src/stm32f767zi_gpio.c ****         GPIOx->MODER &= ~(0x03 << (position * 2));
-  45              		.loc 1 12 22
+  12:./Src/stm32f767zi_gpio.c **** 	GPIOx->MODER &= ~(0x03 << (position * 2));
+  45              		.loc 1 12 15
   46 000c FB68     		ldr	r3, [r7, #12]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccETP2xD.s 			page 2
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQXz4ag.s 			page 2
 
 
   47 000e 1B68     		ldr	r3, [r3]
-  48              		.loc 1 12 45
+  48              		.loc 1 12 38
   49 0010 BA68     		ldr	r2, [r7, #8]
   50 0012 5200     		lsls	r2, r2, #1
-  51              		.loc 1 12 32
+  51              		.loc 1 12 25
   52 0014 0321     		movs	r1, #3
   53 0016 01FA02F2 		lsl	r2, r1, r2
-  54              		.loc 1 12 25
+  54              		.loc 1 12 18
   55 001a D243     		mvns	r2, r2
-  56              		.loc 1 12 22
+  56              		.loc 1 12 15
   57 001c 1A40     		ands	r2, r2, r3
   58 001e FB68     		ldr	r3, [r7, #12]
   59 0020 1A60     		str	r2, [r3]
-  13:./Src/stm32f767zi_gpio.c ****         GPIOx->MODER |= mode << (position * 2);
-  60              		.loc 1 13 22
+  13:./Src/stm32f767zi_gpio.c **** 	GPIOx->MODER |= mode << (position * 2);
+  60              		.loc 1 13 15
   61 0022 FB68     		ldr	r3, [r7, #12]
   62 0024 1A68     		ldr	r2, [r3]
-  63              		.loc 1 13 43
+  63              		.loc 1 13 36
   64 0026 BB68     		ldr	r3, [r7, #8]
   65 0028 5B00     		lsls	r3, r3, #1
-  66              		.loc 1 13 30
+  66              		.loc 1 13 23
   67 002a 7968     		ldr	r1, [r7, #4]
   68 002c 01FA03F3 		lsl	r3, r1, r3
-  69              		.loc 1 13 22
+  69              		.loc 1 13 15
   70 0030 1A43     		orrs	r2, r2, r3
   71 0032 FB68     		ldr	r3, [r7, #12]
   72 0034 1A60     		str	r2, [r3]
@@ -110,12 +110,12 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccETP2xD.s 			page 1
   92              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
   93              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
   94              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccETP2xD.s 			page 3
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQXz4ag.s 			page 3
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f767zi_gpio.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccETP2xD.s:18     .text.gpio_set_mode:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccETP2xD.s:24     .text.gpio_set_mode:00000000 gpio_set_mode
+C:\Users\DCS_LAB\AppData\Local\Temp\ccQXz4ag.s:18     .text.gpio_set_mode:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccQXz4ag.s:24     .text.gpio_set_mode:00000000 gpio_set_mode
 
 NO UNDEFINED SYMBOLS

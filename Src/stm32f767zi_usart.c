@@ -15,7 +15,8 @@ void usart2_default_init(void)
 	gpio_set_mode(GPIOD, USART2_TX_POS, GPIO_MODE_ALTFN);
 	// Set PD6 (Rx) mode to alternate function.
 	gpio_set_mode(GPIOD, USART2_RX_POS, GPIO_MODE_ALTFN);
-	// Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7 << 4
+	// Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7
+	// << 4
 	MODIFY_REG(GPIOD->AFR[0], 0xFFU, (USART3_AF << 20) | (USART3_AF << 24));
 	// Enable clock to USART3 module
 	RCC->APB1ENR |= USART2_CLK_EN;
@@ -41,7 +42,8 @@ void usart3_default_init(void)
 	gpio_set_mode(GPIOD, USART3_TX_POS, GPIO_MODE_ALTFN);
 	// Set PD9 (Rx) mode to alternate function.
 	gpio_set_mode(GPIOD, USART3_RX_POS, GPIO_MODE_ALTFN);
-	// Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7 << 4
+	// Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7
+	// << 4
 	MODIFY_REG(GPIOD->AFR[1], 0xFFU, USART3_AF | (USART3_AF << 4));
 	// Enable clock to USART3 module
 	RCC->APB1ENR |= USART3_CLK_EN;
@@ -62,7 +64,8 @@ void usart3_interrupt_default_init(void)
 	gpio_set_mode(GPIOD, USART3_TX_POS, GPIO_MODE_ALTFN);
 	// Set PD9 (Rx) mode to alternate function.
 	gpio_set_mode(GPIOD, USART3_RX_POS, GPIO_MODE_ALTFN);
-	// Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7 << 4
+	// Set alternate function to USART. GPIO_AFRH = AF7(0b0111) << 0 | AF7
+	// << 4
 	MODIFY_REG(GPIOD->AFR[1], 0xFFU, USART3_AF | (USART3_AF << 4));
 	// Enable clock to USART3 module
 	RCC->APB1ENR |= USART3_CLK_EN;
@@ -74,11 +77,14 @@ void usart3_interrupt_default_init(void)
 	// enable USART3
 	MODIFY_REG(USART3->CR1, USART_CR1_UE_MASK, 1);
 	// Enable USART TXE interrupt
-	MODIFY_REG(USART3->CR1, USART_CR1_TXEIE_MASK, (1 << USART_CR1_TXEIE_POS));
+	MODIFY_REG(USART3->CR1, USART_CR1_TXEIE_MASK,
+		   (1 << USART_CR1_TXEIE_POS));
 	// Enable USART RXNE interrupt
-	MODIFY_REG(USART3->CR1, USART_CR1_RXNEIE_MASK, (1 << USART_CR1_RXNEIE_POS));
+	MODIFY_REG(USART3->CR1, USART_CR1_RXNEIE_MASK,
+		   (1 << USART_CR1_RXNEIE_POS));
 	// Enable USART interrupt in NVIC
-	NVIC->ISER[(((uint32_t)USART3_IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)USART3_IRQn) & 0x1FUL));
+	NVIC->ISER[(((uint32_t)USART3_IRQn) >> 5UL)] =
+		(uint32_t)(1UL << (((uint32_t)USART3_IRQn) & 0x1FUL));
 }
 
 void usart_write(USART_reg_t *USARTx, uint8_t value)
