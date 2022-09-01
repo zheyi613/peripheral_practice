@@ -1,0 +1,28 @@
+make.exe --dry-run --keep-going --print-directory
+make.exe: Entering directory 'e:/stm32f767zi/peripheral_practice'
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/stm32f767zi_usart.d" -Wa,-a,-ad,-alms=Build/stm32f767zi_usart.lst ./Src/stm32f767zi_usart.c -o Build/stm32f767zi_usart.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/stm32f767zi_timer.d" -Wa,-a,-ad,-alms=Build/stm32f767zi_timer.lst ./Src/stm32f767zi_timer.c -o Build/stm32f767zi_timer.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/stm32f767zi_i2c.d" -Wa,-a,-ad,-alms=Build/stm32f767zi_i2c.lst ./Src/stm32f767zi_i2c.c -o Build/stm32f767zi_i2c.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/main.d" -Wa,-a,-ad,-alms=Build/main.lst ./Src/main.c -o Build/main.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/stm32f767zi_systick.d" -Wa,-a,-ad,-alms=Build/stm32f767zi_systick.lst ./Src/stm32f767zi_systick.c -o Build/stm32f767zi_systick.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/stm322f767zi_user.d" -Wa,-a,-ad,-alms=Build/stm322f767zi_user.lst ./Src/stm322f767zi_user.c -o Build/stm322f767zi_user.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/syscalls.d" -Wa,-a,-ad,-alms=Build/syscalls.lst ./Src/syscalls.c -o Build/syscalls.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/stm32f767zi_gpio.d" -Wa,-a,-ad,-alms=Build/stm32f767zi_gpio.lst ./Src/stm32f767zi_gpio.c -o Build/stm32f767zi_gpio.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/stm32f767zi_adc.d" -Wa,-a,-ad,-alms=Build/stm32f767zi_adc.lst ./Src/stm32f767zi_adc.c -o Build/stm32f767zi_adc.o
+ 
+arm-none-eabi-gcc -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/mpu6050.d" -Wa,-a,-ad,-alms=Build/mpu6050.lst ./Src/mpu6050.c -o Build/mpu6050.o
+ 
+arm-none-eabi-gcc -x assembler-with-cpp -c -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft  -I./Inc -O0 -Wall -fdata-sections -ffunction-sections -gdwarf-2 -MMD -MP -MF"Build/startup_stm32f767xx.d" startup_stm32f767xx.s -o Build/startup_stm32f767xx.o
+ 
+arm-none-eabi-gcc Build/stm32f767zi_usart.o Build/stm32f767zi_timer.o Build/stm32f767zi_i2c.o Build/main.o Build/stm32f767zi_systick.o Build/stm322f767zi_user.o Build/syscalls.o Build/stm32f767zi_gpio.o Build/stm32f767zi_adc.o Build/mpu6050.o Build/startup_stm32f767xx.o -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=soft -specs=nano.specs -TSTM32F767ZITx_FLASH.ld  -lc -lm -lnosys -u _printf_float -u _scanf_float -Wl,-Map=Build/main.map,--cref -Wl,--gc-sections -o Build/main.elf
+arm-none-eabi-size -A Build/main.elf
+make.exe: Leaving directory 'e:/stm32f767zi/peripheral_practice'
+ 
