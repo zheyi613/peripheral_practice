@@ -1,6 +1,5 @@
 # brief:  build STM32F767ZI
 # author: zheyi613
-# Arm Compiler Reference Guide (https://developer.arm.com/documentation/101754/0618/?lang=en)(Version: 6.18)
 
 # build target
 TARGET = main
@@ -38,7 +37,7 @@ CPU = -mcpu=cortex-m7
 # fpu (floating-point hardware)
 FPU = -mfpu=fpv5-d16
 # use hardware floating-point instructions and hareware floating-point linkage
-FLOAT-ABI = -mfloat-abi=soft
+FLOAT-ABI = -mfloat-abi=hard
 # mcu
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 

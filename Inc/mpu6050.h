@@ -155,19 +155,4 @@ void mpu6050_get_gyro(float *data);
 void mpu6050_get_accel(float *data);
 void mpu6050_selftest(float *err);
 
-/*
- * Self-Test:
- * SelfTest Response (STR) = output with Self-Test enable - output with Self-Test disable
- * Change from Factory Trim of the Self-Test Response(%) = (STR - FT) / FT\
- * if |value| < 14, the MPU6050 keep its zccuracy, else failed
- * 
- * Gyroscope: +-250dps
- * FT[Xg and Zg] = 25 * 131 * 1.046 ^ (xG_TEST - 1), if xG_TEST != 0
- * FT[Yg]       = -25 * 131 * 1.046 ^ (YG_TEST - 1), if YG_TEST != 0
- * 
- * Accelerometer: +-8g
- * FT[Xa, Ya, and Za] = 4096 * 0.34 * (0.92/0.34) ^ ((xA_test-1) / (2^5 - 2)) if xA_TEST != 0
- */
-
-
 #endif

@@ -11,7 +11,7 @@ static float gyro_unit = 0;
 static float accel_unit = 0;
 static int16_t offset[6] = {0};
 
-static void mpu6050_calibration(void);
+static void mpu6050_calibration(uint8_t div);
 
 /* Use PG2 as Vdd of MPU6050 */
 void mpu6050_power_on(void)
@@ -98,10 +98,10 @@ void mpu6050_init(uint16_t sample_rate, uint8_t accel_range,
 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_CONFIG, 2,
 		      (uint8_t *)&tmp);
 
-	mpu6050_calibration();
+	mpu6050_calibration(div);
 }
 
-static void mpu6050_calibration(void)
+static void mpu6050_calibration(uint8_t div)
 {
 	int16_t data[6] = {0};
 	int32_t sum[6] = {0};
@@ -114,8 +114,8 @@ static void mpu6050_calibration(void)
 	// Enable gyro and accel FIFO
 	tmp = 0x78;
 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_EN, 1, &tmp);
-
-	systick_delay_ms(1000);
+	// According to sample division to delay time
+	systick_delay_ms(40 * div);
 	// Disable accel and gyro FIFO
 	tmp = 0;
 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_EN, 1, &tmp);
@@ -210,12 +210,13 @@ void mpu6050_get_gyro(float *data)
 	for (int i = 0; i < 3; i++) {
 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
 		tmp[i] -= offset[3 + i];
-		data[i] = (float)tmp[2 - i] * gyro_unit;
+		data[i] = (float)tmp[i] * gyro_unit;
 	}
 }
 
 /**
- * @brief Self-Test to get change from foctory trim of the self-test response
+ * @brief Self-Test to get change from foctory trim of the self-test response.
+ * 	  if |value| < 14, the MPU6050 keep its accuracy, else failed.
  *
  * @param err error array of gyro and accel change
  */

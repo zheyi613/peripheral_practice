@@ -1,31 +1,32 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 1
 
 
    1              		.cpu cortex-m7
    2              		.arch armv7e-m
-   3              		.fpu softvfp
-   4              		.eabi_attribute 20, 1
-   5              		.eabi_attribute 21, 1
-   6              		.eabi_attribute 23, 3
-   7              		.eabi_attribute 24, 1
-   8              		.eabi_attribute 25, 1
-   9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 6
-  11              		.eabi_attribute 34, 1
-  12              		.eabi_attribute 18, 4
-  13              		.file	"stm32f767zi_timer.c"
-  14              		.text
-  15              	.Ltext0:
-  16              		.cfi_sections	.debug_frame
-  17              		.section	.text.tim1_1Hz_init,"ax",%progbits
-  18              		.align	1
-  19              		.global	tim1_1Hz_init
-  20              		.syntax unified
-  21              		.thumb
-  22              		.thumb_func
-  24              	tim1_1Hz_init:
-  25              	.LFB0:
-  26              		.file 1 "./Src/stm32f767zi_timer.c"
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"stm32f767zi_timer.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.tim1_1Hz_init,"ax",%progbits
+  19              		.align	1
+  20              		.global	tim1_1Hz_init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	tim1_1Hz_init:
+  26              	.LFB0:
+  27              		.file 1 "./Src/stm32f767zi_timer.c"
    1:./Src/stm32f767zi_timer.c **** /**
    2:./Src/stm32f767zi_timer.c ****  * @file stm32f767zi_timer.c
    3:./Src/stm32f767zi_timer.c ****  * @author zheyi613 (zheyi880613@gmail.com)
@@ -37,188 +38,188 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s 			page 1
    9:./Src/stm32f767zi_timer.c **** 
   10:./Src/stm32f767zi_timer.c **** void tim1_1Hz_init(void)
   11:./Src/stm32f767zi_timer.c **** {
-  27              		.loc 1 11 1
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 1, uses_anonymous_args = 0
-  31              		@ link register save eliminated.
-  32 0000 80B4     		push	{r7}
-  33              	.LCFI0:
-  34              		.cfi_def_cfa_offset 4
-  35              		.cfi_offset 7, -4
-  36 0002 00AF     		add	r7, sp, #0
-  37              	.LCFI1:
-  38              		.cfi_def_cfa_register 7
+  28              		.loc 1 11 1
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 7, -4
+  37 0002 00AF     		add	r7, sp, #0
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_register 7
   12:./Src/stm32f767zi_timer.c **** 	// Enable clock access to TIM1
   13:./Src/stm32f767zi_timer.c **** 	RCC->APB2ENR |= TIM1_CLK_EN;
-  39              		.loc 1 13 15
-  40 0004 0B4B     		ldr	r3, .L2
-  41 0006 5B6C     		ldr	r3, [r3, #68]
-  42 0008 0A4A     		ldr	r2, .L2
-  43 000a 43F00103 		orr	r3, r3, #1
-  44 000e 5364     		str	r3, [r2, #68]
+  40              		.loc 1 13 15
+  41 0004 0C4B     		ldr	r3, .L2
+  42 0006 5B6C     		ldr	r3, [r3, #68]
+  43 0008 0B4A     		ldr	r2, .L2
+  44 000a 43F00103 		orr	r3, r3, #1
+  45 000e 5364     		str	r3, [r2, #68]
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 2
+
+
   14:./Src/stm32f767zi_timer.c **** 	// Set the prescaler
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s 			page 2
-
-
   15:./Src/stm32f767zi_timer.c **** 	TIM1->PSC = 1600 - 1; // 16000000 / 1600 = 10000
-  45              		.loc 1 15 6
-  46 0010 094B     		ldr	r3, .L2+4
-  47              		.loc 1 15 12
-  48 0012 40F23F62 		movw	r2, #1599
-  49 0016 9A62     		str	r2, [r3, #40]
+  46              		.loc 1 15 6
+  47 0010 0A4B     		ldr	r3, .L2+4
+  48              		.loc 1 15 12
+  49 0012 40F23F62 		movw	r2, #1599
+  50 0016 9A62     		str	r2, [r3, #40]
   16:./Src/stm32f767zi_timer.c **** 	// Set auto-reload value
   17:./Src/stm32f767zi_timer.c **** 	TIM1->ARR = 10000 - 1;
-  50              		.loc 1 17 6
-  51 0018 074B     		ldr	r3, .L2+4
-  52              		.loc 1 17 12
-  53 001a 42F20F72 		movw	r2, #9999
-  54 001e DA62     		str	r2, [r3, #44]
+  51              		.loc 1 17 6
+  52 0018 084B     		ldr	r3, .L2+4
+  53              		.loc 1 17 12
+  54 001a 42F20F72 		movw	r2, #9999
+  55 001e DA62     		str	r2, [r3, #44]
   18:./Src/stm32f767zi_timer.c **** 	// Enable timer
   19:./Src/stm32f767zi_timer.c **** 	TIM1->CR1 |= TIM_CR1_CEN;
-  55              		.loc 1 19 12
-  56 0020 054B     		ldr	r3, .L2+4
-  57 0022 1B68     		ldr	r3, [r3]
-  58 0024 044A     		ldr	r2, .L2+4
-  59 0026 43F00103 		orr	r3, r3, #1
-  60 002a 1360     		str	r3, [r2]
+  56              		.loc 1 19 12
+  57 0020 064B     		ldr	r3, .L2+4
+  58 0022 1B68     		ldr	r3, [r3]
+  59 0024 054A     		ldr	r2, .L2+4
+  60 0026 43F00103 		orr	r3, r3, #1
+  61 002a 1360     		str	r3, [r2]
   20:./Src/stm32f767zi_timer.c **** }
-  61              		.loc 1 20 1
-  62 002c 00BF     		nop
-  63 002e BD46     		mov	sp, r7
-  64              	.LCFI2:
-  65              		.cfi_def_cfa_register 13
-  66              		@ sp needed
-  67 0030 80BC     		pop	{r7}
-  68              	.LCFI3:
-  69              		.cfi_restore 7
-  70              		.cfi_def_cfa_offset 0
-  71 0032 7047     		bx	lr
-  72              	.L3:
-  73              		.align	2
-  74              	.L2:
-  75 0034 00380240 		.word	1073887232
-  76 0038 00000140 		.word	1073807360
-  77              		.cfi_endproc
-  78              	.LFE0:
-  80              		.section	.text.tim1_1Hz_interrupt_init,"ax",%progbits
-  81              		.align	1
-  82              		.global	tim1_1Hz_interrupt_init
-  83              		.syntax unified
-  84              		.thumb
-  85              		.thumb_func
-  87              	tim1_1Hz_interrupt_init:
-  88              	.LFB1:
+  62              		.loc 1 20 1
+  63 002c 00BF     		nop
+  64 002e BD46     		mov	sp, r7
+  65              	.LCFI2:
+  66              		.cfi_def_cfa_register 13
+  67              		@ sp needed
+  68 0030 5DF8047B 		ldr	r7, [sp], #4
+  69              	.LCFI3:
+  70              		.cfi_restore 7
+  71              		.cfi_def_cfa_offset 0
+  72 0034 7047     		bx	lr
+  73              	.L3:
+  74 0036 00BF     		.align	2
+  75              	.L2:
+  76 0038 00380240 		.word	1073887232
+  77 003c 00000140 		.word	1073807360
+  78              		.cfi_endproc
+  79              	.LFE0:
+  81              		.section	.text.tim1_1Hz_interrupt_init,"ax",%progbits
+  82              		.align	1
+  83              		.global	tim1_1Hz_interrupt_init
+  84              		.syntax unified
+  85              		.thumb
+  86              		.thumb_func
+  88              	tim1_1Hz_interrupt_init:
+  89              	.LFB1:
   21:./Src/stm32f767zi_timer.c **** 
   22:./Src/stm32f767zi_timer.c **** void tim1_1Hz_interrupt_init(void)
   23:./Src/stm32f767zi_timer.c **** {
-  89              		.loc 1 23 1
-  90              		.cfi_startproc
-  91              		@ args = 0, pretend = 0, frame = 0
-  92              		@ frame_needed = 1, uses_anonymous_args = 0
-  93              		@ link register save eliminated.
-  94 0000 80B4     		push	{r7}
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s 			page 3
+  90              		.loc 1 23 1
+  91              		.cfi_startproc
+  92              		@ args = 0, pretend = 0, frame = 0
+  93              		@ frame_needed = 1, uses_anonymous_args = 0
+  94              		@ link register save eliminated.
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 3
 
 
-  95              	.LCFI4:
-  96              		.cfi_def_cfa_offset 4
-  97              		.cfi_offset 7, -4
-  98 0002 00AF     		add	r7, sp, #0
-  99              	.LCFI5:
- 100              		.cfi_def_cfa_register 7
+  95 0000 80B4     		push	{r7}
+  96              	.LCFI4:
+  97              		.cfi_def_cfa_offset 4
+  98              		.cfi_offset 7, -4
+  99 0002 00AF     		add	r7, sp, #0
+ 100              	.LCFI5:
+ 101              		.cfi_def_cfa_register 7
   24:./Src/stm32f767zi_timer.c **** 	// Enable clock access to TIM1
   25:./Src/stm32f767zi_timer.c **** 	RCC->APB2ENR |= TIM1_CLK_EN;
- 101              		.loc 1 25 15
- 102 0004 134B     		ldr	r3, .L5
- 103 0006 5B6C     		ldr	r3, [r3, #68]
- 104 0008 124A     		ldr	r2, .L5
- 105 000a 43F00103 		orr	r3, r3, #1
- 106 000e 5364     		str	r3, [r2, #68]
+ 102              		.loc 1 25 15
+ 103 0004 144B     		ldr	r3, .L5
+ 104 0006 5B6C     		ldr	r3, [r3, #68]
+ 105 0008 134A     		ldr	r2, .L5
+ 106 000a 43F00103 		orr	r3, r3, #1
+ 107 000e 5364     		str	r3, [r2, #68]
   26:./Src/stm32f767zi_timer.c **** 	// Set the prescaler
   27:./Src/stm32f767zi_timer.c **** 	TIM1->PSC = 1600 - 1; // 16000000 / 1600 = 10000
- 107              		.loc 1 27 6
- 108 0010 114B     		ldr	r3, .L5+4
- 109              		.loc 1 27 12
- 110 0012 40F23F62 		movw	r2, #1599
- 111 0016 9A62     		str	r2, [r3, #40]
+ 108              		.loc 1 27 6
+ 109 0010 124B     		ldr	r3, .L5+4
+ 110              		.loc 1 27 12
+ 111 0012 40F23F62 		movw	r2, #1599
+ 112 0016 9A62     		str	r2, [r3, #40]
   28:./Src/stm32f767zi_timer.c **** 	// Set auto-reload value
   29:./Src/stm32f767zi_timer.c **** 	TIM1->ARR = 10000 - 1;
- 112              		.loc 1 29 6
- 113 0018 0F4B     		ldr	r3, .L5+4
- 114              		.loc 1 29 12
- 115 001a 42F20F72 		movw	r2, #9999
- 116 001e DA62     		str	r2, [r3, #44]
+ 113              		.loc 1 29 6
+ 114 0018 104B     		ldr	r3, .L5+4
+ 115              		.loc 1 29 12
+ 116 001a 42F20F72 		movw	r2, #9999
+ 117 001e DA62     		str	r2, [r3, #44]
   30:./Src/stm32f767zi_timer.c **** 	// Enable TIM1 update interrupt
   31:./Src/stm32f767zi_timer.c **** 	TIM1->DIER |= TIM_DIER_UIE;
- 117              		.loc 1 31 13
- 118 0020 0D4B     		ldr	r3, .L5+4
- 119 0022 DB68     		ldr	r3, [r3, #12]
- 120 0024 0C4A     		ldr	r2, .L5+4
- 121 0026 43F00103 		orr	r3, r3, #1
- 122 002a D360     		str	r3, [r2, #12]
+ 118              		.loc 1 31 13
+ 119 0020 0E4B     		ldr	r3, .L5+4
+ 120 0022 DB68     		ldr	r3, [r3, #12]
+ 121 0024 0D4A     		ldr	r2, .L5+4
+ 122 0026 43F00103 		orr	r3, r3, #1
+ 123 002a D360     		str	r3, [r2, #12]
   32:./Src/stm32f767zi_timer.c **** 	// Enable TIM1 update interrupt in NVIC
   33:./Src/stm32f767zi_timer.c **** 	NVIC->ISER[(((uint32_t)TIM1_UP_TIM10_IRQn) >> 5UL)] =
- 123              		.loc 1 33 6
- 124 002c 0B4B     		ldr	r3, .L5+8
- 125              		.loc 1 33 54
- 126 002e 4FF00072 		mov	r2, #33554432
- 127 0032 1A60     		str	r2, [r3]
+ 124              		.loc 1 33 6
+ 125 002c 0C4B     		ldr	r3, .L5+8
+ 126              		.loc 1 33 54
+ 127 002e 4FF00072 		mov	r2, #33554432
+ 128 0032 1A60     		str	r2, [r3]
   34:./Src/stm32f767zi_timer.c **** 		(uint32_t)(1UL << (((uint32_t)TIM1_UP_TIM10_IRQn) & 0x1FUL));
   35:./Src/stm32f767zi_timer.c **** 	// Enable timer
   36:./Src/stm32f767zi_timer.c **** 	TIM1->CR1 |= TIM_CR1_CEN;
- 128              		.loc 1 36 12
- 129 0034 084B     		ldr	r3, .L5+4
- 130 0036 1B68     		ldr	r3, [r3]
- 131 0038 074A     		ldr	r2, .L5+4
- 132 003a 43F00103 		orr	r3, r3, #1
- 133 003e 1360     		str	r3, [r2]
+ 129              		.loc 1 36 12
+ 130 0034 094B     		ldr	r3, .L5+4
+ 131 0036 1B68     		ldr	r3, [r3]
+ 132 0038 084A     		ldr	r2, .L5+4
+ 133 003a 43F00103 		orr	r3, r3, #1
+ 134 003e 1360     		str	r3, [r2]
   37:./Src/stm32f767zi_timer.c **** 	// Force update generation
   38:./Src/stm32f767zi_timer.c **** 	TIM1->EGR |= TIM_EGR_UG;
- 134              		.loc 1 38 12
- 135 0040 054B     		ldr	r3, .L5+4
- 136 0042 5B69     		ldr	r3, [r3, #20]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s 			page 4
+ 135              		.loc 1 38 12
+ 136 0040 064B     		ldr	r3, .L5+4
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 4
 
 
- 137 0044 044A     		ldr	r2, .L5+4
- 138 0046 43F00103 		orr	r3, r3, #1
- 139 004a 5361     		str	r3, [r2, #20]
+ 137 0042 5B69     		ldr	r3, [r3, #20]
+ 138 0044 054A     		ldr	r2, .L5+4
+ 139 0046 43F00103 		orr	r3, r3, #1
+ 140 004a 5361     		str	r3, [r2, #20]
   39:./Src/stm32f767zi_timer.c **** }...
- 140              		.loc 1 39 1
- 141 004c 00BF     		nop
- 142 004e BD46     		mov	sp, r7
- 143              	.LCFI6:
- 144              		.cfi_def_cfa_register 13
- 145              		@ sp needed
- 146 0050 80BC     		pop	{r7}
- 147              	.LCFI7:
- 148              		.cfi_restore 7
- 149              		.cfi_def_cfa_offset 0
- 150 0052 7047     		bx	lr
- 151              	.L6:
- 152              		.align	2
- 153              	.L5:
- 154 0054 00380240 		.word	1073887232
- 155 0058 00000140 		.word	1073807360
- 156 005c 00E100E0 		.word	-536813312
- 157              		.cfi_endproc
- 158              	.LFE1:
- 160              		.text
- 161              	.Letext0:
- 162              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 163              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 164              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s 			page 5
+ 141              		.loc 1 39 1
+ 142 004c 00BF     		nop
+ 143 004e BD46     		mov	sp, r7
+ 144              	.LCFI6:
+ 145              		.cfi_def_cfa_register 13
+ 146              		@ sp needed
+ 147 0050 5DF8047B 		ldr	r7, [sp], #4
+ 148              	.LCFI7:
+ 149              		.cfi_restore 7
+ 150              		.cfi_def_cfa_offset 0
+ 151 0054 7047     		bx	lr
+ 152              	.L6:
+ 153 0056 00BF     		.align	2
+ 154              	.L5:
+ 155 0058 00380240 		.word	1073887232
+ 156 005c 00000140 		.word	1073807360
+ 157 0060 00E100E0 		.word	-536813312
+ 158              		.cfi_endproc
+ 159              	.LFE1:
+ 161              		.text
+ 162              	.Letext0:
+ 163              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 164              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 165              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 5
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f767zi_timer.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s:18     .text.tim1_1Hz_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s:24     .text.tim1_1Hz_init:00000000 tim1_1Hz_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s:75     .text.tim1_1Hz_init:00000034 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s:81     .text.tim1_1Hz_interrupt_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s:87     .text.tim1_1Hz_interrupt_init:00000000 tim1_1Hz_interrupt_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccQFXfCd.s:154    .text.tim1_1Hz_interrupt_init:00000054 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:19     .text.tim1_1Hz_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:25     .text.tim1_1Hz_init:00000000 tim1_1Hz_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:76     .text.tim1_1Hz_init:00000038 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:82     .text.tim1_1Hz_interrupt_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:88     .text.tim1_1Hz_interrupt_init:00000000 tim1_1Hz_interrupt_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:155    .text.tim1_1Hz_interrupt_init:00000058 $d
 
 NO UNDEFINED SYMBOLS

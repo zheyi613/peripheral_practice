@@ -202,5 +202,11 @@ typedef struct {
 
 #define NVIC            ((NVIC_reg_t *)NVIC_BASE)
 #define SYST            ((SYST_reg_t *)SYST_BASE)
+#define CPACR           *((volatile uint32_t *)0xE000ED88UL)
+
+#define fpu_enable()                                    \
+        do {                                            \
+                CPACR = (3U << 20) | (3U << 22);        \
+        } while (0)
 
 #endif

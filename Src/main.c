@@ -17,7 +17,8 @@ int main(void)
 {
 	float get[7] = {0};
 	float err[6] = {0};
-
+	
+	fpu_enable();
 	usart3_default_init();
 	i2c1_master_default_init();
 	mpu6050_power_on();
@@ -30,16 +31,17 @@ int main(void)
 	}
 
 	printf("\r\n");
-	mpu6050_init(20, 2, 250);
+	mpu6050_init(100, 2, 250);
 
 	while (1) {
 		mpu6050_get_all(get);
+		// mpu6050_get_gyro(get);
 
 		for (int i = 0; i < 7; i++)
-			printf("d%d = %.2f ", i, get[i]);
+			printf("%.2f ", get[i]);
 
 		printf("\r\n");
-		systick_delay_ms(100);
+		systick_delay_ms(10);
 	}
 
 	return 0;

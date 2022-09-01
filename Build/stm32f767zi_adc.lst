@@ -1,31 +1,32 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 1
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s 			page 1
 
 
    1              		.cpu cortex-m7
    2              		.arch armv7e-m
-   3              		.fpu softvfp
-   4              		.eabi_attribute 20, 1
-   5              		.eabi_attribute 21, 1
-   6              		.eabi_attribute 23, 3
-   7              		.eabi_attribute 24, 1
-   8              		.eabi_attribute 25, 1
-   9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 6
-  11              		.eabi_attribute 34, 1
-  12              		.eabi_attribute 18, 4
-  13              		.file	"stm32f767zi_adc.c"
-  14              		.text
-  15              	.Ltext0:
-  16              		.cfi_sections	.debug_frame
-  17              		.section	.text.pa4_adc1_init,"ax",%progbits
-  18              		.align	1
-  19              		.global	pa4_adc1_init
-  20              		.syntax unified
-  21              		.thumb
-  22              		.thumb_func
-  24              	pa4_adc1_init:
-  25              	.LFB0:
-  26              		.file 1 "./Src/stm32f767zi_adc.c"
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"stm32f767zi_adc.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.pa4_adc1_init,"ax",%progbits
+  19              		.align	1
+  20              		.global	pa4_adc1_init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	pa4_adc1_init:
+  26              	.LFB0:
+  27              		.file 1 "./Src/stm32f767zi_adc.c"
    1:./Src/stm32f767zi_adc.c **** /**
    2:./Src/stm32f767zi_adc.c ****  * @file stm32f767zi_adc.c
    3:./Src/stm32f767zi_adc.c ****  * @author zheyi613 (zheyi880613@gmail.com)
@@ -37,363 +38,363 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 1
    9:./Src/stm32f767zi_adc.c **** 
   10:./Src/stm32f767zi_adc.c **** void pa4_adc1_init(void)
   11:./Src/stm32f767zi_adc.c **** {
-  27              		.loc 1 11 1
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 1, uses_anonymous_args = 0
-  31              		@ link register save eliminated.
-  32 0000 80B4     		push	{r7}
-  33              	.LCFI0:
-  34              		.cfi_def_cfa_offset 4
-  35              		.cfi_offset 7, -4
-  36 0002 00AF     		add	r7, sp, #0
-  37              	.LCFI1:
-  38              		.cfi_def_cfa_register 7
+  28              		.loc 1 11 1
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 7, -4
+  37 0002 00AF     		add	r7, sp, #0
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_register 7
   12:./Src/stm32f767zi_adc.c **** 	/*      Configure the ADC GPIO pin      */
   13:./Src/stm32f767zi_adc.c **** 
   14:./Src/stm32f767zi_adc.c **** 	// Enable clock access to GPIOA
   15:./Src/stm32f767zi_adc.c **** 	RCC->AHB1ENR |= GPIOA_CLE_EN;
-  39              		.loc 1 15 15
-  40 0004 124B     		ldr	r3, .L2
-  41 0006 1B6B     		ldr	r3, [r3, #48]
-  42 0008 114A     		ldr	r2, .L2
-  43 000a 43F00103 		orr	r3, r3, #1
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 2
+  40              		.loc 1 15 15
+  41 0004 134B     		ldr	r3, .L2
+  42 0006 1B6B     		ldr	r3, [r3, #48]
+  43 0008 124A     		ldr	r2, .L2
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s 			page 2
 
 
-  44 000e 1363     		str	r3, [r2, #48]
+  44 000a 43F00103 		orr	r3, r3, #1
+  45 000e 1363     		str	r3, [r2, #48]
   16:./Src/stm32f767zi_adc.c **** 	// Set PA4 mode to analog mode
   17:./Src/stm32f767zi_adc.c **** 	GPIOA->MODER |= (GPIO_MODE_ANALOG << 8);
-  45              		.loc 1 17 15
-  46 0010 104B     		ldr	r3, .L2+4
-  47 0012 1B68     		ldr	r3, [r3]
-  48 0014 0F4A     		ldr	r2, .L2+4
-  49 0016 43F44073 		orr	r3, r3, #768
-  50 001a 1360     		str	r3, [r2]
+  46              		.loc 1 17 15
+  47 0010 114B     		ldr	r3, .L2+4
+  48 0012 1B68     		ldr	r3, [r3]
+  49 0014 104A     		ldr	r2, .L2+4
+  50 0016 43F44073 		orr	r3, r3, #768
+  51 001a 1360     		str	r3, [r2]
   18:./Src/stm32f767zi_adc.c **** 
   19:./Src/stm32f767zi_adc.c **** 	/*      Configure the ADC module        */
   20:./Src/stm32f767zi_adc.c **** 
   21:./Src/stm32f767zi_adc.c **** 	// Enable clock access to the ADC module
   22:./Src/stm32f767zi_adc.c **** 	RCC->APB2ENR |= ADC1_CLK_EN;
-  51              		.loc 1 22 15
-  52 001c 0C4B     		ldr	r3, .L2
-  53 001e 5B6C     		ldr	r3, [r3, #68]
-  54 0020 0B4A     		ldr	r2, .L2
-  55 0022 43F48073 		orr	r3, r3, #256
-  56 0026 5364     		str	r3, [r2, #68]
+  52              		.loc 1 22 15
+  53 001c 0D4B     		ldr	r3, .L2
+  54 001e 5B6C     		ldr	r3, [r3, #68]
+  55 0020 0C4A     		ldr	r2, .L2
+  56 0022 43F48073 		orr	r3, r3, #256
+  57 0026 5364     		str	r3, [r2, #68]
   23:./Src/stm32f767zi_adc.c **** 	// Set conversion to continuous
   24:./Src/stm32f767zi_adc.c **** 	// ADC1->CR2 |= ADC_CR2_CONT;
   25:./Src/stm32f767zi_adc.c **** 	// Set sequence length to 1
   26:./Src/stm32f767zi_adc.c **** 	ADC1->SQR1 |= ADC_SEQLEN_1;
-  57              		.loc 1 26 13
-  58 0028 0B4B     		ldr	r3, .L2+8
-  59 002a 0B4A     		ldr	r2, .L2+8
-  60 002c DB6A     		ldr	r3, [r3, #44]
-  61 002e D362     		str	r3, [r2, #44]
+  58              		.loc 1 26 13
+  59 0028 0C4B     		ldr	r3, .L2+8
+  60 002a 0C4A     		ldr	r2, .L2+8
+  61 002c DB6A     		ldr	r3, [r3, #44]
+  62 002e D362     		str	r3, [r2, #44]
   27:./Src/stm32f767zi_adc.c **** 	// Set adc channel
   28:./Src/stm32f767zi_adc.c **** 	ADC1->SQR3 |= CH4_RANK1;
-  62              		.loc 1 28 13
-  63 0030 094B     		ldr	r3, .L2+8
-  64 0032 5B6B     		ldr	r3, [r3, #52]
-  65 0034 084A     		ldr	r2, .L2+8
-  66 0036 43F00403 		orr	r3, r3, #4
-  67 003a 5363     		str	r3, [r2, #52]
+  63              		.loc 1 28 13
+  64 0030 0A4B     		ldr	r3, .L2+8
+  65 0032 5B6B     		ldr	r3, [r3, #52]
+  66 0034 094A     		ldr	r2, .L2+8
+  67 0036 43F00403 		orr	r3, r3, #4
+  68 003a 5363     		str	r3, [r2, #52]
   29:./Src/stm32f767zi_adc.c **** 	// Enable adc module
   30:./Src/stm32f767zi_adc.c **** 	ADC1->CR2 |= ADC_CR2_ADON;
-  68              		.loc 1 30 12
-  69 003c 064B     		ldr	r3, .L2+8
-  70 003e 9B68     		ldr	r3, [r3, #8]
-  71 0040 054A     		ldr	r2, .L2+8
-  72 0042 43F00103 		orr	r3, r3, #1
-  73 0046 9360     		str	r3, [r2, #8]
+  69              		.loc 1 30 12
+  70 003c 074B     		ldr	r3, .L2+8
+  71 003e 9B68     		ldr	r3, [r3, #8]
+  72 0040 064A     		ldr	r2, .L2+8
+  73 0042 43F00103 		orr	r3, r3, #1
+  74 0046 9360     		str	r3, [r2, #8]
   31:./Src/stm32f767zi_adc.c **** }
-  74              		.loc 1 31 1
-  75 0048 00BF     		nop
-  76 004a BD46     		mov	sp, r7
-  77              	.LCFI2:
-  78              		.cfi_def_cfa_register 13
-  79              		@ sp needed
-  80 004c 80BC     		pop	{r7}
-  81              	.LCFI3:
-  82              		.cfi_restore 7
-  83              		.cfi_def_cfa_offset 0
-  84 004e 7047     		bx	lr
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 3
+  75              		.loc 1 31 1
+  76 0048 00BF     		nop
+  77 004a BD46     		mov	sp, r7
+  78              	.LCFI2:
+  79              		.cfi_def_cfa_register 13
+  80              		@ sp needed
+  81 004c 5DF8047B 		ldr	r7, [sp], #4
+  82              	.LCFI3:
+  83              		.cfi_restore 7
+  84              		.cfi_def_cfa_offset 0
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s 			page 3
 
 
-  85              	.L3:
-  86              		.align	2
-  87              	.L2:
-  88 0050 00380240 		.word	1073887232
-  89 0054 00000240 		.word	1073872896
-  90 0058 00200140 		.word	1073815552
-  91              		.cfi_endproc
-  92              	.LFE0:
-  94              		.section	.text.pa4_adc1_interrupt_init,"ax",%progbits
-  95              		.align	1
-  96              		.global	pa4_adc1_interrupt_init
-  97              		.syntax unified
-  98              		.thumb
-  99              		.thumb_func
- 101              	pa4_adc1_interrupt_init:
- 102              	.LFB1:
+  85 0050 7047     		bx	lr
+  86              	.L3:
+  87 0052 00BF     		.align	2
+  88              	.L2:
+  89 0054 00380240 		.word	1073887232
+  90 0058 00000240 		.word	1073872896
+  91 005c 00200140 		.word	1073815552
+  92              		.cfi_endproc
+  93              	.LFE0:
+  95              		.section	.text.pa4_adc1_interrupt_init,"ax",%progbits
+  96              		.align	1
+  97              		.global	pa4_adc1_interrupt_init
+  98              		.syntax unified
+  99              		.thumb
+ 100              		.thumb_func
+ 102              	pa4_adc1_interrupt_init:
+ 103              	.LFB1:
   32:./Src/stm32f767zi_adc.c **** 
   33:./Src/stm32f767zi_adc.c **** void pa4_adc1_interrupt_init(void)
   34:./Src/stm32f767zi_adc.c **** {
- 103              		.loc 1 34 1
- 104              		.cfi_startproc
- 105              		@ args = 0, pretend = 0, frame = 0
- 106              		@ frame_needed = 1, uses_anonymous_args = 0
- 107              		@ link register save eliminated.
- 108 0000 80B4     		push	{r7}
- 109              	.LCFI4:
- 110              		.cfi_def_cfa_offset 4
- 111              		.cfi_offset 7, -4
- 112 0002 00AF     		add	r7, sp, #0
- 113              	.LCFI5:
- 114              		.cfi_def_cfa_register 7
+ 104              		.loc 1 34 1
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 1, uses_anonymous_args = 0
+ 108              		@ link register save eliminated.
+ 109 0000 80B4     		push	{r7}
+ 110              	.LCFI4:
+ 111              		.cfi_def_cfa_offset 4
+ 112              		.cfi_offset 7, -4
+ 113 0002 00AF     		add	r7, sp, #0
+ 114              	.LCFI5:
+ 115              		.cfi_def_cfa_register 7
   35:./Src/stm32f767zi_adc.c **** 	/*      Configure the ADC GPIO pin      */
   36:./Src/stm32f767zi_adc.c **** 
   37:./Src/stm32f767zi_adc.c **** 	// Enable clock access to GPIOA
   38:./Src/stm32f767zi_adc.c **** 	RCC->AHB1ENR |= GPIOA_CLE_EN;
- 115              		.loc 1 38 15
- 116 0004 1A4B     		ldr	r3, .L5
- 117 0006 1B6B     		ldr	r3, [r3, #48]
- 118 0008 194A     		ldr	r2, .L5
- 119 000a 43F00103 		orr	r3, r3, #1
- 120 000e 1363     		str	r3, [r2, #48]
+ 116              		.loc 1 38 15
+ 117 0004 1B4B     		ldr	r3, .L5
+ 118 0006 1B6B     		ldr	r3, [r3, #48]
+ 119 0008 1A4A     		ldr	r2, .L5
+ 120 000a 43F00103 		orr	r3, r3, #1
+ 121 000e 1363     		str	r3, [r2, #48]
   39:./Src/stm32f767zi_adc.c **** 	// Set PA4 mode to analog mode
   40:./Src/stm32f767zi_adc.c **** 	GPIOA->MODER |= (GPIO_MODE_ANALOG << 8);
- 121              		.loc 1 40 15
- 122 0010 184B     		ldr	r3, .L5+4
- 123 0012 1B68     		ldr	r3, [r3]
- 124 0014 174A     		ldr	r2, .L5+4
- 125 0016 43F44073 		orr	r3, r3, #768
- 126 001a 1360     		str	r3, [r2]
+ 122              		.loc 1 40 15
+ 123 0010 194B     		ldr	r3, .L5+4
+ 124 0012 1B68     		ldr	r3, [r3]
+ 125 0014 184A     		ldr	r2, .L5+4
+ 126 0016 43F44073 		orr	r3, r3, #768
+ 127 001a 1360     		str	r3, [r2]
   41:./Src/stm32f767zi_adc.c **** 
   42:./Src/stm32f767zi_adc.c **** 	/*      Configure the ADC module        */
   43:./Src/stm32f767zi_adc.c **** 
   44:./Src/stm32f767zi_adc.c **** 	// Enable clock access to the ADC module
   45:./Src/stm32f767zi_adc.c **** 	RCC->APB2ENR |= ADC1_CLK_EN;
- 127              		.loc 1 45 15
- 128 001c 144B     		ldr	r3, .L5
- 129 001e 5B6C     		ldr	r3, [r3, #68]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 4
+ 128              		.loc 1 45 15
+ 129 001c 154B     		ldr	r3, .L5
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s 			page 4
 
 
- 130 0020 134A     		ldr	r2, .L5
- 131 0022 43F48073 		orr	r3, r3, #256
- 132 0026 5364     		str	r3, [r2, #68]
+ 130 001e 5B6C     		ldr	r3, [r3, #68]
+ 131 0020 144A     		ldr	r2, .L5
+ 132 0022 43F48073 		orr	r3, r3, #256
+ 133 0026 5364     		str	r3, [r2, #68]
   46:./Src/stm32f767zi_adc.c **** 	// Set conversion to continuous
   47:./Src/stm32f767zi_adc.c **** 	ADC1->CR2 |= ADC_CR2_CONT;
- 133              		.loc 1 47 12
- 134 0028 134B     		ldr	r3, .L5+8
- 135 002a 9B68     		ldr	r3, [r3, #8]
- 136 002c 124A     		ldr	r2, .L5+8
- 137 002e 43F00203 		orr	r3, r3, #2
- 138 0032 9360     		str	r3, [r2, #8]
+ 134              		.loc 1 47 12
+ 135 0028 144B     		ldr	r3, .L5+8
+ 136 002a 9B68     		ldr	r3, [r3, #8]
+ 137 002c 134A     		ldr	r2, .L5+8
+ 138 002e 43F00203 		orr	r3, r3, #2
+ 139 0032 9360     		str	r3, [r2, #8]
   48:./Src/stm32f767zi_adc.c **** 	// Set sequence length to 1
   49:./Src/stm32f767zi_adc.c **** 	ADC1->SQR1 |= ADC_SEQLEN_1;
- 139              		.loc 1 49 13
- 140 0034 104B     		ldr	r3, .L5+8
- 141 0036 104A     		ldr	r2, .L5+8
- 142 0038 DB6A     		ldr	r3, [r3, #44]
- 143 003a D362     		str	r3, [r2, #44]
+ 140              		.loc 1 49 13
+ 141 0034 114B     		ldr	r3, .L5+8
+ 142 0036 114A     		ldr	r2, .L5+8
+ 143 0038 DB6A     		ldr	r3, [r3, #44]
+ 144 003a D362     		str	r3, [r2, #44]
   50:./Src/stm32f767zi_adc.c **** 	// Set adc channel
   51:./Src/stm32f767zi_adc.c **** 	ADC1->SQR3 |= CH4_RANK1;
- 144              		.loc 1 51 13
- 145 003c 0E4B     		ldr	r3, .L5+8
- 146 003e 5B6B     		ldr	r3, [r3, #52]
- 147 0040 0D4A     		ldr	r2, .L5+8
- 148 0042 43F00403 		orr	r3, r3, #4
- 149 0046 5363     		str	r3, [r2, #52]
+ 145              		.loc 1 51 13
+ 146 003c 0F4B     		ldr	r3, .L5+8
+ 147 003e 5B6B     		ldr	r3, [r3, #52]
+ 148 0040 0E4A     		ldr	r2, .L5+8
+ 149 0042 43F00403 		orr	r3, r3, #4
+ 150 0046 5363     		str	r3, [r2, #52]
   52:./Src/stm32f767zi_adc.c **** 	// Enable adc module
   53:./Src/stm32f767zi_adc.c **** 	ADC1->CR2 |= ADC_CR2_ADON;
- 150              		.loc 1 53 12
- 151 0048 0B4B     		ldr	r3, .L5+8
- 152 004a 9B68     		ldr	r3, [r3, #8]
- 153 004c 0A4A     		ldr	r2, .L5+8
- 154 004e 43F00103 		orr	r3, r3, #1
- 155 0052 9360     		str	r3, [r2, #8]
+ 151              		.loc 1 53 12
+ 152 0048 0C4B     		ldr	r3, .L5+8
+ 153 004a 9B68     		ldr	r3, [r3, #8]
+ 154 004c 0B4A     		ldr	r2, .L5+8
+ 155 004e 43F00103 		orr	r3, r3, #1
+ 156 0052 9360     		str	r3, [r2, #8]
   54:./Src/stm32f767zi_adc.c **** 
   55:./Src/stm32f767zi_adc.c **** 	/*      Configure the ADC interrupt     */
   56:./Src/stm32f767zi_adc.c **** 
   57:./Src/stm32f767zi_adc.c **** 	// Enable end-of-conversion interrupt
   58:./Src/stm32f767zi_adc.c **** 	ADC1->CR1 |= ADC_CR1_EOCIE;
- 156              		.loc 1 58 12
- 157 0054 084B     		ldr	r3, .L5+8
- 158 0056 5B68     		ldr	r3, [r3, #4]
- 159 0058 074A     		ldr	r2, .L5+8
- 160 005a 43F02003 		orr	r3, r3, #32
- 161 005e 5360     		str	r3, [r2, #4]
+ 157              		.loc 1 58 12
+ 158 0054 094B     		ldr	r3, .L5+8
+ 159 0056 5B68     		ldr	r3, [r3, #4]
+ 160 0058 084A     		ldr	r2, .L5+8
+ 161 005a 43F02003 		orr	r3, r3, #32
+ 162 005e 5360     		str	r3, [r2, #4]
   59:./Src/stm32f767zi_adc.c **** 	// Enable ADC interrupt in NVIC
   60:./Src/stm32f767zi_adc.c **** 	NVIC->ISER[(((uint32_t)ADC_IRQn) >> 5UL)] =
- 162              		.loc 1 60 6
- 163 0060 064B     		ldr	r3, .L5+12
- 164              		.loc 1 60 44
- 165 0062 4FF48022 		mov	r2, #262144
- 166 0066 1A60     		str	r2, [r3]
+ 163              		.loc 1 60 6
+ 164 0060 074B     		ldr	r3, .L5+12
+ 165              		.loc 1 60 44
+ 166 0062 4FF48022 		mov	r2, #262144
+ 167 0066 1A60     		str	r2, [r3]
   61:./Src/stm32f767zi_adc.c **** 		(uint32_t)(1UL << (((uint32_t)ADC_IRQn) & 0x1FUL));
   62:./Src/stm32f767zi_adc.c **** }
- 167              		.loc 1 62 1
- 168 0068 00BF     		nop
- 169 006a BD46     		mov	sp, r7
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 5
+ 168              		.loc 1 62 1
+ 169 0068 00BF     		nop
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s 			page 5
 
 
- 170              	.LCFI6:
- 171              		.cfi_def_cfa_register 13
- 172              		@ sp needed
- 173 006c 80BC     		pop	{r7}
- 174              	.LCFI7:
- 175              		.cfi_restore 7
- 176              		.cfi_def_cfa_offset 0
- 177 006e 7047     		bx	lr
- 178              	.L6:
- 179              		.align	2
- 180              	.L5:
- 181 0070 00380240 		.word	1073887232
- 182 0074 00000240 		.word	1073872896
- 183 0078 00200140 		.word	1073815552
- 184 007c 00E100E0 		.word	-536813312
- 185              		.cfi_endproc
- 186              	.LFE1:
- 188              		.section	.text.adc1_start_conversion,"ax",%progbits
- 189              		.align	1
- 190              		.global	adc1_start_conversion
- 191              		.syntax unified
- 192              		.thumb
- 193              		.thumb_func
- 195              	adc1_start_conversion:
- 196              	.LFB2:
+ 170 006a BD46     		mov	sp, r7
+ 171              	.LCFI6:
+ 172              		.cfi_def_cfa_register 13
+ 173              		@ sp needed
+ 174 006c 5DF8047B 		ldr	r7, [sp], #4
+ 175              	.LCFI7:
+ 176              		.cfi_restore 7
+ 177              		.cfi_def_cfa_offset 0
+ 178 0070 7047     		bx	lr
+ 179              	.L6:
+ 180 0072 00BF     		.align	2
+ 181              	.L5:
+ 182 0074 00380240 		.word	1073887232
+ 183 0078 00000240 		.word	1073872896
+ 184 007c 00200140 		.word	1073815552
+ 185 0080 00E100E0 		.word	-536813312
+ 186              		.cfi_endproc
+ 187              	.LFE1:
+ 189              		.section	.text.adc1_start_conversion,"ax",%progbits
+ 190              		.align	1
+ 191              		.global	adc1_start_conversion
+ 192              		.syntax unified
+ 193              		.thumb
+ 194              		.thumb_func
+ 196              	adc1_start_conversion:
+ 197              	.LFB2:
   63:./Src/stm32f767zi_adc.c **** 
   64:./Src/stm32f767zi_adc.c **** void adc1_start_conversion(void)
   65:./Src/stm32f767zi_adc.c **** {
- 197              		.loc 1 65 1
- 198              		.cfi_startproc
- 199              		@ args = 0, pretend = 0, frame = 0
- 200              		@ frame_needed = 1, uses_anonymous_args = 0
- 201              		@ link register save eliminated.
- 202 0000 80B4     		push	{r7}
- 203              	.LCFI8:
- 204              		.cfi_def_cfa_offset 4
- 205              		.cfi_offset 7, -4
- 206 0002 00AF     		add	r7, sp, #0
- 207              	.LCFI9:
- 208              		.cfi_def_cfa_register 7
+ 198              		.loc 1 65 1
+ 199              		.cfi_startproc
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 1, uses_anonymous_args = 0
+ 202              		@ link register save eliminated.
+ 203 0000 80B4     		push	{r7}
+ 204              	.LCFI8:
+ 205              		.cfi_def_cfa_offset 4
+ 206              		.cfi_offset 7, -4
+ 207 0002 00AF     		add	r7, sp, #0
+ 208              	.LCFI9:
+ 209              		.cfi_def_cfa_register 7
   66:./Src/stm32f767zi_adc.c **** 	// Start conversion
   67:./Src/stm32f767zi_adc.c **** 	ADC1->CR2 |= ADC_CR2_SWSTART;
- 209              		.loc 1 67 12
- 210 0004 044B     		ldr	r3, .L8
- 211 0006 9B68     		ldr	r3, [r3, #8]
- 212 0008 034A     		ldr	r2, .L8
- 213 000a 43F08043 		orr	r3, r3, #1073741824
- 214 000e 9360     		str	r3, [r2, #8]
+ 210              		.loc 1 67 12
+ 211 0004 054B     		ldr	r3, .L8
+ 212 0006 9B68     		ldr	r3, [r3, #8]
+ 213 0008 044A     		ldr	r2, .L8
+ 214 000a 43F08043 		orr	r3, r3, #1073741824
+ 215 000e 9360     		str	r3, [r2, #8]
   68:./Src/stm32f767zi_adc.c **** }
- 215              		.loc 1 68 1
- 216 0010 00BF     		nop
- 217 0012 BD46     		mov	sp, r7
- 218              	.LCFI10:
- 219              		.cfi_def_cfa_register 13
- 220              		@ sp needed
- 221 0014 80BC     		pop	{r7}
- 222              	.LCFI11:
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 6
+ 216              		.loc 1 68 1
+ 217 0010 00BF     		nop
+ 218 0012 BD46     		mov	sp, r7
+ 219              	.LCFI10:
+ 220              		.cfi_def_cfa_register 13
+ 221              		@ sp needed
+ 222 0014 5DF8047B 		ldr	r7, [sp], #4
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s 			page 6
 
 
- 223              		.cfi_restore 7
- 224              		.cfi_def_cfa_offset 0
- 225 0016 7047     		bx	lr
- 226              	.L9:
- 227              		.align	2
- 228              	.L8:
- 229 0018 00200140 		.word	1073815552
- 230              		.cfi_endproc
- 231              	.LFE2:
- 233              		.section	.text.adc1_get_data,"ax",%progbits
- 234              		.align	1
- 235              		.global	adc1_get_data
- 236              		.syntax unified
- 237              		.thumb
- 238              		.thumb_func
- 240              	adc1_get_data:
- 241              	.LFB3:
+ 223              	.LCFI11:
+ 224              		.cfi_restore 7
+ 225              		.cfi_def_cfa_offset 0
+ 226 0018 7047     		bx	lr
+ 227              	.L9:
+ 228 001a 00BF     		.align	2
+ 229              	.L8:
+ 230 001c 00200140 		.word	1073815552
+ 231              		.cfi_endproc
+ 232              	.LFE2:
+ 234              		.section	.text.adc1_get_data,"ax",%progbits
+ 235              		.align	1
+ 236              		.global	adc1_get_data
+ 237              		.syntax unified
+ 238              		.thumb
+ 239              		.thumb_func
+ 241              	adc1_get_data:
+ 242              	.LFB3:
   69:./Src/stm32f767zi_adc.c **** 
   70:./Src/stm32f767zi_adc.c **** uint32_t adc1_get_data(void)
   71:./Src/stm32f767zi_adc.c **** {
- 242              		.loc 1 71 1
- 243              		.cfi_startproc
- 244              		@ args = 0, pretend = 0, frame = 0
- 245              		@ frame_needed = 1, uses_anonymous_args = 0
- 246              		@ link register save eliminated.
- 247 0000 80B4     		push	{r7}
- 248              	.LCFI12:
- 249              		.cfi_def_cfa_offset 4
- 250              		.cfi_offset 7, -4
- 251 0002 00AF     		add	r7, sp, #0
- 252              	.LCFI13:
- 253              		.cfi_def_cfa_register 7
+ 243              		.loc 1 71 1
+ 244              		.cfi_startproc
+ 245              		@ args = 0, pretend = 0, frame = 0
+ 246              		@ frame_needed = 1, uses_anonymous_args = 0
+ 247              		@ link register save eliminated.
+ 248 0000 80B4     		push	{r7}
+ 249              	.LCFI12:
+ 250              		.cfi_def_cfa_offset 4
+ 251              		.cfi_offset 7, -4
+ 252 0002 00AF     		add	r7, sp, #0
+ 253              	.LCFI13:
+ 254              		.cfi_def_cfa_register 7
   72:./Src/stm32f767zi_adc.c **** 	// Wait for End-of-Conversion flag
   73:./Src/stm32f767zi_adc.c **** 	while (!(ADC1->SR & ADC_SR_EOC))
- 254              		.loc 1 73 8
- 255 0004 00BF     		nop
- 256              	.L11:
- 257              		.loc 1 73 15 discriminator 1
- 258 0006 064B     		ldr	r3, .L13
- 259 0008 1B68     		ldr	r3, [r3]
- 260              		.loc 1 73 20 discriminator 1
- 261 000a 03F00203 		and	r3, r3, #2
- 262              		.loc 1 73 8 discriminator 1
- 263 000e 002B     		cmp	r3, #0
- 264 0010 F9D0     		beq	.L11
+ 255              		.loc 1 73 8
+ 256 0004 00BF     		nop
+ 257              	.L11:
+ 258              		.loc 1 73 15 discriminator 1
+ 259 0006 064B     		ldr	r3, .L13
+ 260 0008 1B68     		ldr	r3, [r3]
+ 261              		.loc 1 73 20 discriminator 1
+ 262 000a 03F00203 		and	r3, r3, #2
+ 263              		.loc 1 73 8 discriminator 1
+ 264 000e 002B     		cmp	r3, #0
+ 265 0010 F9D0     		beq	.L11
   74:./Src/stm32f767zi_adc.c **** 		;
   75:./Src/stm32f767zi_adc.c **** 	// Read results
   76:./Src/stm32f767zi_adc.c **** 	return ADC1->DR;
- 265              		.loc 1 76 13
- 266 0012 034B     		ldr	r3, .L13
- 267 0014 DB6C     		ldr	r3, [r3, #76]
+ 266              		.loc 1 76 13
+ 267 0012 034B     		ldr	r3, .L13
+ 268 0014 DB6C     		ldr	r3, [r3, #76]
   77:./Src/stm32f767zi_adc.c **** }...
- 268              		.loc 1 77 1
- 269 0016 1846     		mov	r0, r3
- 270 0018 BD46     		mov	sp, r7
- 271              	.LCFI14:
- 272              		.cfi_def_cfa_register 13
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 7
+ 269              		.loc 1 77 1
+ 270 0016 1846     		mov	r0, r3
+ 271 0018 BD46     		mov	sp, r7
+ 272              	.LCFI14:
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s 			page 7
 
 
- 273              		@ sp needed
- 274 001a 80BC     		pop	{r7}
- 275              	.LCFI15:
- 276              		.cfi_restore 7
- 277              		.cfi_def_cfa_offset 0
- 278 001c 7047     		bx	lr
- 279              	.L14:
- 280 001e 00BF     		.align	2
- 281              	.L13:
- 282 0020 00200140 		.word	1073815552
- 283              		.cfi_endproc
- 284              	.LFE3:
- 286              		.text
- 287              	.Letext0:
- 288              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 289              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 290              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s 			page 8
+ 273              		.cfi_def_cfa_register 13
+ 274              		@ sp needed
+ 275 001a 5DF8047B 		ldr	r7, [sp], #4
+ 276              	.LCFI15:
+ 277              		.cfi_restore 7
+ 278              		.cfi_def_cfa_offset 0
+ 279 001e 7047     		bx	lr
+ 280              	.L14:
+ 281              		.align	2
+ 282              	.L13:
+ 283 0020 00200140 		.word	1073815552
+ 284              		.cfi_endproc
+ 285              	.LFE3:
+ 287              		.text
+ 288              	.Letext0:
+ 289              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 290              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 291              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f767zi_adc.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:18     .text.pa4_adc1_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:24     .text.pa4_adc1_init:00000000 pa4_adc1_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:88     .text.pa4_adc1_init:00000050 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:95     .text.pa4_adc1_interrupt_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:101    .text.pa4_adc1_interrupt_init:00000000 pa4_adc1_interrupt_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:181    .text.pa4_adc1_interrupt_init:00000070 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:189    .text.adc1_start_conversion:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:195    .text.adc1_start_conversion:00000000 adc1_start_conversion
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:229    .text.adc1_start_conversion:00000018 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:234    .text.adc1_get_data:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:240    .text.adc1_get_data:00000000 adc1_get_data
-C:\Users\DCS_LAB\AppData\Local\Temp\ccXeBufk.s:282    .text.adc1_get_data:00000020 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:19     .text.pa4_adc1_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:25     .text.pa4_adc1_init:00000000 pa4_adc1_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:89     .text.pa4_adc1_init:00000054 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:96     .text.pa4_adc1_interrupt_init:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:102    .text.pa4_adc1_interrupt_init:00000000 pa4_adc1_interrupt_init
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:182    .text.pa4_adc1_interrupt_init:00000074 $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:190    .text.adc1_start_conversion:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:196    .text.adc1_start_conversion:00000000 adc1_start_conversion
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:230    .text.adc1_start_conversion:0000001c $d
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:235    .text.adc1_get_data:00000000 $t
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:241    .text.adc1_get_data:00000000 adc1_get_data
+C:\Users\DCS_LAB\AppData\Local\Temp\ccbt5NhH.s:283    .text.adc1_get_data:00000020 $d
 
 NO UNDEFINED SYMBOLS
