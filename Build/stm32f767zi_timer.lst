@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 1
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 1
   43 0008 0B4A     		ldr	r2, .L2
   44 000a 43F00103 		orr	r3, r3, #1
   45 000e 5364     		str	r3, [r2, #68]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 2
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s 			page 2
 
 
   14:./Src/stm32f767zi_timer.c **** 	// Set the prescaler
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 1
   92              		@ args = 0, pretend = 0, frame = 0
   93              		@ frame_needed = 1, uses_anonymous_args = 0
   94              		@ link register save eliminated.
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 3
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s 			page 3
 
 
   95 0000 80B4     		push	{r7}
@@ -178,14 +178,14 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 1
   38:./Src/stm32f767zi_timer.c **** 	TIM1->EGR |= TIM_EGR_UG;
  135              		.loc 1 38 12
  136 0040 064B     		ldr	r3, .L5+4
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 4
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s 			page 4
 
 
  137 0042 5B69     		ldr	r3, [r3, #20]
  138 0044 054A     		ldr	r2, .L5+4
  139 0046 43F00103 		orr	r3, r3, #1
  140 004a 5361     		str	r3, [r2, #20]
-  39:./Src/stm32f767zi_timer.c **** }...
+  39:./Src/stm32f767zi_timer.c **** }
  141              		.loc 1 39 1
  142 004c 00BF     		nop
  143 004e BD46     		mov	sp, r7
@@ -205,21 +205,140 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 1
  157 0060 00E100E0 		.word	-536813312
  158              		.cfi_endproc
  159              	.LFE1:
- 161              		.text
- 162              	.Letext0:
- 163              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 164              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 165              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s 			page 5
+ 161              		.section	.text.tim1_interrupt_init,"ax",%progbits
+ 162              		.align	1
+ 163              		.global	tim1_interrupt_init
+ 164              		.syntax unified
+ 165              		.thumb
+ 166              		.thumb_func
+ 168              	tim1_interrupt_init:
+ 169              	.LFB2:
+  40:./Src/stm32f767zi_timer.c **** 
+  41:./Src/stm32f767zi_timer.c **** void tim1_interrupt_init(uint16_t freq)
+  42:./Src/stm32f767zi_timer.c **** {
+ 170              		.loc 1 42 1
+ 171              		.cfi_startproc
+ 172              		@ args = 0, pretend = 0, frame = 8
+ 173              		@ frame_needed = 1, uses_anonymous_args = 0
+ 174              		@ link register save eliminated.
+ 175 0000 80B4     		push	{r7}
+ 176              	.LCFI8:
+ 177              		.cfi_def_cfa_offset 4
+ 178              		.cfi_offset 7, -4
+ 179 0002 83B0     		sub	sp, sp, #12
+ 180              	.LCFI9:
+ 181              		.cfi_def_cfa_offset 16
+ 182 0004 00AF     		add	r7, sp, #0
+ 183              	.LCFI10:
+ 184              		.cfi_def_cfa_register 7
+ 185 0006 0346     		mov	r3, r0
+ 186 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+  43:./Src/stm32f767zi_timer.c **** 	// Enable clock access to TIM1
+  44:./Src/stm32f767zi_timer.c **** 	RCC->APB2ENR |= TIM1_CLK_EN;
+ 187              		.loc 1 44 15
+ 188 000a 174B     		ldr	r3, .L8
+ 189 000c 5B6C     		ldr	r3, [r3, #68]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s 			page 5
+
+
+ 190 000e 164A     		ldr	r2, .L8
+ 191 0010 43F00103 		orr	r3, r3, #1
+ 192 0014 5364     		str	r3, [r2, #68]
+  45:./Src/stm32f767zi_timer.c **** 	// Set the prescaler
+  46:./Src/stm32f767zi_timer.c **** 	TIM1->PSC = 1600 - 1; // 16000000 / 1600 = 10000
+ 193              		.loc 1 46 6
+ 194 0016 154B     		ldr	r3, .L8+4
+ 195              		.loc 1 46 12
+ 196 0018 40F23F62 		movw	r2, #1599
+ 197 001c 9A62     		str	r2, [r3, #40]
+  47:./Src/stm32f767zi_timer.c **** 	// Set auto-reload value
+  48:./Src/stm32f767zi_timer.c **** 	TIM1->ARR = (10000 / freq) - 1;
+ 198              		.loc 1 48 21
+ 199 001e FB88     		ldrh	r3, [r7, #6]
+ 200 0020 42F21072 		movw	r2, #10000
+ 201 0024 92FBF3F3 		sdiv	r3, r2, r3
+ 202              		.loc 1 48 29
+ 203 0028 5A1E     		subs	r2, r3, #1
+ 204              		.loc 1 48 6
+ 205 002a 104B     		ldr	r3, .L8+4
+ 206              		.loc 1 48 12
+ 207 002c DA62     		str	r2, [r3, #44]
+  49:./Src/stm32f767zi_timer.c **** 	// Enable TIM1 update interrupt
+  50:./Src/stm32f767zi_timer.c **** 	TIM1->DIER |= TIM_DIER_UIE;
+ 208              		.loc 1 50 13
+ 209 002e 0F4B     		ldr	r3, .L8+4
+ 210 0030 DB68     		ldr	r3, [r3, #12]
+ 211 0032 0E4A     		ldr	r2, .L8+4
+ 212 0034 43F00103 		orr	r3, r3, #1
+ 213 0038 D360     		str	r3, [r2, #12]
+  51:./Src/stm32f767zi_timer.c **** 	// Enable TIM1 update interrupt in NVIC
+  52:./Src/stm32f767zi_timer.c **** 	NVIC->ISER[(((uint32_t)TIM1_UP_TIM10_IRQn) >> 5UL)] =
+ 214              		.loc 1 52 6
+ 215 003a 0D4B     		ldr	r3, .L8+8
+ 216              		.loc 1 52 54
+ 217 003c 4FF00072 		mov	r2, #33554432
+ 218 0040 1A60     		str	r2, [r3]
+  53:./Src/stm32f767zi_timer.c **** 		(uint32_t)(1UL << (((uint32_t)TIM1_UP_TIM10_IRQn) & 0x1FUL));
+  54:./Src/stm32f767zi_timer.c **** 	// Enable timer
+  55:./Src/stm32f767zi_timer.c **** 	TIM1->CR1 |= TIM_CR1_CEN;
+ 219              		.loc 1 55 12
+ 220 0042 0A4B     		ldr	r3, .L8+4
+ 221 0044 1B68     		ldr	r3, [r3]
+ 222 0046 094A     		ldr	r2, .L8+4
+ 223 0048 43F00103 		orr	r3, r3, #1
+ 224 004c 1360     		str	r3, [r2]
+  56:./Src/stm32f767zi_timer.c **** 	// Force update generation
+  57:./Src/stm32f767zi_timer.c **** 	TIM1->EGR |= TIM_EGR_UG;
+ 225              		.loc 1 57 12
+ 226 004e 074B     		ldr	r3, .L8+4
+ 227 0050 5B69     		ldr	r3, [r3, #20]
+ 228 0052 064A     		ldr	r2, .L8+4
+ 229 0054 43F00103 		orr	r3, r3, #1
+ 230 0058 5361     		str	r3, [r2, #20]
+  58:./Src/stm32f767zi_timer.c **** }...
+ 231              		.loc 1 58 1
+ 232 005a 00BF     		nop
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s 			page 6
+
+
+ 233 005c 0C37     		adds	r7, r7, #12
+ 234              	.LCFI11:
+ 235              		.cfi_def_cfa_offset 4
+ 236 005e BD46     		mov	sp, r7
+ 237              	.LCFI12:
+ 238              		.cfi_def_cfa_register 13
+ 239              		@ sp needed
+ 240 0060 5DF8047B 		ldr	r7, [sp], #4
+ 241              	.LCFI13:
+ 242              		.cfi_restore 7
+ 243              		.cfi_def_cfa_offset 0
+ 244 0064 7047     		bx	lr
+ 245              	.L9:
+ 246 0066 00BF     		.align	2
+ 247              	.L8:
+ 248 0068 00380240 		.word	1073887232
+ 249 006c 00000140 		.word	1073807360
+ 250 0070 00E100E0 		.word	-536813312
+ 251              		.cfi_endproc
+ 252              	.LFE2:
+ 254              		.text
+ 255              	.Letext0:
+ 256              		.file 2 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 257              		.file 3 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 258              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f767zi_timer.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:19     .text.tim1_1Hz_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:25     .text.tim1_1Hz_init:00000000 tim1_1Hz_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:76     .text.tim1_1Hz_init:00000038 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:82     .text.tim1_1Hz_interrupt_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:88     .text.tim1_1Hz_interrupt_init:00000000 tim1_1Hz_interrupt_init
-C:\Users\DCS_LAB\AppData\Local\Temp\ccjJYvxz.s:155    .text.tim1_1Hz_interrupt_init:00000058 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:19     .text.tim1_1Hz_init:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:25     .text.tim1_1Hz_init:00000000 tim1_1Hz_init
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:76     .text.tim1_1Hz_init:00000038 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:82     .text.tim1_1Hz_interrupt_init:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:88     .text.tim1_1Hz_interrupt_init:00000000 tim1_1Hz_interrupt_init
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:155    .text.tim1_1Hz_interrupt_init:00000058 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:162    .text.tim1_interrupt_init:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:168    .text.tim1_interrupt_init:00000000 tim1_interrupt_init
+C:\Users\LINZHE~1\AppData\Local\Temp\ccKz5g1q.s:248    .text.tim1_interrupt_init:00000068 $d
 
 NO UNDEFINED SYMBOLS

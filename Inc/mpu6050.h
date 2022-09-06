@@ -9,6 +9,7 @@
 #define __MPU6050_H
 
 #include "stm32f767zi_i2c.h"
+#include "stm32f767zi_systick.h"
 #include "math.h"
 /*
  * Line Connection:
@@ -35,11 +36,11 @@
 #define MPU6050_X_FINE_GAIN		0x03
 #define MPU6050_Y_FINE_GAIN		0x04
 #define MPU6050_Z_FINE_GAIN		0x05
-#define MPU6050_XA_OFFS_N		0x06
+#define MPU6050_XA_OFFS_H		0x06
 #define MPU6050_XA_OFFS_L_TC		0x07
-#define MPU6050_YA_OFFS_N		0x08
+#define MPU6050_YA_OFFS_H		0x08
 #define MPU6050_YA_OFFS_L_TC		0x09
-#define MPU6050_ZA_OFFS_N		0x0A
+#define MPU6050_ZA_OFFS_H		0x0A
 #define MPU6050_ZA_OFFS_L_TC		0x0B
 #define MPU6050_SELF_TEST_X             0x0D
 #define MPU6050_SELF_TEST_Y             0x0E
@@ -147,12 +148,13 @@
 #define MPU6050_ACCEL_UNIT              0.000061036087F // minimum unit (+-2g)
 
 void mpu6050_power_on(void);
+void mpu6050_selftest(float *err);
 void mpu6050_default_init(void);
 void mpu6050_init(uint16_t sample_rate, uint8_t acce_range, uint16_t gyro_range);
+void mpu6050_kalman_gyro(float (*X)[2], float *Z);
 void mpu6050_get_all(float *data);
 float mpu6050_get_temperature(void);
 void mpu6050_get_gyro(float *data);
 void mpu6050_get_accel(float *data);
-void mpu6050_selftest(float *err);
 
 #endif

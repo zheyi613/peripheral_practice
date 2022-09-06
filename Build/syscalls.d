@@ -1,1 +1,1 @@
-Build/syscalls.o: Src/syscalls.c
+build/syscalls.o: Src/syscalls.c

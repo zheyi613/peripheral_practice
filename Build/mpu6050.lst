@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 1
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -18,29 +18,33 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 1
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.bss.gyro_unit,"aw",%nobits
+  18              		.section	.data.dt,"aw"
   19              		.align	2
-  22              	gyro_unit:
-  23 0000 00000000 		.space	4
-  24              		.section	.bss.accel_unit,"aw",%nobits
+  22              	dt:
+  23 0000 6F12833A 		.word	981668463
+  24              		.section	.bss.gyro_unit,"aw",%nobits
   25              		.align	2
-  28              	accel_unit:
+  28              	gyro_unit:
   29 0000 00000000 		.space	4
-  30              		.section	.bss.offset,"aw",%nobits
+  30              		.section	.bss.accel_unit,"aw",%nobits
   31              		.align	2
-  34              	offset:
-  35 0000 00000000 		.space	12
-  35      00000000 
-  35      00000000 
-  36              		.section	.text.mpu6050_power_on,"ax",%progbits
-  37              		.align	1
-  38              		.global	mpu6050_power_on
-  39              		.syntax unified
-  40              		.thumb
-  41              		.thumb_func
-  43              	mpu6050_power_on:
-  44              	.LFB0:
-  45              		.file 1 "./Src/mpu6050.c"
+  34              	accel_unit:
+  35 0000 00000000 		.space	4
+  36              		.section	.bss.bias,"aw",%nobits
+  37              		.align	2
+  40              	bias:
+  41 0000 00000000 		.space	12
+  41      00000000 
+  41      00000000 
+  42              		.section	.text.mpu6050_power_on,"ax",%progbits
+  43              		.align	1
+  44              		.global	mpu6050_power_on
+  45              		.syntax unified
+  46              		.thumb
+  47              		.thumb_func
+  49              	mpu6050_power_on:
+  50              	.LFB0:
+  51              		.file 1 "./Src/mpu6050.c"
    1:./Src/mpu6050.c **** /**
    2:./Src/mpu6050.c ****  * @file mpu6050.c
    3:./Src/mpu6050.c ****  * @author zheyi613 (zheyi880613@gmail.com)
@@ -50,1934 +54,2385 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 1
    7:./Src/mpu6050.c **** 
    8:./Src/mpu6050.c **** #include "mpu6050.h"
    9:./Src/mpu6050.c **** 
-  10:./Src/mpu6050.c **** static float gyro_unit = 0;
-  11:./Src/mpu6050.c **** static float accel_unit = 0;
-  12:./Src/mpu6050.c **** static int16_t offset[6] = {0};
-  13:./Src/mpu6050.c **** 
-  14:./Src/mpu6050.c **** static void mpu6050_calibration(uint8_t div);
-  15:./Src/mpu6050.c **** 
-  16:./Src/mpu6050.c **** /* Use PG2 as Vdd of MPU6050 */
-  17:./Src/mpu6050.c **** void mpu6050_power_on(void)
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 2
+  10:./Src/mpu6050.c **** static void calibration(void);
+  11:./Src/mpu6050.c **** 
+  12:./Src/mpu6050.c **** static float dt = 0.001;
+  13:./Src/mpu6050.c **** static float gyro_unit = 0;
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 2
 
 
-  18:./Src/mpu6050.c **** {
-  46              		.loc 1 18 1
-  47              		.cfi_startproc
-  48              		@ args = 0, pretend = 0, frame = 0
-  49              		@ frame_needed = 1, uses_anonymous_args = 0
-  50 0000 80B5     		push	{r7, lr}
-  51              	.LCFI0:
-  52              		.cfi_def_cfa_offset 8
-  53              		.cfi_offset 7, -8
-  54              		.cfi_offset 14, -4
-  55 0002 00AF     		add	r7, sp, #0
-  56              	.LCFI1:
-  57              		.cfi_def_cfa_register 7
-  19:./Src/mpu6050.c **** 	RCC->AHB1ENR |= GPIOG_CLK_EN;
-  58              		.loc 1 19 15
-  59 0004 0B4B     		ldr	r3, .L2
-  60 0006 1B6B     		ldr	r3, [r3, #48]
-  61 0008 0A4A     		ldr	r2, .L2
-  62 000a 43F04003 		orr	r3, r3, #64
-  63 000e 1363     		str	r3, [r2, #48]
-  20:./Src/mpu6050.c **** 	GPIOG->MODER |= GPIO_MODE_OUTPUT << 4;
+  14:./Src/mpu6050.c **** static float accel_unit = 0;
+  15:./Src/mpu6050.c **** static int16_t bias[6] = {0};
+  16:./Src/mpu6050.c **** 
+  17:./Src/mpu6050.c **** /* Use PG2 as Vdd of MPU6050 */
+  18:./Src/mpu6050.c **** void mpu6050_power_on(void)
+  19:./Src/mpu6050.c **** {
+  52              		.loc 1 19 1
+  53              		.cfi_startproc
+  54              		@ args = 0, pretend = 0, frame = 0
+  55              		@ frame_needed = 1, uses_anonymous_args = 0
+  56 0000 80B5     		push	{r7, lr}
+  57              	.LCFI0:
+  58              		.cfi_def_cfa_offset 8
+  59              		.cfi_offset 7, -8
+  60              		.cfi_offset 14, -4
+  61 0002 00AF     		add	r7, sp, #0
+  62              	.LCFI1:
+  63              		.cfi_def_cfa_register 7
+  20:./Src/mpu6050.c **** 	RCC->AHB1ENR |= GPIOG_CLK_EN;
   64              		.loc 1 20 15
-  65 0010 094B     		ldr	r3, .L2+4
-  66 0012 1B68     		ldr	r3, [r3]
-  67 0014 084A     		ldr	r2, .L2+4
-  68 0016 43F01003 		orr	r3, r3, #16
-  69 001a 1360     		str	r3, [r2]
-  21:./Src/mpu6050.c **** 	GPIOG->BSRR |= (1U << 2);
-  70              		.loc 1 21 14
-  71 001c 064B     		ldr	r3, .L2+4
-  72 001e 9B69     		ldr	r3, [r3, #24]
-  73 0020 054A     		ldr	r2, .L2+4
-  74 0022 43F00403 		orr	r3, r3, #4
-  75 0026 9361     		str	r3, [r2, #24]
-  22:./Src/mpu6050.c **** 
-  23:./Src/mpu6050.c **** 	systick_delay_ms(100);
-  76              		.loc 1 23 2
-  77 0028 6420     		movs	r0, #100
-  78 002a FFF7FEFF 		bl	systick_delay_ms
-  24:./Src/mpu6050.c **** }
-  79              		.loc 1 24 1
-  80 002e 00BF     		nop
-  81 0030 80BD     		pop	{r7, pc}
-  82              	.L3:
-  83 0032 00BF     		.align	2
-  84              	.L2:
-  85 0034 00380240 		.word	1073887232
-  86 0038 00180240 		.word	1073879040
-  87              		.cfi_endproc
-  88              	.LFE0:
-  90              		.section	.text.mpu6050_default_init,"ax",%progbits
-  91              		.align	1
-  92              		.global	mpu6050_default_init
-  93              		.syntax unified
-  94              		.thumb
-  95              		.thumb_func
-  97              	mpu6050_default_init:
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 3
+  65 0004 0B4B     		ldr	r3, .L2
+  66 0006 1B6B     		ldr	r3, [r3, #48]
+  67 0008 0A4A     		ldr	r2, .L2
+  68 000a 43F04003 		orr	r3, r3, #64
+  69 000e 1363     		str	r3, [r2, #48]
+  21:./Src/mpu6050.c **** 	GPIOG->MODER |= GPIO_MODE_OUTPUT << 4;
+  70              		.loc 1 21 15
+  71 0010 094B     		ldr	r3, .L2+4
+  72 0012 1B68     		ldr	r3, [r3]
+  73 0014 084A     		ldr	r2, .L2+4
+  74 0016 43F01003 		orr	r3, r3, #16
+  75 001a 1360     		str	r3, [r2]
+  22:./Src/mpu6050.c **** 	GPIOG->BSRR |= (1U << 2);
+  76              		.loc 1 22 14
+  77 001c 064B     		ldr	r3, .L2+4
+  78 001e 9B69     		ldr	r3, [r3, #24]
+  79 0020 054A     		ldr	r2, .L2+4
+  80 0022 43F00403 		orr	r3, r3, #4
+  81 0026 9361     		str	r3, [r2, #24]
+  23:./Src/mpu6050.c **** 
+  24:./Src/mpu6050.c **** 	systick_delay_ms(100);
+  82              		.loc 1 24 2
+  83 0028 6420     		movs	r0, #100
+  84 002a FFF7FEFF 		bl	systick_delay_ms
+  25:./Src/mpu6050.c **** }
+  85              		.loc 1 25 1
+  86 002e 00BF     		nop
+  87 0030 80BD     		pop	{r7, pc}
+  88              	.L3:
+  89 0032 00BF     		.align	2
+  90              	.L2:
+  91 0034 00380240 		.word	1073887232
+  92 0038 00180240 		.word	1073879040
+  93              		.cfi_endproc
+  94              	.LFE0:
+  96              		.section	.text.mpu6050_selftest,"ax",%progbits
+  97              		.align	1
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 3
 
 
-  98              	.LFB1:
-  25:./Src/mpu6050.c **** 
-  26:./Src/mpu6050.c **** /*
-  27:./Src/mpu6050.c ****  * Default setting:
-  28:./Src/mpu6050.c ****  * Clock source: PLL with X axis gyroscope reference
-  29:./Src/mpu6050.c ****  * Sampling rate: 1000
-  30:./Src/mpu6050.c ****  * Gyroscope full scale range: 250dps
-  31:./Src/mpu6050.c ****  * Accelerometer full scale range: 2g
-  32:./Src/mpu6050.c ****  *
-  33:./Src/mpu6050.c ****  * note: no calibration
-  34:./Src/mpu6050.c ****  */
-  35:./Src/mpu6050.c **** void mpu6050_default_init(void)
-  36:./Src/mpu6050.c **** {
-  99              		.loc 1 36 1
- 100              		.cfi_startproc
- 101              		@ args = 0, pretend = 0, frame = 8
- 102              		@ frame_needed = 1, uses_anonymous_args = 0
- 103 0000 80B5     		push	{r7, lr}
- 104              	.LCFI2:
- 105              		.cfi_def_cfa_offset 8
- 106              		.cfi_offset 7, -8
- 107              		.cfi_offset 14, -4
- 108 0002 84B0     		sub	sp, sp, #16
- 109              	.LCFI3:
- 110              		.cfi_def_cfa_offset 24
- 111 0004 02AF     		add	r7, sp, #8
- 112              	.LCFI4:
- 113              		.cfi_def_cfa 7, 16
-  37:./Src/mpu6050.c **** 	uint8_t tmp = MPU6050_DEVICE_RESET;
- 114              		.loc 1 37 10
- 115 0006 8023     		movs	r3, #128
- 116 0008 FB71     		strb	r3, [r7, #7]
-  38:./Src/mpu6050.c **** 	// Reset MPU6050
-  39:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_PWR_MGMT_1, 1, &tmp);
- 117              		.loc 1 39 2
- 118 000a FB1D     		adds	r3, r7, #7
- 119 000c 0093     		str	r3, [sp]
- 120 000e 0123     		movs	r3, #1
- 121 0010 6B22     		movs	r2, #107
- 122 0012 6821     		movs	r1, #104
- 123 0014 1348     		ldr	r0, .L5
- 124 0016 FFF7FEFF 		bl	i2c_write_reg
-  40:./Src/mpu6050.c **** 	systick_delay_ms(100);
- 125              		.loc 1 40 2
- 126 001a 6420     		movs	r0, #100
- 127 001c FFF7FEFF 		bl	systick_delay_ms
-  41:./Src/mpu6050.c **** 	// Wake up and use PLL with X axis gyroscope reference as clock source
-  42:./Src/mpu6050.c **** 	tmp = MPU6050_CLK_X_GYRO;
- 128              		.loc 1 42 6
- 129 0020 0123     		movs	r3, #1
- 130 0022 FB71     		strb	r3, [r7, #7]
-  43:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_PWR_MGMT_1, 1, &tmp);
- 131              		.loc 1 43 2
- 132 0024 FB1D     		adds	r3, r7, #7
- 133 0026 0093     		str	r3, [sp]
- 134 0028 0123     		movs	r3, #1
- 135 002a 6B22     		movs	r2, #107
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 4
+  98              		.global	mpu6050_selftest
+  99              		.syntax unified
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	mpu6050_selftest:
+ 104              	.LFB1:
+  26:./Src/mpu6050.c **** 
+  27:./Src/mpu6050.c **** /**
+  28:./Src/mpu6050.c ****  * @brief Self-Test to get change from foctory trim of the self-test response.
+  29:./Src/mpu6050.c ****  * 	  if |value| < 14, the MPU6050 keep its accuracy, else failed.
+  30:./Src/mpu6050.c ****  *
+  31:./Src/mpu6050.c ****  * @param err error array of gyro and accel change
+  32:./Src/mpu6050.c ****  */
+  33:./Src/mpu6050.c **** void mpu6050_selftest(float *err)
+  34:./Src/mpu6050.c **** {
+ 105              		.loc 1 34 1
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 32
+ 108              		@ frame_needed = 1, uses_anonymous_args = 0
+ 109 0000 80B5     		push	{r7, lr}
+ 110              	.LCFI2:
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 7, -8
+ 113              		.cfi_offset 14, -4
+ 114 0002 8AB0     		sub	sp, sp, #40
+ 115              	.LCFI3:
+ 116              		.cfi_def_cfa_offset 48
+ 117 0004 02AF     		add	r7, sp, #8
+ 118              	.LCFI4:
+ 119              		.cfi_def_cfa 7, 40
+ 120 0006 7860     		str	r0, [r7, #4]
+  35:./Src/mpu6050.c **** 	uint8_t tmp = 0xE0;
+ 121              		.loc 1 35 10
+ 122 0008 E023     		movs	r3, #224
+ 123 000a FB75     		strb	r3, [r7, #23]
+  36:./Src/mpu6050.c **** 	uint8_t raw_data[4] = {0};
+ 124              		.loc 1 36 10
+ 125 000c 0023     		movs	r3, #0
+ 126 000e 3B61     		str	r3, [r7, #16]
+  37:./Src/mpu6050.c **** 	int i;
+  38:./Src/mpu6050.c **** 	uint8_t selftest_data[6] = {0};
+ 127              		.loc 1 38 10
+ 128 0010 0023     		movs	r3, #0
+ 129 0012 BB60     		str	r3, [r7, #8]
+ 130 0014 0023     		movs	r3, #0
+ 131 0016 BB81     		strh	r3, [r7, #12]	@ movhi
+  39:./Src/mpu6050.c **** 	float factory_trim = 0;
+ 132              		.loc 1 39 8
+ 133 0018 4FF00003 		mov	r3, #0
+ 134 001c BB61     		str	r3, [r7, #24]	@ float
+  40:./Src/mpu6050.c **** 
+  41:./Src/mpu6050.c **** 	// Configure the accelorometer and gyroscope self test
+  42:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_ACCEL_CONFIG, 1, &tmp);
+ 135              		.loc 1 42 2
+ 136 001e 07F11703 		add	r3, r7, #23
+ 137 0022 0093     		str	r3, [sp]
+ 138 0024 0123     		movs	r3, #1
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 4
 
 
- 136 002c 6821     		movs	r1, #104
- 137 002e 0D48     		ldr	r0, .L5
- 138 0030 FFF7FEFF 		bl	i2c_write_reg
-  44:./Src/mpu6050.c **** 	systick_delay_ms(100);
- 139              		.loc 1 44 2
- 140 0034 6420     		movs	r0, #100
- 141 0036 FFF7FEFF 		bl	systick_delay_ms
-  45:./Src/mpu6050.c **** 	// Set sample rate to 1kHz
-  46:./Src/mpu6050.c **** 	tmp = 1;
- 142              		.loc 1 46 6
- 143 003a 0123     		movs	r3, #1
- 144 003c FB71     		strb	r3, [r7, #7]
-  47:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_CONFIG, 1, &tmp);
- 145              		.loc 1 47 2
- 146 003e FB1D     		adds	r3, r7, #7
- 147 0040 0093     		str	r3, [sp]
- 148 0042 0123     		movs	r3, #1
- 149 0044 1A22     		movs	r2, #26
- 150 0046 6821     		movs	r1, #104
- 151 0048 0648     		ldr	r0, .L5
- 152 004a FFF7FEFF 		bl	i2c_write_reg
-  48:./Src/mpu6050.c **** 	// initial gyroscope and accelorometer unit
-  49:./Src/mpu6050.c **** 	gyro_unit = MPU6050_GYRO_UNIT;
- 153              		.loc 1 49 12
- 154 004e 064B     		ldr	r3, .L5+4
- 155 0050 064A     		ldr	r2, .L5+8
- 156 0052 1A60     		str	r2, [r3]	@ float
-  50:./Src/mpu6050.c **** 	accel_unit = MPU6050_ACCEL_UNIT;
- 157              		.loc 1 50 13
- 158 0054 064B     		ldr	r3, .L5+12
- 159 0056 074A     		ldr	r2, .L5+16
- 160 0058 1A60     		str	r2, [r3]	@ float
-  51:./Src/mpu6050.c **** }
- 161              		.loc 1 51 1
- 162 005a 00BF     		nop
- 163 005c 0837     		adds	r7, r7, #8
- 164              	.LCFI5:
- 165              		.cfi_def_cfa_offset 8
- 166 005e BD46     		mov	sp, r7
- 167              	.LCFI6:
- 168              		.cfi_def_cfa_register 13
- 169              		@ sp needed
- 170 0060 80BD     		pop	{r7, pc}
- 171              	.L6:
- 172 0062 00BF     		.align	2
- 173              	.L5:
- 174 0064 00540040 		.word	1073763328
- 175 0068 00000000 		.word	gyro_unit
- 176 006c FA00FA3B 		.word	1006239994
- 177 0070 00000000 		.word	accel_unit
- 178 0074 80008038 		.word	947912832
- 179              		.cfi_endproc
- 180              	.LFE1:
- 182              		.section	.text.mpu6050_init,"ax",%progbits
- 183              		.align	1
- 184              		.global	mpu6050_init
- 185              		.syntax unified
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 5
+ 139 0026 1C22     		movs	r2, #28
+ 140 0028 6821     		movs	r1, #104
+ 141 002a 8F48     		ldr	r0, .L10+24
+ 142 002c FFF7FEFF 		bl	i2c_write_reg
+  43:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_CONFIG, 1, &tmp);
+ 143              		.loc 1 43 2
+ 144 0030 07F11703 		add	r3, r7, #23
+ 145 0034 0093     		str	r3, [sp]
+ 146 0036 0123     		movs	r3, #1
+ 147 0038 1B22     		movs	r2, #27
+ 148 003a 6821     		movs	r1, #104
+ 149 003c 8A48     		ldr	r0, .L10+24
+ 150 003e FFF7FEFF 		bl	i2c_write_reg
+  44:./Src/mpu6050.c **** 
+  45:./Src/mpu6050.c **** 	systick_delay_ms(250);
+ 151              		.loc 1 45 2
+ 152 0042 FA20     		movs	r0, #250
+ 153 0044 FFF7FEFF 		bl	systick_delay_ms
+  46:./Src/mpu6050.c **** 	// Get raw data from self test register
+  47:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_SELF_TEST_X, 4, raw_data);
+ 154              		.loc 1 47 2
+ 155 0048 07F11003 		add	r3, r7, #16
+ 156 004c 0093     		str	r3, [sp]
+ 157 004e 0423     		movs	r3, #4
+ 158 0050 0D22     		movs	r2, #13
+ 159 0052 6821     		movs	r1, #104
+ 160 0054 8448     		ldr	r0, .L10+24
+ 161 0056 FFF7FEFF 		bl	i2c_read_reg
+  48:./Src/mpu6050.c **** 	// Calculate self test data
+  49:./Src/mpu6050.c **** 	for (i = 0; i < 3; i++) {
+ 162              		.loc 1 49 9
+ 163 005a 0023     		movs	r3, #0
+ 164 005c FB61     		str	r3, [r7, #28]
+ 165              		.loc 1 49 2
+ 166 005e 3BE0     		b	.L5
+ 167              	.L6:
+  50:./Src/mpu6050.c **** 		selftest_data[i] = (raw_data[3] >> (2 * (2 - i))) & 0x3;
+ 168              		.loc 1 50 31 discriminator 3
+ 169 0060 FB7C     		ldrb	r3, [r7, #19]	@ zero_extendqisi2
+ 170 0062 1A46     		mov	r2, r3
+ 171              		.loc 1 50 46 discriminator 3
+ 172 0064 FB69     		ldr	r3, [r7, #28]
+ 173 0066 C3F10203 		rsb	r3, r3, #2
+ 174              		.loc 1 50 41 discriminator 3
+ 175 006a 5B00     		lsls	r3, r3, #1
+ 176              		.loc 1 50 35 discriminator 3
+ 177 006c 42FA03F3 		asr	r3, r2, r3
+ 178              		.loc 1 50 53 discriminator 3
+ 179 0070 DBB2     		uxtb	r3, r3
+ 180 0072 03F00303 		and	r3, r3, #3
+ 181 0076 D9B2     		uxtb	r1, r3
+ 182              		.loc 1 50 20 discriminator 3
+ 183 0078 07F10802 		add	r2, r7, #8
+ 184 007c FB69     		ldr	r3, [r7, #28]
+ 185 007e 1344     		add	r3, r3, r2
+ 186 0080 0A46     		mov	r2, r1
+ 187 0082 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 5
 
 
- 186              		.thumb
- 187              		.thumb_func
- 189              	mpu6050_init:
- 190              	.LFB2:
-  52:./Src/mpu6050.c **** 
-  53:./Src/mpu6050.c **** /**
-  54:./Src/mpu6050.c ****  * @brief Initial mpu6050 with user selecting sample rate,
-  55:./Src/mpu6050.c ****  *        gyro full scale range, accel full scale range.
-  56:./Src/mpu6050.c ****  *        Set proper low pass filter and calibrate mpu6050.
-  57:./Src/mpu6050.c ****  *
-  58:./Src/mpu6050.c ****  * @param sample_rate (Hz)
-  59:./Src/mpu6050.c ****  * @param gyro_range  (dps)
-  60:./Src/mpu6050.c ****  * @param accel_range (g)
-  61:./Src/mpu6050.c ****  */
-  62:./Src/mpu6050.c **** void mpu6050_init(uint16_t sample_rate, uint8_t accel_range,
-  63:./Src/mpu6050.c **** 		  uint16_t gyro_range)
-  64:./Src/mpu6050.c **** {
- 191              		.loc 1 64 1
- 192              		.cfi_startproc
- 193              		@ args = 0, pretend = 0, frame = 16
- 194              		@ frame_needed = 1, uses_anonymous_args = 0
- 195 0000 80B5     		push	{r7, lr}
- 196              	.LCFI7:
- 197              		.cfi_def_cfa_offset 8
- 198              		.cfi_offset 7, -8
- 199              		.cfi_offset 14, -4
- 200 0002 86B0     		sub	sp, sp, #24
- 201              	.LCFI8:
- 202              		.cfi_def_cfa_offset 32
- 203 0004 02AF     		add	r7, sp, #8
- 204              	.LCFI9:
- 205              		.cfi_def_cfa 7, 24
- 206 0006 0346     		mov	r3, r0
- 207 0008 FB80     		strh	r3, [r7, #6]	@ movhi
- 208 000a 0B46     		mov	r3, r1
- 209 000c 7B71     		strb	r3, [r7, #5]
- 210 000e 1346     		mov	r3, r2	@ movhi
- 211 0010 7B80     		strh	r3, [r7, #2]	@ movhi
-  65:./Src/mpu6050.c **** 	uint8_t div = (uint8_t)(1000 / sample_rate - 1);
- 212              		.loc 1 65 31
- 213 0012 FB88     		ldrh	r3, [r7, #6]
- 214 0014 4FF47A72 		mov	r2, #1000
- 215 0018 92FBF3F3 		sdiv	r3, r2, r3
- 216              		.loc 1 65 16
- 217 001c DBB2     		uxtb	r3, r3
- 218 001e 013B     		subs	r3, r3, #1
- 219 0020 DBB2     		uxtb	r3, r3
- 220              		.loc 1 65 10
- 221 0022 FB73     		strb	r3, [r7, #15]
-  66:./Src/mpu6050.c **** 	uint8_t low_pass_cfg = 0;
- 222              		.loc 1 66 10
- 223 0024 0023     		movs	r3, #0
- 224 0026 BB73     		strb	r3, [r7, #14]
-  67:./Src/mpu6050.c **** 	uint16_t tmp = sample_rate;
- 225              		.loc 1 67 11
- 226 0028 FB88     		ldrh	r3, [r7, #6]	@ movhi
- 227 002a BB81     		strh	r3, [r7, #12]	@ movhi
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 6
+  51:./Src/mpu6050.c **** 		selftest_data[i] |= (raw_data[i] & 0xE0) >> 3;
+ 188              		.loc 1 51 20 discriminator 3
+ 189 0084 07F10802 		add	r2, r7, #8
+ 190 0088 FB69     		ldr	r3, [r7, #28]
+ 191 008a 1344     		add	r3, r3, r2
+ 192 008c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 193 008e 5AB2     		sxtb	r2, r3
+ 194              		.loc 1 51 32 discriminator 3
+ 195 0090 07F11001 		add	r1, r7, #16
+ 196 0094 FB69     		ldr	r3, [r7, #28]
+ 197 0096 0B44     		add	r3, r3, r1
+ 198 0098 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 199              		.loc 1 51 44 discriminator 3
+ 200 009a DB10     		asrs	r3, r3, #3
+ 201 009c 5BB2     		sxtb	r3, r3
+ 202 009e 03F01C03 		and	r3, r3, #28
+ 203 00a2 5BB2     		sxtb	r3, r3
+ 204              		.loc 1 51 20 discriminator 3
+ 205 00a4 1343     		orrs	r3, r3, r2
+ 206 00a6 5BB2     		sxtb	r3, r3
+ 207 00a8 D9B2     		uxtb	r1, r3
+ 208 00aa 07F10802 		add	r2, r7, #8
+ 209 00ae FB69     		ldr	r3, [r7, #28]
+ 210 00b0 1344     		add	r3, r3, r2
+ 211 00b2 0A46     		mov	r2, r1
+ 212 00b4 1A70     		strb	r2, [r3]
+  52:./Src/mpu6050.c **** 		selftest_data[3 + i] = raw_data[i] & 0x1F;
+ 213              		.loc 1 52 34 discriminator 3
+ 214 00b6 07F11002 		add	r2, r7, #16
+ 215 00ba FB69     		ldr	r3, [r7, #28]
+ 216 00bc 1344     		add	r3, r3, r2
+ 217 00be 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 218              		.loc 1 52 19 discriminator 3
+ 219 00c0 FB69     		ldr	r3, [r7, #28]
+ 220 00c2 0333     		adds	r3, r3, #3
+ 221              		.loc 1 52 38 discriminator 3
+ 222 00c4 02F01F02 		and	r2, r2, #31
+ 223 00c8 D2B2     		uxtb	r2, r2
+ 224              		.loc 1 52 24 discriminator 3
+ 225 00ca 2033     		adds	r3, r3, #32
+ 226 00cc 3B44     		add	r3, r3, r7
+ 227 00ce 03F8182C 		strb	r2, [r3, #-24]
+  49:./Src/mpu6050.c **** 		selftest_data[i] = (raw_data[3] >> (2 * (2 - i))) & 0x3;
+ 228              		.loc 1 49 22 discriminator 3
+ 229 00d2 FB69     		ldr	r3, [r7, #28]
+ 230 00d4 0133     		adds	r3, r3, #1
+ 231 00d6 FB61     		str	r3, [r7, #28]
+ 232              	.L5:
+  49:./Src/mpu6050.c **** 		selftest_data[i] = (raw_data[3] >> (2 * (2 - i))) & 0x3;
+ 233              		.loc 1 49 2 discriminator 1
+ 234 00d8 FB69     		ldr	r3, [r7, #28]
+ 235 00da 022B     		cmp	r3, #2
+ 236 00dc C0DD     		ble	.L6
+  53:./Src/mpu6050.c **** 	}
+  54:./Src/mpu6050.c **** 	// Calculate change from factory trim of the Self-Test response
+  55:./Src/mpu6050.c **** 	for (i = 0; i < 3; i++) {
+ 237              		.loc 1 55 9
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 6
 
 
-  68:./Src/mpu6050.c **** 
-  69:./Src/mpu6050.c **** 	mpu6050_default_init();
- 228              		.loc 1 69 2
- 229 002c FFF7FEFF 		bl	mpu6050_default_init
-  70:./Src/mpu6050.c **** 
-  71:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_SMPLRT_DIV, 1, &div);
- 230              		.loc 1 71 2
- 231 0030 07F10F03 		add	r3, r7, #15
- 232 0034 0093     		str	r3, [sp]
- 233 0036 0123     		movs	r3, #1
- 234 0038 1922     		movs	r2, #25
- 235 003a 6821     		movs	r1, #104
- 236 003c 2F48     		ldr	r0, .L14
- 237 003e FFF7FEFF 		bl	i2c_write_reg
-  72:./Src/mpu6050.c **** 	// Set low pass filter
-  73:./Src/mpu6050.c **** 	while (1000 > tmp) {
- 238              		.loc 1 73 8
- 239 0042 07E0     		b	.L8
- 240              	.L9:
-  74:./Src/mpu6050.c **** 		tmp <<= 1;
- 241              		.loc 1 74 7
- 242 0044 BB89     		ldrh	r3, [r7, #12]
- 243 0046 5B00     		lsls	r3, r3, #1
- 244 0048 9BB2     		uxth	r3, r3
- 245 004a BB81     		strh	r3, [r7, #12]	@ movhi
-  75:./Src/mpu6050.c **** 		low_pass_cfg++;
- 246              		.loc 1 75 15
- 247 004c BB7B     		ldrb	r3, [r7, #14]	@ zero_extendqisi2
- 248 004e 0133     		adds	r3, r3, #1
- 249 0050 DBB2     		uxtb	r3, r3
- 250 0052 BB73     		strb	r3, [r7, #14]
- 251              	.L8:
-  73:./Src/mpu6050.c **** 		tmp <<= 1;
- 252              		.loc 1 73 14
- 253 0054 BB89     		ldrh	r3, [r7, #12]
-  73:./Src/mpu6050.c **** 		tmp <<= 1;
- 254              		.loc 1 73 8
- 255 0056 B3F57A7F 		cmp	r3, #1000
- 256 005a F3D3     		bcc	.L9
-  76:./Src/mpu6050.c **** 	}
-  77:./Src/mpu6050.c **** 
-  78:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_CONFIG, 1, &low_pass_cfg);
- 257              		.loc 1 78 2
- 258 005c 07F10E03 		add	r3, r7, #14
- 259 0060 0093     		str	r3, [sp]
- 260 0062 0123     		movs	r3, #1
- 261 0064 1A22     		movs	r2, #26
- 262 0066 6821     		movs	r1, #104
- 263 0068 2448     		ldr	r0, .L14
- 264 006a FFF7FEFF 		bl	i2c_write_reg
-  79:./Src/mpu6050.c **** 	// Set gyroscope and accelerometer full scale range
-  80:./Src/mpu6050.c **** 	tmp = 0;
- 265              		.loc 1 80 6
- 266 006e 0023     		movs	r3, #0
- 267 0070 BB81     		strh	r3, [r7, #12]	@ movhi
-  81:./Src/mpu6050.c **** 	accel_range /= 4;
- 268              		.loc 1 81 14
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 7
+ 238 00de 0023     		movs	r3, #0
+ 239 00e0 FB61     		str	r3, [r7, #28]
+ 240              		.loc 1 55 2
+ 241 00e2 97E0     		b	.L7
+ 242              	.L9:
+  56:./Src/mpu6050.c **** 		// accelerometer
+  57:./Src/mpu6050.c **** 		factory_trim =
+  58:./Src/mpu6050.c **** 			4096.0 * 0.34 *
+  59:./Src/mpu6050.c **** 			powf(0.92 / 0.34, ((float)selftest_data[i] - 1) / 30.0);
+ 243              		.loc 1 59 43
+ 244 00e4 07F10802 		add	r2, r7, #8
+ 245 00e8 FB69     		ldr	r3, [r7, #28]
+ 246 00ea 1344     		add	r3, r3, r2
+ 247 00ec 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 248              		.loc 1 59 23
+ 249 00ee 07EE903A 		vmov	s15, r3	@ int
+ 250 00f2 F8EE677A 		vcvt.f32.u32	s15, s15
+ 251              		.loc 1 59 47
+ 252 00f6 B7EE007A 		vmov.f32	s14, #1.0e+0
+ 253 00fa 77EEC77A 		vsub.f32	s15, s15, s14
+ 254              		.loc 1 59 4
+ 255 00fe F3EE0E6A 		vmov.f32	s13, #3.0e+1
+ 256 0102 87EEA67A 		vdiv.f32	s14, s15, s13
+ 257 0106 F0EE470A 		vmov.f32	s1, s14
+ 258 010a 9FED580A 		vldr.32	s0, .L10+28
+ 259 010e FFF7FEFF 		bl	powf
+ 260 0112 F0EE407A 		vmov.f32	s15, s0
+ 261 0116 B7EEE77A 		vcvt.f64.f32	d7, s15
+  58:./Src/mpu6050.c **** 			powf(0.92 / 0.34, ((float)selftest_data[i] - 1) / 30.0);
+ 262              		.loc 1 58 18
+ 263 011a 9FED4D6B 		vldr.64	d6, .L10
+ 264 011e 27EE067B 		vmul.f64	d7, d7, d6
+  57:./Src/mpu6050.c **** 			4096.0 * 0.34 *
+ 265              		.loc 1 57 16
+ 266 0122 F7EEC77B 		vcvt.f32.f64	s15, d7
+ 267 0126 C7ED067A 		vstr.32	s15, [r7, #24]
+  60:./Src/mpu6050.c **** 		err[i] = 100.0 +
+  61:./Src/mpu6050.c **** 			 100.0 * ((float)selftest_data[i] - factory_trim) /
+ 268              		.loc 1 61 34
+ 269 012a 07F10802 		add	r2, r7, #8
+ 270 012e FB69     		ldr	r3, [r7, #28]
+ 271 0130 1344     		add	r3, r3, r2
+ 272 0132 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 273              		.loc 1 61 14
+ 274 0134 07EE903A 		vmov	s15, r3	@ int
+ 275 0138 B8EE677A 		vcvt.f32.u32	s14, s15
+ 276              		.loc 1 61 38
+ 277 013c D7ED067A 		vldr.32	s15, [r7, #24]
+ 278 0140 77EE677A 		vsub.f32	s15, s14, s15
+ 279 0144 B7EEE77A 		vcvt.f64.f32	d7, s15
+ 280              		.loc 1 61 11
+ 281 0148 9FED436B 		vldr.64	d6, .L10+8
+ 282 014c 27EE065B 		vmul.f64	d5, d7, d6
+ 283              		.loc 1 61 54
+ 284 0150 D7ED067A 		vldr.32	s15, [r7, #24]
+ 285 0154 B7EEE76A 		vcvt.f64.f32	d6, s15
+ 286 0158 85EE067B 		vdiv.f64	d7, d5, d6
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 7
 
 
- 269 0072 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
- 270 0074 9B08     		lsrs	r3, r3, #2
- 271 0076 7B71     		strb	r3, [r7, #5]
-  82:./Src/mpu6050.c **** 
-  83:./Src/mpu6050.c **** 	while (accel_range) {
- 272              		.loc 1 83 8
- 273 0078 0AE0     		b	.L10
- 274              	.L11:
-  84:./Src/mpu6050.c **** 		accel_range >>= 1;
- 275              		.loc 1 84 15
- 276 007a 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
- 277 007c 5B08     		lsrs	r3, r3, #1
- 278 007e 7B71     		strb	r3, [r7, #5]
-  85:./Src/mpu6050.c **** 		accel_unit *= 2;
- 279              		.loc 1 85 14
- 280 0080 1F4B     		ldr	r3, .L14+4
- 281 0082 D3ED007A 		vldr.32	s15, [r3]
- 282 0086 77EEA77A 		vadd.f32	s15, s15, s15
- 283 008a 1D4B     		ldr	r3, .L14+4
- 284 008c C3ED007A 		vstr.32	s15, [r3]
- 285              	.L10:
-  83:./Src/mpu6050.c **** 		accel_range >>= 1;
- 286              		.loc 1 83 8
- 287 0090 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
- 288 0092 002B     		cmp	r3, #0
- 289 0094 F1D1     		bne	.L11
-  86:./Src/mpu6050.c **** 	}
-  87:./Src/mpu6050.c **** 
-  88:./Src/mpu6050.c **** 	tmp <<= 8;
- 290              		.loc 1 88 6
- 291 0096 BB89     		ldrh	r3, [r7, #12]
- 292 0098 1B02     		lsls	r3, r3, #8
- 293 009a 9BB2     		uxth	r3, r3
- 294 009c BB81     		strh	r3, [r7, #12]	@ movhi
-  89:./Src/mpu6050.c **** 	gyro_range /= 500;
- 295              		.loc 1 89 13
- 296 009e 7B88     		ldrh	r3, [r7, #2]
- 297 00a0 184A     		ldr	r2, .L14+8
- 298 00a2 A2FB0323 		umull	r2, r3, r2, r3
- 299 00a6 5B09     		lsrs	r3, r3, #5
- 300 00a8 7B80     		strh	r3, [r7, #2]	@ movhi
-  90:./Src/mpu6050.c **** 
-  91:./Src/mpu6050.c **** 	while (gyro_range) {
- 301              		.loc 1 91 8
- 302 00aa 0EE0     		b	.L12
- 303              	.L13:
-  92:./Src/mpu6050.c **** 		gyro_range >>= 1;
- 304              		.loc 1 92 14
- 305 00ac 7B88     		ldrh	r3, [r7, #2]
- 306 00ae 5B08     		lsrs	r3, r3, #1
- 307 00b0 7B80     		strh	r3, [r7, #2]	@ movhi
-  93:./Src/mpu6050.c **** 		gyro_unit *= 2;
- 308              		.loc 1 93 13
- 309 00b2 154B     		ldr	r3, .L14+12
- 310 00b4 D3ED007A 		vldr.32	s15, [r3]
- 311 00b8 77EEA77A 		vadd.f32	s15, s15, s15
- 312 00bc 124B     		ldr	r3, .L14+12
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 8
+  60:./Src/mpu6050.c **** 		err[i] = 100.0 +
+ 287              		.loc 1 60 18
+ 288 015c 9FED3E6B 		vldr.64	d6, .L10+8
+ 289 0160 37EE067B 		vadd.f64	d7, d7, d6
+  60:./Src/mpu6050.c **** 		err[i] = 100.0 +
+ 290              		.loc 1 60 6
+ 291 0164 FB69     		ldr	r3, [r7, #28]
+ 292 0166 9B00     		lsls	r3, r3, #2
+ 293 0168 7A68     		ldr	r2, [r7, #4]
+ 294 016a 1344     		add	r3, r3, r2
+  60:./Src/mpu6050.c **** 		err[i] = 100.0 +
+ 295              		.loc 1 60 18
+ 296 016c F7EEC77B 		vcvt.f32.f64	s15, d7
+  60:./Src/mpu6050.c **** 		err[i] = 100.0 +
+ 297              		.loc 1 60 10
+ 298 0170 C3ED007A 		vstr.32	s15, [r3]
+  62:./Src/mpu6050.c **** 				 factory_trim;
+  63:./Src/mpu6050.c **** 		// gyro factory trim
+  64:./Src/mpu6050.c **** 		factory_trim =
+  65:./Src/mpu6050.c **** 			25.0 * 131.0 * powf(1.046, selftest_data[3 + i] - 1);
+ 299              		.loc 1 65 47
+ 300 0174 FB69     		ldr	r3, [r7, #28]
+ 301 0176 0333     		adds	r3, r3, #3
+ 302              		.loc 1 65 44
+ 303 0178 2033     		adds	r3, r3, #32
+ 304 017a 3B44     		add	r3, r3, r7
+ 305 017c 13F8183C 		ldrb	r3, [r3, #-24]	@ zero_extendqisi2
+ 306              		.loc 1 65 52
+ 307 0180 013B     		subs	r3, r3, #1
+ 308              		.loc 1 65 19
+ 309 0182 07EE903A 		vmov	s15, r3	@ int
+ 310 0186 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 311 018a F0EE670A 		vmov.f32	s1, s15
+ 312 018e 9FED380A 		vldr.32	s0, .L10+32
+ 313 0192 FFF7FEFF 		bl	powf
+ 314 0196 F0EE407A 		vmov.f32	s15, s0
+ 315 019a B7EEE77A 		vcvt.f64.f32	d7, s15
+ 316              		.loc 1 65 17
+ 317 019e 9FED306B 		vldr.64	d6, .L10+16
+ 318 01a2 27EE067B 		vmul.f64	d7, d7, d6
+  64:./Src/mpu6050.c **** 			25.0 * 131.0 * powf(1.046, selftest_data[3 + i] - 1);
+ 319              		.loc 1 64 16
+ 320 01a6 F7EEC77B 		vcvt.f32.f64	s15, d7
+ 321 01aa C7ED067A 		vstr.32	s15, [r7, #24]
+  66:./Src/mpu6050.c **** 
+  67:./Src/mpu6050.c **** 		if (i == 1)
+ 322              		.loc 1 67 6
+ 323 01ae FB69     		ldr	r3, [r7, #28]
+ 324 01b0 012B     		cmp	r3, #1
+ 325 01b2 05D1     		bne	.L8
+  68:./Src/mpu6050.c **** 			factory_trim *= -1;
+ 326              		.loc 1 68 17
+ 327 01b4 D7ED067A 		vldr.32	s15, [r7, #24]
+ 328 01b8 F1EE677A 		vneg.f32	s15, s15
+ 329 01bc C7ED067A 		vstr.32	s15, [r7, #24]
+ 330              	.L8:
+  69:./Src/mpu6050.c **** 
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 8
 
 
- 313 00be C3ED007A 		vstr.32	s15, [r3]
-  94:./Src/mpu6050.c **** 		tmp++;
- 314              		.loc 1 94 6
- 315 00c2 BB89     		ldrh	r3, [r7, #12]
- 316 00c4 0133     		adds	r3, r3, #1
- 317 00c6 9BB2     		uxth	r3, r3
- 318 00c8 BB81     		strh	r3, [r7, #12]	@ movhi
- 319              	.L12:
-  91:./Src/mpu6050.c **** 		gyro_range >>= 1;
- 320              		.loc 1 91 8
- 321 00ca 7B88     		ldrh	r3, [r7, #2]
- 322 00cc 002B     		cmp	r3, #0
- 323 00ce EDD1     		bne	.L13
-  95:./Src/mpu6050.c **** 	}
-  96:./Src/mpu6050.c **** 
-  97:./Src/mpu6050.c **** 	tmp <<= 3;
- 324              		.loc 1 97 6
- 325 00d0 BB89     		ldrh	r3, [r7, #12]
- 326 00d2 DB00     		lsls	r3, r3, #3
- 327 00d4 9BB2     		uxth	r3, r3
- 328 00d6 BB81     		strh	r3, [r7, #12]	@ movhi
-  98:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_CONFIG, 2,
- 329              		.loc 1 98 2
- 330 00d8 07F10C03 		add	r3, r7, #12
- 331 00dc 0093     		str	r3, [sp]
- 332 00de 0223     		movs	r3, #2
- 333 00e0 1B22     		movs	r2, #27
- 334 00e2 6821     		movs	r1, #104
- 335 00e4 0548     		ldr	r0, .L14
- 336 00e6 FFF7FEFF 		bl	i2c_write_reg
-  99:./Src/mpu6050.c **** 		      (uint8_t *)&tmp);
- 100:./Src/mpu6050.c **** 
- 101:./Src/mpu6050.c **** 	mpu6050_calibration(div);
- 337              		.loc 1 101 2
- 338 00ea FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
- 339 00ec 1846     		mov	r0, r3
- 340 00ee FFF7FEFF 		bl	mpu6050_calibration
- 102:./Src/mpu6050.c **** }
- 341              		.loc 1 102 1
- 342 00f2 00BF     		nop
- 343 00f4 1037     		adds	r7, r7, #16
- 344              	.LCFI10:
- 345              		.cfi_def_cfa_offset 8
- 346 00f6 BD46     		mov	sp, r7
- 347              	.LCFI11:
- 348              		.cfi_def_cfa_register 13
- 349              		@ sp needed
- 350 00f8 80BD     		pop	{r7, pc}
- 351              	.L15:
- 352 00fa 00BF     		.align	2
- 353              	.L14:
- 354 00fc 00540040 		.word	1073763328
- 355 0100 00000000 		.word	accel_unit
- 356 0104 D34D6210 		.word	274877907
- 357 0108 00000000 		.word	gyro_unit
- 358              		.cfi_endproc
- 359              	.LFE2:
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 9
+  70:./Src/mpu6050.c **** 		err[3 + i] =
+  71:./Src/mpu6050.c **** 			100 +
+  72:./Src/mpu6050.c **** 			100.0 * ((float)selftest_data[3 + i] - factory_trim) /
+ 331              		.loc 1 72 36 discriminator 2
+ 332 01c0 FB69     		ldr	r3, [r7, #28]
+ 333 01c2 0333     		adds	r3, r3, #3
+ 334              		.loc 1 72 33 discriminator 2
+ 335 01c4 2033     		adds	r3, r3, #32
+ 336 01c6 3B44     		add	r3, r3, r7
+ 337 01c8 13F8183C 		ldrb	r3, [r3, #-24]	@ zero_extendqisi2
+ 338              		.loc 1 72 13 discriminator 2
+ 339 01cc 07EE903A 		vmov	s15, r3	@ int
+ 340 01d0 B8EE677A 		vcvt.f32.u32	s14, s15
+ 341              		.loc 1 72 41 discriminator 2
+ 342 01d4 D7ED067A 		vldr.32	s15, [r7, #24]
+ 343 01d8 77EE677A 		vsub.f32	s15, s14, s15
+ 344 01dc B7EEE77A 		vcvt.f64.f32	d7, s15
+ 345              		.loc 1 72 10 discriminator 2
+ 346 01e0 9FED1D6B 		vldr.64	d6, .L10+8
+ 347 01e4 27EE065B 		vmul.f64	d5, d7, d6
+ 348              		.loc 1 72 57 discriminator 2
+ 349 01e8 D7ED067A 		vldr.32	s15, [r7, #24]
+ 350 01ec B7EEE76A 		vcvt.f64.f32	d6, s15
+ 351 01f0 85EE067B 		vdiv.f64	d7, d5, d6
+  71:./Src/mpu6050.c **** 			100.0 * ((float)selftest_data[3 + i] - factory_trim) /
+ 352              		.loc 1 71 8 discriminator 2
+ 353 01f4 9FED186B 		vldr.64	d6, .L10+8
+ 354 01f8 37EE067B 		vadd.f64	d7, d7, d6
+  70:./Src/mpu6050.c **** 			100 +
+ 355              		.loc 1 70 9 discriminator 2
+ 356 01fc FB69     		ldr	r3, [r7, #28]
+ 357 01fe 0333     		adds	r3, r3, #3
+  70:./Src/mpu6050.c **** 			100 +
+ 358              		.loc 1 70 6 discriminator 2
+ 359 0200 9B00     		lsls	r3, r3, #2
+ 360 0202 7A68     		ldr	r2, [r7, #4]
+ 361 0204 1344     		add	r3, r3, r2
+  71:./Src/mpu6050.c **** 			100.0 * ((float)selftest_data[3 + i] - factory_trim) /
+ 362              		.loc 1 71 8 discriminator 2
+ 363 0206 F7EEC77B 		vcvt.f32.f64	s15, d7
+  70:./Src/mpu6050.c **** 			100 +
+ 364              		.loc 1 70 14 discriminator 2
+ 365 020a C3ED007A 		vstr.32	s15, [r3]
+  55:./Src/mpu6050.c **** 		// accelerometer
+ 366              		.loc 1 55 22 discriminator 2
+ 367 020e FB69     		ldr	r3, [r7, #28]
+ 368 0210 0133     		adds	r3, r3, #1
+ 369 0212 FB61     		str	r3, [r7, #28]
+ 370              	.L7:
+  55:./Src/mpu6050.c **** 		// accelerometer
+ 371              		.loc 1 55 2 discriminator 1
+ 372 0214 FB69     		ldr	r3, [r7, #28]
+ 373 0216 022B     		cmp	r3, #2
+ 374 0218 7FF764AF 		ble	.L9
+  73:./Src/mpu6050.c **** 				factory_trim;
+  74:./Src/mpu6050.c **** 	}
+  75:./Src/mpu6050.c **** 
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 9
 
 
- 361              		.section	.text.mpu6050_calibration,"ax",%progbits
- 362              		.align	1
- 363              		.syntax unified
- 364              		.thumb
- 365              		.thumb_func
- 367              	mpu6050_calibration:
- 368              	.LFB3:
- 103:./Src/mpu6050.c **** 
- 104:./Src/mpu6050.c **** static void mpu6050_calibration(uint8_t div)
- 105:./Src/mpu6050.c **** {
- 369              		.loc 1 105 1
- 370              		.cfi_startproc
- 371              		@ args = 0, pretend = 0, frame = 64
- 372              		@ frame_needed = 1, uses_anonymous_args = 0
- 373 0000 80B5     		push	{r7, lr}
- 374              	.LCFI12:
- 375              		.cfi_def_cfa_offset 8
- 376              		.cfi_offset 7, -8
- 377              		.cfi_offset 14, -4
- 378 0002 92B0     		sub	sp, sp, #72
- 379              	.LCFI13:
- 380              		.cfi_def_cfa_offset 80
- 381 0004 02AF     		add	r7, sp, #8
- 382              	.LCFI14:
- 383              		.cfi_def_cfa 7, 72
- 384 0006 0346     		mov	r3, r0
- 385 0008 FB71     		strb	r3, [r7, #7]
- 106:./Src/mpu6050.c **** 	int16_t data[6] = {0};
- 386              		.loc 1 106 10
- 387 000a 07F12403 		add	r3, r7, #36
- 388 000e 0022     		movs	r2, #0
- 389 0010 1A60     		str	r2, [r3]
- 390 0012 5A60     		str	r2, [r3, #4]
- 391 0014 9A60     		str	r2, [r3, #8]
- 107:./Src/mpu6050.c **** 	int32_t sum[6] = {0};
- 392              		.loc 1 107 10
- 393 0016 07F10C03 		add	r3, r7, #12
- 394 001a 0022     		movs	r2, #0
- 395 001c 1A60     		str	r2, [r3]
- 396 001e 5A60     		str	r2, [r3, #4]
- 397 0020 9A60     		str	r2, [r3, #8]
- 398 0022 DA60     		str	r2, [r3, #12]
- 399 0024 1A61     		str	r2, [r3, #16]
- 400 0026 5A61     		str	r2, [r3, #20]
- 108:./Src/mpu6050.c **** 	uint16_t fifo_count = 0;
- 401              		.loc 1 108 11
- 402 0028 0023     		movs	r3, #0
- 403 002a 7B81     		strh	r3, [r7, #10]	@ movhi
- 109:./Src/mpu6050.c **** 	uint16_t packet_count = 0;
- 404              		.loc 1 109 11
- 405 002c 0023     		movs	r3, #0
- 406 002e 7B86     		strh	r3, [r7, #50]	@ movhi
- 110:./Src/mpu6050.c **** 	uint8_t tmp = MPU6050_USER_CTRL_FIFO_EN;
- 407              		.loc 1 110 10
- 408 0030 4023     		movs	r3, #64
- 409 0032 7B72     		strb	r3, [r7, #9]
- 111:./Src/mpu6050.c **** 
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 10
+  76:./Src/mpu6050.c **** 	// Clear configuration of the accelorometer and gyroscope self test
+  77:./Src/mpu6050.c **** 	tmp = 0;
+ 375              		.loc 1 77 6
+ 376 021c 0023     		movs	r3, #0
+ 377 021e FB75     		strb	r3, [r7, #23]
+  78:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_ACCEL_CONFIG, 1, &tmp);
+ 378              		.loc 1 78 2
+ 379 0220 07F11703 		add	r3, r7, #23
+ 380 0224 0093     		str	r3, [sp]
+ 381 0226 0123     		movs	r3, #1
+ 382 0228 1C22     		movs	r2, #28
+ 383 022a 6821     		movs	r1, #104
+ 384 022c 0E48     		ldr	r0, .L10+24
+ 385 022e FFF7FEFF 		bl	i2c_write_reg
+  79:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_CONFIG, 1, &tmp);
+ 386              		.loc 1 79 2
+ 387 0232 07F11703 		add	r3, r7, #23
+ 388 0236 0093     		str	r3, [sp]
+ 389 0238 0123     		movs	r3, #1
+ 390 023a 1B22     		movs	r2, #27
+ 391 023c 6821     		movs	r1, #104
+ 392 023e 0A48     		ldr	r0, .L10+24
+ 393 0240 FFF7FEFF 		bl	i2c_write_reg
+  80:./Src/mpu6050.c **** }
+ 394              		.loc 1 80 1
+ 395 0244 00BF     		nop
+ 396 0246 2037     		adds	r7, r7, #32
+ 397              	.LCFI5:
+ 398              		.cfi_def_cfa_offset 8
+ 399 0248 BD46     		mov	sp, r7
+ 400              	.LCFI6:
+ 401              		.cfi_def_cfa_register 13
+ 402              		@ sp needed
+ 403 024a 80BD     		pop	{r7, pc}
+ 404              	.L11:
+ 405 024c AFF30080 		.align	3
+ 406              	.L10:
+ 407 0250 C3F5285C 		.word	1546188227
+ 408 0254 8FC29540 		.word	1083556495
+ 409 0258 00000000 		.word	0
+ 410 025c 00005940 		.word	1079574528
+ 411 0260 00000000 		.word	0
+ 412 0264 0096A940 		.word	1084855808
+ 413 0268 00540040 		.word	1073763328
+ 414 026c 2D2D2D40 		.word	1076702509
+ 415 0270 54E3853F 		.word	1065739092
+ 416              		.cfi_endproc
+ 417              	.LFE1:
+ 419              		.section	.text.mpu6050_default_init,"ax",%progbits
+ 420              		.align	1
+ 421              		.global	mpu6050_default_init
+ 422              		.syntax unified
+ 423              		.thumb
+ 424              		.thumb_func
+ 426              	mpu6050_default_init:
+ 427              	.LFB2:
+  81:./Src/mpu6050.c **** 
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 10
 
 
- 112:./Src/mpu6050.c **** 	// Enable FIFO
- 113:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_USER_CTRL, 1, &tmp);
- 410              		.loc 1 113 2
- 411 0034 07F10903 		add	r3, r7, #9
- 412 0038 0093     		str	r3, [sp]
- 413 003a 0123     		movs	r3, #1
- 414 003c 6A22     		movs	r2, #106
- 415 003e 6821     		movs	r1, #104
- 416 0040 4F48     		ldr	r0, .L23
- 417 0042 FFF7FEFF 		bl	i2c_write_reg
- 114:./Src/mpu6050.c **** 	// Enable gyro and accel FIFO
- 115:./Src/mpu6050.c **** 	tmp = 0x78;
- 418              		.loc 1 115 6
- 419 0046 7823     		movs	r3, #120
- 420 0048 7B72     		strb	r3, [r7, #9]
- 116:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_EN, 1, &tmp);
- 421              		.loc 1 116 2
- 422 004a 07F10903 		add	r3, r7, #9
- 423 004e 0093     		str	r3, [sp]
- 424 0050 0123     		movs	r3, #1
- 425 0052 2322     		movs	r2, #35
- 426 0054 6821     		movs	r1, #104
- 427 0056 4A48     		ldr	r0, .L23
- 428 0058 FFF7FEFF 		bl	i2c_write_reg
- 117:./Src/mpu6050.c **** 	// According to sample division to delay time
- 118:./Src/mpu6050.c **** 	systick_delay_ms(40 * div);
- 429              		.loc 1 118 2
- 430 005c FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
- 431 005e 1346     		mov	r3, r2
- 432 0060 9B00     		lsls	r3, r3, #2
- 433 0062 1344     		add	r3, r3, r2
- 434 0064 DB00     		lsls	r3, r3, #3
- 435 0066 1846     		mov	r0, r3
- 436 0068 FFF7FEFF 		bl	systick_delay_ms
- 119:./Src/mpu6050.c **** 	// Disable accel and gyro FIFO
- 120:./Src/mpu6050.c **** 	tmp = 0;
- 437              		.loc 1 120 6
- 438 006c 0023     		movs	r3, #0
- 439 006e 7B72     		strb	r3, [r7, #9]
- 121:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_EN, 1, &tmp);
- 440              		.loc 1 121 2
- 441 0070 07F10903 		add	r3, r7, #9
- 442 0074 0093     		str	r3, [sp]
- 443 0076 0123     		movs	r3, #1
- 444 0078 2322     		movs	r2, #35
- 445 007a 6821     		movs	r1, #104
- 446 007c 4048     		ldr	r0, .L23
- 447 007e FFF7FEFF 		bl	i2c_write_reg
- 122:./Src/mpu6050.c **** 	// Read FIFO sample count
- 123:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_COUNTH, 2,
- 448              		.loc 1 123 2
- 449 0082 07F10A03 		add	r3, r7, #10
- 450 0086 0093     		str	r3, [sp]
- 451 0088 0223     		movs	r3, #2
- 452 008a 7222     		movs	r2, #114
- 453 008c 6821     		movs	r1, #104
- 454 008e 3C48     		ldr	r0, .L23
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 11
+  82:./Src/mpu6050.c **** /*
+  83:./Src/mpu6050.c ****  * Default setting:
+  84:./Src/mpu6050.c ****  * Clock source: PLL with X axis gyroscope reference
+  85:./Src/mpu6050.c ****  * Sampling rate: 1000
+  86:./Src/mpu6050.c ****  * Gyroscope full scale range: 250dps
+  87:./Src/mpu6050.c ****  * Accelerometer full scale range: 2g
+  88:./Src/mpu6050.c ****  *
+  89:./Src/mpu6050.c ****  * note: no calibration
+  90:./Src/mpu6050.c ****  */
+  91:./Src/mpu6050.c **** void mpu6050_default_init(void)
+  92:./Src/mpu6050.c **** {
+ 428              		.loc 1 92 1
+ 429              		.cfi_startproc
+ 430              		@ args = 0, pretend = 0, frame = 8
+ 431              		@ frame_needed = 1, uses_anonymous_args = 0
+ 432 0000 80B5     		push	{r7, lr}
+ 433              	.LCFI7:
+ 434              		.cfi_def_cfa_offset 8
+ 435              		.cfi_offset 7, -8
+ 436              		.cfi_offset 14, -4
+ 437 0002 84B0     		sub	sp, sp, #16
+ 438              	.LCFI8:
+ 439              		.cfi_def_cfa_offset 24
+ 440 0004 02AF     		add	r7, sp, #8
+ 441              	.LCFI9:
+ 442              		.cfi_def_cfa 7, 16
+  93:./Src/mpu6050.c **** 	uint8_t tmp = MPU6050_DEVICE_RESET;
+ 443              		.loc 1 93 10
+ 444 0006 8023     		movs	r3, #128
+ 445 0008 FB71     		strb	r3, [r7, #7]
+  94:./Src/mpu6050.c **** 	// Reset MPU6050
+  95:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_PWR_MGMT_1, 1, &tmp);
+ 446              		.loc 1 95 2
+ 447 000a FB1D     		adds	r3, r7, #7
+ 448 000c 0093     		str	r3, [sp]
+ 449 000e 0123     		movs	r3, #1
+ 450 0010 6B22     		movs	r2, #107
+ 451 0012 6821     		movs	r1, #104
+ 452 0014 1348     		ldr	r0, .L13
+ 453 0016 FFF7FEFF 		bl	i2c_write_reg
+  96:./Src/mpu6050.c **** 	systick_delay_ms(100);
+ 454              		.loc 1 96 2
+ 455 001a 6420     		movs	r0, #100
+ 456 001c FFF7FEFF 		bl	systick_delay_ms
+  97:./Src/mpu6050.c **** 	// Wake up and use PLL with X axis gyroscope reference as clock source
+  98:./Src/mpu6050.c **** 	tmp = MPU6050_CLK_X_GYRO;
+ 457              		.loc 1 98 6
+ 458 0020 0123     		movs	r3, #1
+ 459 0022 FB71     		strb	r3, [r7, #7]
+  99:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_PWR_MGMT_1, 1, &tmp);
+ 460              		.loc 1 99 2
+ 461 0024 FB1D     		adds	r3, r7, #7
+ 462 0026 0093     		str	r3, [sp]
+ 463 0028 0123     		movs	r3, #1
+ 464 002a 6B22     		movs	r2, #107
+ 465 002c 6821     		movs	r1, #104
+ 466 002e 0D48     		ldr	r0, .L13
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 11
 
 
- 455 0090 FFF7FEFF 		bl	i2c_read_reg
- 124:./Src/mpu6050.c **** 		     (uint8_t *)&fifo_count);
- 125:./Src/mpu6050.c **** 	fifo_count = (fifo_count << 8) | (fifo_count >> 8);
- 456              		.loc 1 125 27
- 457 0094 7B89     		ldrh	r3, [r7, #10]
- 458 0096 1B02     		lsls	r3, r3, #8
- 459              		.loc 1 125 33
- 460 0098 1AB2     		sxth	r2, r3
- 461 009a 7B89     		ldrh	r3, [r7, #10]
- 462 009c 1B0A     		lsrs	r3, r3, #8
- 463 009e 9BB2     		uxth	r3, r3
- 464 00a0 1BB2     		sxth	r3, r3
- 465 00a2 1343     		orrs	r3, r3, r2
- 466 00a4 1BB2     		sxth	r3, r3
- 467 00a6 9BB2     		uxth	r3, r3
- 468              		.loc 1 125 13
- 469 00a8 7B81     		strh	r3, [r7, #10]	@ movhi
- 126:./Src/mpu6050.c **** 	packet_count = fifo_count / 12;
- 470              		.loc 1 126 15
- 471 00aa 7B89     		ldrh	r3, [r7, #10]
- 472 00ac 354A     		ldr	r2, .L23+4
- 473 00ae A2FB0323 		umull	r2, r3, r2, r3
- 474 00b2 DB08     		lsrs	r3, r3, #3
- 475 00b4 7B86     		strh	r3, [r7, #50]	@ movhi
- 476              	.LBB2:
- 127:./Src/mpu6050.c **** 	// Read FIFO data and calculate offset
- 128:./Src/mpu6050.c **** 	for (int i = 0; i < packet_count; i++) {
- 477              		.loc 1 128 11
- 478 00b6 0023     		movs	r3, #0
- 479 00b8 FB63     		str	r3, [r7, #60]
- 480              		.loc 1 128 2
- 481 00ba 41E0     		b	.L17
- 482              	.L20:
- 129:./Src/mpu6050.c **** 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
- 483              		.loc 1 129 3
- 484 00bc 07F12403 		add	r3, r7, #36
- 485 00c0 0093     		str	r3, [sp]
- 486 00c2 0C23     		movs	r3, #12
- 487 00c4 7422     		movs	r2, #116
- 488 00c6 6821     		movs	r1, #104
- 489 00c8 2D48     		ldr	r0, .L23
- 490 00ca FFF7FEFF 		bl	i2c_read_reg
- 491              	.LBB3:
- 130:./Src/mpu6050.c **** 			     (uint8_t *)data);
- 131:./Src/mpu6050.c **** 
- 132:./Src/mpu6050.c **** 		for (int j = 0; j < 6; j++) {
- 492              		.loc 1 132 12
- 493 00ce 0023     		movs	r3, #0
- 494 00d0 BB63     		str	r3, [r7, #56]
- 495              		.loc 1 132 3
- 496 00d2 2FE0     		b	.L18
- 497              	.L19:
- 133:./Src/mpu6050.c **** 			data[j] = (data[j] << 8) | ((data[j] >> 8) & 0xFF);
- 498              		.loc 1 133 19 discriminator 3
- 499 00d4 BB6B     		ldr	r3, [r7, #56]
- 500 00d6 5B00     		lsls	r3, r3, #1
- 501 00d8 4033     		adds	r3, r3, #64
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 12
+ 467 0030 FFF7FEFF 		bl	i2c_write_reg
+ 100:./Src/mpu6050.c **** 	systick_delay_ms(100);
+ 468              		.loc 1 100 2
+ 469 0034 6420     		movs	r0, #100
+ 470 0036 FFF7FEFF 		bl	systick_delay_ms
+ 101:./Src/mpu6050.c **** 	// Set sample rate to 1kHz
+ 102:./Src/mpu6050.c **** 	tmp = 1;
+ 471              		.loc 1 102 6
+ 472 003a 0123     		movs	r3, #1
+ 473 003c FB71     		strb	r3, [r7, #7]
+ 103:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_CONFIG, 1, &tmp);
+ 474              		.loc 1 103 2
+ 475 003e FB1D     		adds	r3, r7, #7
+ 476 0040 0093     		str	r3, [sp]
+ 477 0042 0123     		movs	r3, #1
+ 478 0044 1A22     		movs	r2, #26
+ 479 0046 6821     		movs	r1, #104
+ 480 0048 0648     		ldr	r0, .L13
+ 481 004a FFF7FEFF 		bl	i2c_write_reg
+ 104:./Src/mpu6050.c **** 	// initial gyroscope and accelorometer unit
+ 105:./Src/mpu6050.c **** 	gyro_unit = MPU6050_GYRO_UNIT;
+ 482              		.loc 1 105 12
+ 483 004e 064B     		ldr	r3, .L13+4
+ 484 0050 064A     		ldr	r2, .L13+8
+ 485 0052 1A60     		str	r2, [r3]	@ float
+ 106:./Src/mpu6050.c **** 	accel_unit = MPU6050_ACCEL_UNIT;
+ 486              		.loc 1 106 13
+ 487 0054 064B     		ldr	r3, .L13+12
+ 488 0056 074A     		ldr	r2, .L13+16
+ 489 0058 1A60     		str	r2, [r3]	@ float
+ 107:./Src/mpu6050.c **** }
+ 490              		.loc 1 107 1
+ 491 005a 00BF     		nop
+ 492 005c 0837     		adds	r7, r7, #8
+ 493              	.LCFI10:
+ 494              		.cfi_def_cfa_offset 8
+ 495 005e BD46     		mov	sp, r7
+ 496              	.LCFI11:
+ 497              		.cfi_def_cfa_register 13
+ 498              		@ sp needed
+ 499 0060 80BD     		pop	{r7, pc}
+ 500              	.L14:
+ 501 0062 00BF     		.align	2
+ 502              	.L13:
+ 503 0064 00540040 		.word	1073763328
+ 504 0068 00000000 		.word	gyro_unit
+ 505 006c FA00FA3B 		.word	1006239994
+ 506 0070 00000000 		.word	accel_unit
+ 507 0074 80008038 		.word	947912832
+ 508              		.cfi_endproc
+ 509              	.LFE2:
+ 511              		.section	.text.mpu6050_init,"ax",%progbits
+ 512              		.align	1
+ 513              		.global	mpu6050_init
+ 514              		.syntax unified
+ 515              		.thumb
+ 516              		.thumb_func
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 12
 
 
- 502 00da 3B44     		add	r3, r3, r7
- 503 00dc 33F91C3C 		ldrsh	r3, [r3, #-28]
- 504              		.loc 1 133 23 discriminator 3
- 505 00e0 1B02     		lsls	r3, r3, #8
- 506              		.loc 1 133 29 discriminator 3
- 507 00e2 1AB2     		sxth	r2, r3
- 508              		.loc 1 133 37 discriminator 3
- 509 00e4 BB6B     		ldr	r3, [r7, #56]
- 510 00e6 5B00     		lsls	r3, r3, #1
- 511 00e8 4033     		adds	r3, r3, #64
- 512 00ea 3B44     		add	r3, r3, r7
- 513 00ec 33F91C3C 		ldrsh	r3, [r3, #-28]
- 514              		.loc 1 133 47 discriminator 3
- 515 00f0 9BB2     		uxth	r3, r3
- 516 00f2 1B0A     		lsrs	r3, r3, #8
- 517 00f4 9BB2     		uxth	r3, r3
- 518 00f6 1BB2     		sxth	r3, r3
- 519              		.loc 1 133 29 discriminator 3
- 520 00f8 1343     		orrs	r3, r3, r2
- 521 00fa 1AB2     		sxth	r2, r3
- 522              		.loc 1 133 12 discriminator 3
- 523 00fc BB6B     		ldr	r3, [r7, #56]
- 524 00fe 5B00     		lsls	r3, r3, #1
- 525 0100 4033     		adds	r3, r3, #64
- 526 0102 3B44     		add	r3, r3, r7
- 527 0104 23F81C2C 		strh	r2, [r3, #-28]	@ movhi
- 134:./Src/mpu6050.c **** 			sum[j] += (int32_t)data[j];
- 528              		.loc 1 134 11 discriminator 3
- 529 0108 BB6B     		ldr	r3, [r7, #56]
- 530 010a 9B00     		lsls	r3, r3, #2
- 531 010c 4033     		adds	r3, r3, #64
- 532 010e 3B44     		add	r3, r3, r7
- 533 0110 53F8342C 		ldr	r2, [r3, #-52]
- 534              		.loc 1 134 27 discriminator 3
- 535 0114 BB6B     		ldr	r3, [r7, #56]
- 536 0116 5B00     		lsls	r3, r3, #1
- 537 0118 4033     		adds	r3, r3, #64
- 538 011a 3B44     		add	r3, r3, r7
- 539 011c 33F91C3C 		ldrsh	r3, [r3, #-28]
- 540              		.loc 1 134 11 discriminator 3
- 541 0120 1A44     		add	r2, r2, r3
- 542 0122 BB6B     		ldr	r3, [r7, #56]
- 543 0124 9B00     		lsls	r3, r3, #2
- 544 0126 4033     		adds	r3, r3, #64
- 545 0128 3B44     		add	r3, r3, r7
- 546 012a 43F8342C 		str	r2, [r3, #-52]
- 132:./Src/mpu6050.c **** 			data[j] = (data[j] << 8) | ((data[j] >> 8) & 0xFF);
- 547              		.loc 1 132 27 discriminator 3
- 548 012e BB6B     		ldr	r3, [r7, #56]
- 549 0130 0133     		adds	r3, r3, #1
- 550 0132 BB63     		str	r3, [r7, #56]
- 551              	.L18:
- 132:./Src/mpu6050.c **** 			data[j] = (data[j] << 8) | ((data[j] >> 8) & 0xFF);
- 552              		.loc 1 132 3 discriminator 1
- 553 0134 BB6B     		ldr	r3, [r7, #56]
- 554 0136 052B     		cmp	r3, #5
- 555 0138 CCDD     		ble	.L19
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 13
+ 518              	mpu6050_init:
+ 519              	.LFB3:
+ 108:./Src/mpu6050.c **** 
+ 109:./Src/mpu6050.c **** /**
+ 110:./Src/mpu6050.c ****  * @brief Initial mpu6050 with user selecting sample rate,
+ 111:./Src/mpu6050.c ****  *        gyro full scale range, accel full scale range.
+ 112:./Src/mpu6050.c ****  *        Set proper low pass filter and calibrate mpu6050.
+ 113:./Src/mpu6050.c ****  *
+ 114:./Src/mpu6050.c ****  * @param sample_rate (Hz)
+ 115:./Src/mpu6050.c ****  * @param gyro_range  (dps)
+ 116:./Src/mpu6050.c ****  * @param accel_range (g)
+ 117:./Src/mpu6050.c ****  */
+ 118:./Src/mpu6050.c **** void mpu6050_init(uint16_t sample_rate, uint8_t accel_range,
+ 119:./Src/mpu6050.c **** 		  uint16_t gyro_range)
+ 120:./Src/mpu6050.c **** {
+ 520              		.loc 1 120 1
+ 521              		.cfi_startproc
+ 522              		@ args = 0, pretend = 0, frame = 16
+ 523              		@ frame_needed = 1, uses_anonymous_args = 0
+ 524 0000 80B5     		push	{r7, lr}
+ 525              	.LCFI12:
+ 526              		.cfi_def_cfa_offset 8
+ 527              		.cfi_offset 7, -8
+ 528              		.cfi_offset 14, -4
+ 529 0002 86B0     		sub	sp, sp, #24
+ 530              	.LCFI13:
+ 531              		.cfi_def_cfa_offset 32
+ 532 0004 02AF     		add	r7, sp, #8
+ 533              	.LCFI14:
+ 534              		.cfi_def_cfa 7, 24
+ 535 0006 0346     		mov	r3, r0
+ 536 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 537 000a 0B46     		mov	r3, r1
+ 538 000c 7B71     		strb	r3, [r7, #5]
+ 539 000e 1346     		mov	r3, r2	@ movhi
+ 540 0010 7B80     		strh	r3, [r7, #2]	@ movhi
+ 121:./Src/mpu6050.c **** 	uint8_t div = (uint8_t)(1000 / sample_rate - 1);
+ 541              		.loc 1 121 31
+ 542 0012 FB88     		ldrh	r3, [r7, #6]
+ 543 0014 4FF47A72 		mov	r2, #1000
+ 544 0018 92FBF3F3 		sdiv	r3, r2, r3
+ 545              		.loc 1 121 16
+ 546 001c DBB2     		uxtb	r3, r3
+ 547 001e 013B     		subs	r3, r3, #1
+ 548 0020 DBB2     		uxtb	r3, r3
+ 549              		.loc 1 121 10
+ 550 0022 FB73     		strb	r3, [r7, #15]
+ 122:./Src/mpu6050.c **** 	uint8_t low_pass_cfg = 0;
+ 551              		.loc 1 122 10
+ 552 0024 0023     		movs	r3, #0
+ 553 0026 BB73     		strb	r3, [r7, #14]
+ 123:./Src/mpu6050.c **** 	uint16_t tmp = sample_rate;
+ 554              		.loc 1 123 11
+ 555 0028 FB88     		ldrh	r3, [r7, #6]	@ movhi
+ 556 002a BB81     		strh	r3, [r7, #12]	@ movhi
+ 124:./Src/mpu6050.c **** 
+ 125:./Src/mpu6050.c **** 	mpu6050_default_init();
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 13
 
 
- 556              	.LBE3:
- 128:./Src/mpu6050.c **** 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
- 557              		.loc 1 128 37 discriminator 2
- 558 013a FB6B     		ldr	r3, [r7, #60]
- 559 013c 0133     		adds	r3, r3, #1
- 560 013e FB63     		str	r3, [r7, #60]
- 561              	.L17:
- 128:./Src/mpu6050.c **** 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
- 562              		.loc 1 128 20 discriminator 1
- 563 0140 7B8E     		ldrh	r3, [r7, #50]
- 128:./Src/mpu6050.c **** 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
- 564              		.loc 1 128 2 discriminator 1
- 565 0142 FA6B     		ldr	r2, [r7, #60]
- 566 0144 9A42     		cmp	r2, r3
- 567 0146 B9DB     		blt	.L20
- 568              	.LBE2:
- 569              	.LBB4:
- 135:./Src/mpu6050.c **** 		}
- 136:./Src/mpu6050.c **** 	}
- 137:./Src/mpu6050.c **** 
- 138:./Src/mpu6050.c **** 	for (int i = 0; i < 6; i++) {
- 570              		.loc 1 138 11
- 571 0148 0023     		movs	r3, #0
- 572 014a 7B63     		str	r3, [r7, #52]
- 573              		.loc 1 138 2
- 574 014c 10E0     		b	.L21
- 575              	.L22:
- 139:./Src/mpu6050.c **** 		offset[i] = (int16_t)(sum[i] / packet_count);
- 576              		.loc 1 139 28 discriminator 3
- 577 014e 7B6B     		ldr	r3, [r7, #52]
- 578 0150 9B00     		lsls	r3, r3, #2
- 579 0152 4033     		adds	r3, r3, #64
- 580 0154 3B44     		add	r3, r3, r7
- 581 0156 53F8342C 		ldr	r2, [r3, #-52]
- 582              		.loc 1 139 32 discriminator 3
- 583 015a 7B8E     		ldrh	r3, [r7, #50]
- 584 015c 92FBF3F3 		sdiv	r3, r2, r3
- 585              		.loc 1 139 15 discriminator 3
- 586 0160 19B2     		sxth	r1, r3
- 587              		.loc 1 139 13 discriminator 3
- 588 0162 094A     		ldr	r2, .L23+8
- 589 0164 7B6B     		ldr	r3, [r7, #52]
- 590 0166 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
- 138:./Src/mpu6050.c **** 		offset[i] = (int16_t)(sum[i] / packet_count);
- 591              		.loc 1 138 26 discriminator 3
- 592 016a 7B6B     		ldr	r3, [r7, #52]
- 593 016c 0133     		adds	r3, r3, #1
- 594 016e 7B63     		str	r3, [r7, #52]
- 595              	.L21:
- 138:./Src/mpu6050.c **** 		offset[i] = (int16_t)(sum[i] / packet_count);
- 596              		.loc 1 138 2 discriminator 1
- 597 0170 7B6B     		ldr	r3, [r7, #52]
- 598 0172 052B     		cmp	r3, #5
- 599 0174 EBDD     		ble	.L22
- 600              	.LBE4:
- 140:./Src/mpu6050.c **** 	}
- 141:./Src/mpu6050.c **** }
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 14
+ 557              		.loc 1 125 2
+ 558 002c FFF7FEFF 		bl	mpu6050_default_init
+ 126:./Src/mpu6050.c **** 
+ 127:./Src/mpu6050.c **** 	dt = 1.0 / (float)sample_rate;
+ 559              		.loc 1 127 13
+ 560 0030 FB88     		ldrh	r3, [r7, #6]
+ 561 0032 07EE903A 		vmov	s15, r3	@ int
+ 562 0036 B8EE677A 		vcvt.f32.u32	s14, s15
+ 563              		.loc 1 127 11
+ 564 003a F7EE006A 		vmov.f32	s13, #1.0e+0
+ 565 003e C6EE877A 		vdiv.f32	s15, s13, s14
+ 566              		.loc 1 127 5
+ 567 0042 354B     		ldr	r3, .L22
+ 568 0044 C3ED007A 		vstr.32	s15, [r3]
+ 128:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_SMPLRT_DIV, 1, &div);
+ 569              		.loc 1 128 2
+ 570 0048 07F10F03 		add	r3, r7, #15
+ 571 004c 0093     		str	r3, [sp]
+ 572 004e 0123     		movs	r3, #1
+ 573 0050 1922     		movs	r2, #25
+ 574 0052 6821     		movs	r1, #104
+ 575 0054 3148     		ldr	r0, .L22+4
+ 576 0056 FFF7FEFF 		bl	i2c_write_reg
+ 129:./Src/mpu6050.c **** 	// Set low pass filter
+ 130:./Src/mpu6050.c **** 	while (1000 > tmp) {
+ 577              		.loc 1 130 8
+ 578 005a 07E0     		b	.L16
+ 579              	.L17:
+ 131:./Src/mpu6050.c **** 		tmp <<= 1;
+ 580              		.loc 1 131 7
+ 581 005c BB89     		ldrh	r3, [r7, #12]
+ 582 005e 5B00     		lsls	r3, r3, #1
+ 583 0060 9BB2     		uxth	r3, r3
+ 584 0062 BB81     		strh	r3, [r7, #12]	@ movhi
+ 132:./Src/mpu6050.c **** 		low_pass_cfg++;
+ 585              		.loc 1 132 15
+ 586 0064 BB7B     		ldrb	r3, [r7, #14]	@ zero_extendqisi2
+ 587 0066 0133     		adds	r3, r3, #1
+ 588 0068 DBB2     		uxtb	r3, r3
+ 589 006a BB73     		strb	r3, [r7, #14]
+ 590              	.L16:
+ 130:./Src/mpu6050.c **** 		tmp <<= 1;
+ 591              		.loc 1 130 14
+ 592 006c BB89     		ldrh	r3, [r7, #12]
+ 130:./Src/mpu6050.c **** 		tmp <<= 1;
+ 593              		.loc 1 130 8
+ 594 006e B3F57A7F 		cmp	r3, #1000
+ 595 0072 F3D3     		bcc	.L17
+ 133:./Src/mpu6050.c **** 	}
+ 134:./Src/mpu6050.c **** 
+ 135:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_CONFIG, 1, &low_pass_cfg);
+ 596              		.loc 1 135 2
+ 597 0074 07F10E03 		add	r3, r7, #14
+ 598 0078 0093     		str	r3, [sp]
+ 599 007a 0123     		movs	r3, #1
+ 600 007c 1A22     		movs	r2, #26
+ 601 007e 6821     		movs	r1, #104
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 14
 
 
- 601              		.loc 1 141 1
- 602 0176 00BF     		nop
- 603 0178 00BF     		nop
- 604 017a 4037     		adds	r7, r7, #64
- 605              	.LCFI15:
- 606              		.cfi_def_cfa_offset 8
- 607 017c BD46     		mov	sp, r7
- 608              	.LCFI16:
- 609              		.cfi_def_cfa_register 13
- 610              		@ sp needed
- 611 017e 80BD     		pop	{r7, pc}
- 612              	.L24:
- 613              		.align	2
- 614              	.L23:
- 615 0180 00540040 		.word	1073763328
- 616 0184 ABAAAAAA 		.word	-1431655765
- 617 0188 00000000 		.word	offset
- 618              		.cfi_endproc
- 619              	.LFE3:
- 621              		.section	.text.mpu6050_get_all,"ax",%progbits
- 622              		.align	1
- 623              		.global	mpu6050_get_all
- 624              		.syntax unified
- 625              		.thumb
- 626              		.thumb_func
- 628              	mpu6050_get_all:
- 629              	.LFB4:
- 142:./Src/mpu6050.c **** 
- 143:./Src/mpu6050.c **** /**
- 144:./Src/mpu6050.c ****  * @brief data from i2c read function: X_H > X_L > Y_H > Y_L > Z_H > Z_L
- 145:./Src/mpu6050.c ****  * 	  reverse order: X_L > X_H > Y_L > Y_H > Z_L > Z_H
- 146:./Src/mpu6050.c ****  * 	  int16 data order: X > Y > Z
- 147:./Src/mpu6050.c ****  *
- 148:./Src/mpu6050.c ****  * @param data
- 149:./Src/mpu6050.c ****  * 	  accelerometer: [0:2]
- 150:./Src/mpu6050.c ****  * 	  temperature: [3]
- 151:./Src/mpu6050.c ****  * 	  gyroscope: [4:6]
- 152:./Src/mpu6050.c ****  */
- 153:./Src/mpu6050.c **** void mpu6050_get_all(float *data)
- 154:./Src/mpu6050.c **** {
- 630              		.loc 1 154 1
- 631              		.cfi_startproc
- 632              		@ args = 0, pretend = 0, frame = 32
- 633              		@ frame_needed = 1, uses_anonymous_args = 0
- 634 0000 80B5     		push	{r7, lr}
- 635              	.LCFI17:
- 636              		.cfi_def_cfa_offset 8
- 637              		.cfi_offset 7, -8
- 638              		.cfi_offset 14, -4
- 639 0002 8AB0     		sub	sp, sp, #40
- 640              	.LCFI18:
- 641              		.cfi_def_cfa_offset 48
- 642 0004 02AF     		add	r7, sp, #8
- 643              	.LCFI19:
- 644              		.cfi_def_cfa 7, 40
- 645 0006 7860     		str	r0, [r7, #4]
- 155:./Src/mpu6050.c **** 	int16_t tmp[7] = {0};
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 15
+ 602 0080 2648     		ldr	r0, .L22+4
+ 603 0082 FFF7FEFF 		bl	i2c_write_reg
+ 136:./Src/mpu6050.c **** 	// Set gyroscope and accelerometer full scale range
+ 137:./Src/mpu6050.c **** 	tmp = 0;
+ 604              		.loc 1 137 6
+ 605 0086 0023     		movs	r3, #0
+ 606 0088 BB81     		strh	r3, [r7, #12]	@ movhi
+ 138:./Src/mpu6050.c **** 	accel_range /= 4;
+ 607              		.loc 1 138 14
+ 608 008a 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 609 008c 9B08     		lsrs	r3, r3, #2
+ 610 008e 7B71     		strb	r3, [r7, #5]
+ 139:./Src/mpu6050.c **** 
+ 140:./Src/mpu6050.c **** 	while (accel_range) {
+ 611              		.loc 1 140 8
+ 612 0090 0AE0     		b	.L18
+ 613              	.L19:
+ 141:./Src/mpu6050.c **** 		accel_range >>= 1;
+ 614              		.loc 1 141 15
+ 615 0092 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 616 0094 5B08     		lsrs	r3, r3, #1
+ 617 0096 7B71     		strb	r3, [r7, #5]
+ 142:./Src/mpu6050.c **** 		accel_unit *= 2;
+ 618              		.loc 1 142 14
+ 619 0098 214B     		ldr	r3, .L22+8
+ 620 009a D3ED007A 		vldr.32	s15, [r3]
+ 621 009e 77EEA77A 		vadd.f32	s15, s15, s15
+ 622 00a2 1F4B     		ldr	r3, .L22+8
+ 623 00a4 C3ED007A 		vstr.32	s15, [r3]
+ 624              	.L18:
+ 140:./Src/mpu6050.c **** 		accel_range >>= 1;
+ 625              		.loc 1 140 8
+ 626 00a8 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 627 00aa 002B     		cmp	r3, #0
+ 628 00ac F1D1     		bne	.L19
+ 143:./Src/mpu6050.c **** 	}
+ 144:./Src/mpu6050.c **** 
+ 145:./Src/mpu6050.c **** 	tmp <<= 8;
+ 629              		.loc 1 145 6
+ 630 00ae BB89     		ldrh	r3, [r7, #12]
+ 631 00b0 1B02     		lsls	r3, r3, #8
+ 632 00b2 9BB2     		uxth	r3, r3
+ 633 00b4 BB81     		strh	r3, [r7, #12]	@ movhi
+ 146:./Src/mpu6050.c **** 	gyro_range /= 500;
+ 634              		.loc 1 146 13
+ 635 00b6 7B88     		ldrh	r3, [r7, #2]
+ 636 00b8 1A4A     		ldr	r2, .L22+12
+ 637 00ba A2FB0323 		umull	r2, r3, r2, r3
+ 638 00be 5B09     		lsrs	r3, r3, #5
+ 639 00c0 7B80     		strh	r3, [r7, #2]	@ movhi
+ 147:./Src/mpu6050.c **** 
+ 148:./Src/mpu6050.c **** 	while (gyro_range) {
+ 640              		.loc 1 148 8
+ 641 00c2 0EE0     		b	.L20
+ 642              	.L21:
+ 149:./Src/mpu6050.c **** 		gyro_range >>= 1;
+ 643              		.loc 1 149 14
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 15
 
 
- 646              		.loc 1 155 10
- 647 0008 07F10C03 		add	r3, r7, #12
- 648 000c 0022     		movs	r2, #0
- 649 000e 1A60     		str	r2, [r3]
- 650 0010 5A60     		str	r2, [r3, #4]
- 651 0012 9A60     		str	r2, [r3, #8]
- 652 0014 9A81     		strh	r2, [r3, #12]	@ movhi
- 156:./Src/mpu6050.c **** 
- 157:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_ACCEL_XOUTH, 14,
- 653              		.loc 1 157 2
- 654 0016 07F10C03 		add	r3, r7, #12
- 655 001a 0093     		str	r3, [sp]
- 656 001c 0E23     		movs	r3, #14
- 657 001e 3B22     		movs	r2, #59
- 658 0020 6821     		movs	r1, #104
- 659 0022 5548     		ldr	r0, .L31+8
- 660 0024 FFF7FEFF 		bl	i2c_read_reg
- 661              	.LBB5:
- 158:./Src/mpu6050.c **** 		     (uint8_t *)tmp);
- 159:./Src/mpu6050.c **** 
- 160:./Src/mpu6050.c **** 	for (int i = 0; i < 7; i++) {
- 662              		.loc 1 160 11
- 663 0028 0023     		movs	r3, #0
- 664 002a FB61     		str	r3, [r7, #28]
- 665              		.loc 1 160 2
- 666 002c 95E0     		b	.L26
- 667              	.L30:
- 161:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 668              		.loc 1 161 16
- 669 002e FB69     		ldr	r3, [r7, #28]
- 670 0030 5B00     		lsls	r3, r3, #1
- 671 0032 2033     		adds	r3, r3, #32
- 672 0034 3B44     		add	r3, r3, r7
- 673 0036 33F9143C 		ldrsh	r3, [r3, #-20]
- 674              		.loc 1 161 20
- 675 003a 1B02     		lsls	r3, r3, #8
- 676              		.loc 1 161 26
- 677 003c 1AB2     		sxth	r2, r3
- 678              		.loc 1 161 33
- 679 003e FB69     		ldr	r3, [r7, #28]
- 680 0040 5B00     		lsls	r3, r3, #1
- 681 0042 2033     		adds	r3, r3, #32
- 682 0044 3B44     		add	r3, r3, r7
- 683 0046 33F9143C 		ldrsh	r3, [r3, #-20]
- 684              		.loc 1 161 43
- 685 004a 9BB2     		uxth	r3, r3
- 686 004c 1B0A     		lsrs	r3, r3, #8
- 687 004e 9BB2     		uxth	r3, r3
- 688 0050 1BB2     		sxth	r3, r3
- 689              		.loc 1 161 26
- 690 0052 1343     		orrs	r3, r3, r2
- 691 0054 1AB2     		sxth	r2, r3
- 692              		.loc 1 161 10
- 693 0056 FB69     		ldr	r3, [r7, #28]
- 694 0058 5B00     		lsls	r3, r3, #1
- 695 005a 2033     		adds	r3, r3, #32
- 696 005c 3B44     		add	r3, r3, r7
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 16
+ 644 00c4 7B88     		ldrh	r3, [r7, #2]
+ 645 00c6 5B08     		lsrs	r3, r3, #1
+ 646 00c8 7B80     		strh	r3, [r7, #2]	@ movhi
+ 150:./Src/mpu6050.c **** 		gyro_unit *= 2;
+ 647              		.loc 1 150 13
+ 648 00ca 174B     		ldr	r3, .L22+16
+ 649 00cc D3ED007A 		vldr.32	s15, [r3]
+ 650 00d0 77EEA77A 		vadd.f32	s15, s15, s15
+ 651 00d4 144B     		ldr	r3, .L22+16
+ 652 00d6 C3ED007A 		vstr.32	s15, [r3]
+ 151:./Src/mpu6050.c **** 		tmp++;
+ 653              		.loc 1 151 6
+ 654 00da BB89     		ldrh	r3, [r7, #12]
+ 655 00dc 0133     		adds	r3, r3, #1
+ 656 00de 9BB2     		uxth	r3, r3
+ 657 00e0 BB81     		strh	r3, [r7, #12]	@ movhi
+ 658              	.L20:
+ 148:./Src/mpu6050.c **** 		gyro_range >>= 1;
+ 659              		.loc 1 148 8
+ 660 00e2 7B88     		ldrh	r3, [r7, #2]
+ 661 00e4 002B     		cmp	r3, #0
+ 662 00e6 EDD1     		bne	.L21
+ 152:./Src/mpu6050.c **** 	}
+ 153:./Src/mpu6050.c **** 
+ 154:./Src/mpu6050.c **** 	tmp <<= 3;
+ 663              		.loc 1 154 6
+ 664 00e8 BB89     		ldrh	r3, [r7, #12]
+ 665 00ea DB00     		lsls	r3, r3, #3
+ 666 00ec 9BB2     		uxth	r3, r3
+ 667 00ee BB81     		strh	r3, [r7, #12]	@ movhi
+ 155:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_CONFIG, 2,
+ 668              		.loc 1 155 2
+ 669 00f0 07F10C03 		add	r3, r7, #12
+ 670 00f4 0093     		str	r3, [sp]
+ 671 00f6 0223     		movs	r3, #2
+ 672 00f8 1B22     		movs	r2, #27
+ 673 00fa 6821     		movs	r1, #104
+ 674 00fc 0748     		ldr	r0, .L22+4
+ 675 00fe FFF7FEFF 		bl	i2c_write_reg
+ 156:./Src/mpu6050.c **** 		      (uint8_t *)&tmp);
+ 157:./Src/mpu6050.c **** 	systick_delay_ms(500);
+ 676              		.loc 1 157 2
+ 677 0102 4FF4FA70 		mov	r0, #500
+ 678 0106 FFF7FEFF 		bl	systick_delay_ms
+ 158:./Src/mpu6050.c **** 
+ 159:./Src/mpu6050.c **** 	calibration();
+ 679              		.loc 1 159 2
+ 680 010a FFF7FEFF 		bl	calibration
+ 160:./Src/mpu6050.c **** }
+ 681              		.loc 1 160 1
+ 682 010e 00BF     		nop
+ 683 0110 1037     		adds	r7, r7, #16
+ 684              	.LCFI15:
+ 685              		.cfi_def_cfa_offset 8
+ 686 0112 BD46     		mov	sp, r7
+ 687              	.LCFI16:
+ 688              		.cfi_def_cfa_register 13
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 16
 
 
- 697 005e 23F8142C 		strh	r2, [r3, #-20]	@ movhi
- 162:./Src/mpu6050.c **** 
- 163:./Src/mpu6050.c **** 		if (i < 3) {
- 698              		.loc 1 163 6
- 699 0062 FB69     		ldr	r3, [r7, #28]
- 700 0064 022B     		cmp	r3, #2
- 701 0066 2ADC     		bgt	.L27
- 164:./Src/mpu6050.c **** 			tmp[i] -= offset[i];
- 702              		.loc 1 164 11
- 703 0068 FB69     		ldr	r3, [r7, #28]
- 704 006a 5B00     		lsls	r3, r3, #1
- 705 006c 2033     		adds	r3, r3, #32
- 706 006e 3B44     		add	r3, r3, r7
- 707 0070 33F9143C 		ldrsh	r3, [r3, #-20]
- 708 0074 9AB2     		uxth	r2, r3
- 709              		.loc 1 164 20
- 710 0076 4149     		ldr	r1, .L31+12
- 711 0078 FB69     		ldr	r3, [r7, #28]
- 712 007a 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
- 713 007e 9BB2     		uxth	r3, r3
- 714              		.loc 1 164 11
- 715 0080 D31A     		subs	r3, r2, r3
- 716 0082 9BB2     		uxth	r3, r3
- 717 0084 1AB2     		sxth	r2, r3
- 718 0086 FB69     		ldr	r3, [r7, #28]
- 719 0088 5B00     		lsls	r3, r3, #1
- 720 008a 2033     		adds	r3, r3, #32
- 721 008c 3B44     		add	r3, r3, r7
- 722 008e 23F8142C 		strh	r2, [r3, #-20]	@ movhi
- 165:./Src/mpu6050.c **** 			data[i] = (float)tmp[i] * accel_unit;
- 723              		.loc 1 165 24
- 724 0092 FB69     		ldr	r3, [r7, #28]
- 725 0094 5B00     		lsls	r3, r3, #1
- 726 0096 2033     		adds	r3, r3, #32
- 727 0098 3B44     		add	r3, r3, r7
- 728 009a 33F9143C 		ldrsh	r3, [r3, #-20]
- 729              		.loc 1 165 14
- 730 009e 07EE903A 		vmov	s15, r3	@ int
- 731 00a2 B8EEE77A 		vcvt.f32.s32	s14, s15
- 732              		.loc 1 165 28
- 733 00a6 364B     		ldr	r3, .L31+16
- 734 00a8 D3ED007A 		vldr.32	s15, [r3]
- 735              		.loc 1 165 8
- 736 00ac FB69     		ldr	r3, [r7, #28]
- 737 00ae 9B00     		lsls	r3, r3, #2
- 738 00b0 7A68     		ldr	r2, [r7, #4]
- 739 00b2 1344     		add	r3, r3, r2
- 740              		.loc 1 165 28
- 741 00b4 67EE277A 		vmul.f32	s15, s14, s15
- 742              		.loc 1 165 12
- 743 00b8 C3ED007A 		vstr.32	s15, [r3]
- 744 00bc 4AE0     		b	.L28
- 745              	.L27:
- 166:./Src/mpu6050.c **** 		} else if (i == 3) {
- 746              		.loc 1 166 13
- 747 00be FB69     		ldr	r3, [r7, #28]
- 748 00c0 032B     		cmp	r3, #3
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 17
+ 689              		@ sp needed
+ 690 0114 80BD     		pop	{r7, pc}
+ 691              	.L23:
+ 692 0116 00BF     		.align	2
+ 693              	.L22:
+ 694 0118 00000000 		.word	dt
+ 695 011c 00540040 		.word	1073763328
+ 696 0120 00000000 		.word	accel_unit
+ 697 0124 D34D6210 		.word	274877907
+ 698 0128 00000000 		.word	gyro_unit
+ 699              		.cfi_endproc
+ 700              	.LFE3:
+ 702              		.section	.text.calibration,"ax",%progbits
+ 703              		.align	1
+ 704              		.syntax unified
+ 705              		.thumb
+ 706              		.thumb_func
+ 708              	calibration:
+ 709              	.LFB4:
+ 161:./Src/mpu6050.c **** 
+ 162:./Src/mpu6050.c **** static void calibration(void)
+ 163:./Src/mpu6050.c **** {
+ 710              		.loc 1 163 1
+ 711              		.cfi_startproc
+ 712              		@ args = 0, pretend = 0, frame = 56
+ 713              		@ frame_needed = 1, uses_anonymous_args = 0
+ 714 0000 80B5     		push	{r7, lr}
+ 715              	.LCFI17:
+ 716              		.cfi_def_cfa_offset 8
+ 717              		.cfi_offset 7, -8
+ 718              		.cfi_offset 14, -4
+ 719 0002 90B0     		sub	sp, sp, #64
+ 720              	.LCFI18:
+ 721              		.cfi_def_cfa_offset 72
+ 722 0004 02AF     		add	r7, sp, #8
+ 723              	.LCFI19:
+ 724              		.cfi_def_cfa 7, 64
+ 164:./Src/mpu6050.c **** 	uint8_t tmp = MPU6050_USER_CTRL_FIFO_EN;
+ 725              		.loc 1 164 10
+ 726 0006 4023     		movs	r3, #64
+ 727 0008 87F82D30 		strb	r3, [r7, #45]
+ 165:./Src/mpu6050.c **** 	uint16_t fifo_count = 0;
+ 728              		.loc 1 165 11
+ 729 000c 0023     		movs	r3, #0
+ 730 000e 7B85     		strh	r3, [r7, #42]	@ movhi
+ 166:./Src/mpu6050.c **** 	uint16_t packet_count = 0;
+ 731              		.loc 1 166 11
+ 732 0010 0023     		movs	r3, #0
+ 733 0012 FB85     		strh	r3, [r7, #46]	@ movhi
+ 167:./Src/mpu6050.c **** 	int i, j;
+ 168:./Src/mpu6050.c **** 	int16_t data[6] = {0};
+ 734              		.loc 1 168 10
+ 735 0014 07F11C03 		add	r3, r7, #28
+ 736 0018 0022     		movs	r2, #0
+ 737 001a 1A60     		str	r2, [r3]
+ 738 001c 5A60     		str	r2, [r3, #4]
+ 739 001e 9A60     		str	r2, [r3, #8]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 17
 
 
- 749 00c2 1CD1     		bne	.L29
- 167:./Src/mpu6050.c **** 			data[i] = (float)tmp[i] * 0.00294117647F + 36.53;
- 750              		.loc 1 167 24
- 751 00c4 FB69     		ldr	r3, [r7, #28]
- 752 00c6 5B00     		lsls	r3, r3, #1
- 753 00c8 2033     		adds	r3, r3, #32
- 754 00ca 3B44     		add	r3, r3, r7
- 755 00cc 33F9143C 		ldrsh	r3, [r3, #-20]
- 756              		.loc 1 167 14
- 757 00d0 07EE903A 		vmov	s15, r3	@ int
- 758 00d4 F8EEE77A 		vcvt.f32.s32	s15, s15
- 759              		.loc 1 167 28
- 760 00d8 9FED2A7A 		vldr.32	s14, .L31+20
- 761 00dc 67EE877A 		vmul.f32	s15, s15, s14
- 762 00e0 B7EEE77A 		vcvt.f64.f32	d7, s15
- 763              		.loc 1 167 45
- 764 00e4 9FED226B 		vldr.64	d6, .L31
- 765 00e8 37EE067B 		vadd.f64	d7, d7, d6
- 766              		.loc 1 167 8
- 767 00ec FB69     		ldr	r3, [r7, #28]
- 768 00ee 9B00     		lsls	r3, r3, #2
- 769 00f0 7A68     		ldr	r2, [r7, #4]
- 770 00f2 1344     		add	r3, r3, r2
- 771              		.loc 1 167 45
- 772 00f4 F7EEC77B 		vcvt.f32.f64	s15, d7
- 773              		.loc 1 167 12
- 774 00f8 C3ED007A 		vstr.32	s15, [r3]
- 775 00fc 2AE0     		b	.L28
- 776              	.L29:
- 168:./Src/mpu6050.c **** 		} else {
- 169:./Src/mpu6050.c **** 			tmp[i] -= offset[i - 1];
- 777              		.loc 1 169 11
- 778 00fe FB69     		ldr	r3, [r7, #28]
- 779 0100 5B00     		lsls	r3, r3, #1
- 780 0102 2033     		adds	r3, r3, #32
- 781 0104 3B44     		add	r3, r3, r7
- 782 0106 33F9143C 		ldrsh	r3, [r3, #-20]
- 783 010a 9AB2     		uxth	r2, r3
- 784              		.loc 1 169 23
- 785 010c FB69     		ldr	r3, [r7, #28]
- 786 010e 013B     		subs	r3, r3, #1
- 787              		.loc 1 169 20
- 788 0110 1A49     		ldr	r1, .L31+12
- 789 0112 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
- 790 0116 9BB2     		uxth	r3, r3
- 791              		.loc 1 169 11
- 792 0118 D31A     		subs	r3, r2, r3
- 793 011a 9BB2     		uxth	r3, r3
- 794 011c 1AB2     		sxth	r2, r3
- 795 011e FB69     		ldr	r3, [r7, #28]
- 796 0120 5B00     		lsls	r3, r3, #1
- 797 0122 2033     		adds	r3, r3, #32
- 798 0124 3B44     		add	r3, r3, r7
- 799 0126 23F8142C 		strh	r2, [r3, #-20]	@ movhi
- 170:./Src/mpu6050.c **** 			data[i] = (float)tmp[i] * gyro_unit;
- 800              		.loc 1 170 24
- 801 012a FB69     		ldr	r3, [r7, #28]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 18
+ 169:./Src/mpu6050.c **** 	int32_t sum[6] = {0};
+ 740              		.loc 1 169 10
+ 741 0020 3B1D     		adds	r3, r7, #4
+ 742 0022 0022     		movs	r2, #0
+ 743 0024 1A60     		str	r2, [r3]
+ 744 0026 5A60     		str	r2, [r3, #4]
+ 745 0028 9A60     		str	r2, [r3, #8]
+ 746 002a DA60     		str	r2, [r3, #12]
+ 747 002c 1A61     		str	r2, [r3, #16]
+ 748 002e 5A61     		str	r2, [r3, #20]
+ 170:./Src/mpu6050.c **** 
+ 171:./Src/mpu6050.c **** 	// Enable FIFO
+ 172:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_USER_CTRL, 1, &tmp);
+ 749              		.loc 1 172 2
+ 750 0030 07F12D03 		add	r3, r7, #45
+ 751 0034 0093     		str	r3, [sp]
+ 752 0036 0123     		movs	r3, #1
+ 753 0038 6A22     		movs	r2, #106
+ 754 003a 6821     		movs	r1, #104
+ 755 003c 5348     		ldr	r0, .L31
+ 756 003e FFF7FEFF 		bl	i2c_write_reg
+ 173:./Src/mpu6050.c **** 	// Enable gyro and accel FIFO
+ 174:./Src/mpu6050.c **** 	tmp = 0x78;
+ 757              		.loc 1 174 6
+ 758 0042 7823     		movs	r3, #120
+ 759 0044 87F82D30 		strb	r3, [r7, #45]
+ 175:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_EN, 1, &tmp);
+ 760              		.loc 1 175 2
+ 761 0048 07F12D03 		add	r3, r7, #45
+ 762 004c 0093     		str	r3, [sp]
+ 763 004e 0123     		movs	r3, #1
+ 764 0050 2322     		movs	r2, #35
+ 765 0052 6821     		movs	r1, #104
+ 766 0054 4D48     		ldr	r0, .L31
+ 767 0056 FFF7FEFF 		bl	i2c_write_reg
+ 176:./Src/mpu6050.c **** 	// According to sample division to delay time
+ 177:./Src/mpu6050.c **** 	systick_delay_ms((int)(20000 * dt));
+ 768              		.loc 1 177 31
+ 769 005a 4D4B     		ldr	r3, .L31+4
+ 770 005c D3ED007A 		vldr.32	s15, [r3]
+ 771 0060 9FED4C7A 		vldr.32	s14, .L31+8
+ 772 0064 67EE877A 		vmul.f32	s15, s15, s14
+ 773              		.loc 1 177 2
+ 774 0068 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 775 006c 17EE900A 		vmov	r0, s15	@ int
+ 776 0070 FFF7FEFF 		bl	systick_delay_ms
+ 178:./Src/mpu6050.c **** 	// Disable accel and gyro FIFO
+ 179:./Src/mpu6050.c **** 	tmp = 0;
+ 777              		.loc 1 179 6
+ 778 0074 0023     		movs	r3, #0
+ 779 0076 87F82D30 		strb	r3, [r7, #45]
+ 180:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_EN, 1, &tmp);
+ 780              		.loc 1 180 2
+ 781 007a 07F12D03 		add	r3, r7, #45
+ 782 007e 0093     		str	r3, [sp]
+ 783 0080 0123     		movs	r3, #1
+ 784 0082 2322     		movs	r2, #35
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 18
 
 
- 802 012c 5B00     		lsls	r3, r3, #1
- 803 012e 2033     		adds	r3, r3, #32
- 804 0130 3B44     		add	r3, r3, r7
- 805 0132 33F9143C 		ldrsh	r3, [r3, #-20]
- 806              		.loc 1 170 14
- 807 0136 07EE903A 		vmov	s15, r3	@ int
- 808 013a B8EEE77A 		vcvt.f32.s32	s14, s15
- 809              		.loc 1 170 28
- 810 013e 124B     		ldr	r3, .L31+24
- 811 0140 D3ED007A 		vldr.32	s15, [r3]
- 812              		.loc 1 170 8
- 813 0144 FB69     		ldr	r3, [r7, #28]
- 814 0146 9B00     		lsls	r3, r3, #2
- 815 0148 7A68     		ldr	r2, [r7, #4]
- 816 014a 1344     		add	r3, r3, r2
- 817              		.loc 1 170 28
- 818 014c 67EE277A 		vmul.f32	s15, s14, s15
- 819              		.loc 1 170 12
- 820 0150 C3ED007A 		vstr.32	s15, [r3]
+ 785 0084 6821     		movs	r1, #104
+ 786 0086 4148     		ldr	r0, .L31
+ 787 0088 FFF7FEFF 		bl	i2c_write_reg
+ 181:./Src/mpu6050.c **** 	// Read FIFO sample count
+ 182:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_COUNTH, 2,
+ 788              		.loc 1 182 2
+ 789 008c 07F12A03 		add	r3, r7, #42
+ 790 0090 0093     		str	r3, [sp]
+ 791 0092 0223     		movs	r3, #2
+ 792 0094 7222     		movs	r2, #114
+ 793 0096 6821     		movs	r1, #104
+ 794 0098 3C48     		ldr	r0, .L31
+ 795 009a FFF7FEFF 		bl	i2c_read_reg
+ 183:./Src/mpu6050.c **** 		     (uint8_t *)&fifo_count);
+ 184:./Src/mpu6050.c **** 	fifo_count = (fifo_count << 8) | (fifo_count >> 8);
+ 796              		.loc 1 184 27
+ 797 009e 7B8D     		ldrh	r3, [r7, #42]
+ 798 00a0 1B02     		lsls	r3, r3, #8
+ 799              		.loc 1 184 33
+ 800 00a2 1AB2     		sxth	r2, r3
+ 801 00a4 7B8D     		ldrh	r3, [r7, #42]
+ 802 00a6 1B0A     		lsrs	r3, r3, #8
+ 803 00a8 9BB2     		uxth	r3, r3
+ 804 00aa 1BB2     		sxth	r3, r3
+ 805 00ac 1343     		orrs	r3, r3, r2
+ 806 00ae 1BB2     		sxth	r3, r3
+ 807 00b0 9BB2     		uxth	r3, r3
+ 808              		.loc 1 184 13
+ 809 00b2 7B85     		strh	r3, [r7, #42]	@ movhi
+ 185:./Src/mpu6050.c **** 	packet_count = fifo_count / 12;
+ 810              		.loc 1 185 15
+ 811 00b4 7B8D     		ldrh	r3, [r7, #42]
+ 812 00b6 384A     		ldr	r2, .L31+12
+ 813 00b8 A2FB0323 		umull	r2, r3, r2, r3
+ 814 00bc DB08     		lsrs	r3, r3, #3
+ 815 00be FB85     		strh	r3, [r7, #46]	@ movhi
+ 186:./Src/mpu6050.c **** 	// Read FIFO data and calculate bias
+ 187:./Src/mpu6050.c **** 	for (i = 0; i < packet_count; i++) {
+ 816              		.loc 1 187 9
+ 817 00c0 0023     		movs	r3, #0
+ 818 00c2 7B63     		str	r3, [r7, #52]
+ 819              		.loc 1 187 2
+ 820 00c4 41E0     		b	.L25
  821              	.L28:
- 160:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 822              		.loc 1 160 26 discriminator 2
- 823 0154 FB69     		ldr	r3, [r7, #28]
- 824 0156 0133     		adds	r3, r3, #1
- 825 0158 FB61     		str	r3, [r7, #28]
- 826              	.L26:
- 160:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 827              		.loc 1 160 2 discriminator 1
- 828 015a FB69     		ldr	r3, [r7, #28]
- 829 015c 062B     		cmp	r3, #6
- 830 015e 7FF766AF 		ble	.L30
- 831              	.LBE5:
- 171:./Src/mpu6050.c **** 		}
- 172:./Src/mpu6050.c **** 	}
- 173:./Src/mpu6050.c **** }
- 832              		.loc 1 173 1
- 833 0162 00BF     		nop
- 834 0164 00BF     		nop
- 835 0166 2037     		adds	r7, r7, #32
- 836              	.LCFI20:
- 837              		.cfi_def_cfa_offset 8
- 838 0168 BD46     		mov	sp, r7
- 839              	.LCFI21:
- 840              		.cfi_def_cfa_register 13
- 841              		@ sp needed
- 842 016a 80BD     		pop	{r7, pc}
- 843              	.L32:
- 844 016c AFF30080 		.align	3
- 845              	.L31:
- 846 0170 A4703D0A 		.word	171798692
- 847 0174 D7434240 		.word	1078084567
- 848 0178 00540040 		.word	1073763328
- 849 017c 00000000 		.word	offset
- 850 0180 00000000 		.word	accel_unit
- 851 0184 C1C0403B 		.word	994099393
- 852 0188 00000000 		.word	gyro_unit
- 853              		.cfi_endproc
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 19
+ 188:./Src/mpu6050.c **** 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
+ 822              		.loc 1 188 3
+ 823 00c6 07F11C03 		add	r3, r7, #28
+ 824 00ca 0093     		str	r3, [sp]
+ 825 00cc 0C23     		movs	r3, #12
+ 826 00ce 7422     		movs	r2, #116
+ 827 00d0 6821     		movs	r1, #104
+ 828 00d2 2E48     		ldr	r0, .L31
+ 829 00d4 FFF7FEFF 		bl	i2c_read_reg
+ 189:./Src/mpu6050.c **** 			     (uint8_t *)data);
+ 190:./Src/mpu6050.c **** 
+ 191:./Src/mpu6050.c **** 		for (j = 0; j < 6; j++) {
+ 830              		.loc 1 191 10
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 19
 
 
- 854              	.LFE4:
- 856              		.section	.text.mpu6050_get_accel,"ax",%progbits
- 857              		.align	1
- 858              		.global	mpu6050_get_accel
- 859              		.syntax unified
- 860              		.thumb
- 861              		.thumb_func
- 863              	mpu6050_get_accel:
- 864              	.LFB5:
- 174:./Src/mpu6050.c **** 
- 175:./Src/mpu6050.c **** void mpu6050_get_accel(float *data)
- 176:./Src/mpu6050.c **** {
- 865              		.loc 1 176 1
- 866              		.cfi_startproc
- 867              		@ args = 0, pretend = 0, frame = 24
- 868              		@ frame_needed = 1, uses_anonymous_args = 0
- 869 0000 80B5     		push	{r7, lr}
- 870              	.LCFI22:
- 871              		.cfi_def_cfa_offset 8
- 872              		.cfi_offset 7, -8
- 873              		.cfi_offset 14, -4
- 874 0002 88B0     		sub	sp, sp, #32
- 875              	.LCFI23:
- 876              		.cfi_def_cfa_offset 40
- 877 0004 02AF     		add	r7, sp, #8
- 878              	.LCFI24:
- 879              		.cfi_def_cfa 7, 32
- 880 0006 7860     		str	r0, [r7, #4]
- 177:./Src/mpu6050.c **** 	int16_t tmp[3] = {0};
- 881              		.loc 1 177 10
- 882 0008 07F10C03 		add	r3, r7, #12
- 883 000c 0022     		movs	r2, #0
- 884 000e 1A60     		str	r2, [r3]
- 885 0010 9A80     		strh	r2, [r3, #4]	@ movhi
- 178:./Src/mpu6050.c **** 
- 179:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_ACCEL_XOUTH, 6,
- 886              		.loc 1 179 2
- 887 0012 07F10C03 		add	r3, r7, #12
- 888 0016 0093     		str	r3, [sp]
- 889 0018 0623     		movs	r3, #6
- 890 001a 3B22     		movs	r2, #59
- 891 001c 6821     		movs	r1, #104
- 892 001e 2A48     		ldr	r0, .L36
- 893 0020 FFF7FEFF 		bl	i2c_read_reg
- 894              	.LBB6:
- 180:./Src/mpu6050.c **** 		     (uint8_t *)tmp);
- 181:./Src/mpu6050.c **** 
- 182:./Src/mpu6050.c **** 	for (int i = 0; i < 3; i++) {
- 895              		.loc 1 182 11
- 896 0024 0023     		movs	r3, #0
- 897 0026 7B61     		str	r3, [r7, #20]
- 898              		.loc 1 182 2
- 899 0028 46E0     		b	.L34
- 900              	.L35:
- 183:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 901              		.loc 1 183 16 discriminator 3
- 902 002a 7B69     		ldr	r3, [r7, #20]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 20
+ 831 00d8 0023     		movs	r3, #0
+ 832 00da 3B63     		str	r3, [r7, #48]
+ 833              		.loc 1 191 3
+ 834 00dc 2FE0     		b	.L26
+ 835              	.L27:
+ 192:./Src/mpu6050.c **** 			data[j] = (data[j] << 8) | ((data[j] >> 8) & 0xFF);
+ 836              		.loc 1 192 19 discriminator 3
+ 837 00de 3B6B     		ldr	r3, [r7, #48]
+ 838 00e0 5B00     		lsls	r3, r3, #1
+ 839 00e2 3833     		adds	r3, r3, #56
+ 840 00e4 3B44     		add	r3, r3, r7
+ 841 00e6 33F91C3C 		ldrsh	r3, [r3, #-28]
+ 842              		.loc 1 192 23 discriminator 3
+ 843 00ea 1B02     		lsls	r3, r3, #8
+ 844              		.loc 1 192 29 discriminator 3
+ 845 00ec 1AB2     		sxth	r2, r3
+ 846              		.loc 1 192 37 discriminator 3
+ 847 00ee 3B6B     		ldr	r3, [r7, #48]
+ 848 00f0 5B00     		lsls	r3, r3, #1
+ 849 00f2 3833     		adds	r3, r3, #56
+ 850 00f4 3B44     		add	r3, r3, r7
+ 851 00f6 33F91C3C 		ldrsh	r3, [r3, #-28]
+ 852              		.loc 1 192 47 discriminator 3
+ 853 00fa 9BB2     		uxth	r3, r3
+ 854 00fc 1B0A     		lsrs	r3, r3, #8
+ 855 00fe 9BB2     		uxth	r3, r3
+ 856 0100 1BB2     		sxth	r3, r3
+ 857              		.loc 1 192 29 discriminator 3
+ 858 0102 1343     		orrs	r3, r3, r2
+ 859 0104 1AB2     		sxth	r2, r3
+ 860              		.loc 1 192 12 discriminator 3
+ 861 0106 3B6B     		ldr	r3, [r7, #48]
+ 862 0108 5B00     		lsls	r3, r3, #1
+ 863 010a 3833     		adds	r3, r3, #56
+ 864 010c 3B44     		add	r3, r3, r7
+ 865 010e 23F81C2C 		strh	r2, [r3, #-28]	@ movhi
+ 193:./Src/mpu6050.c **** 			sum[j] += (int32_t)data[j];
+ 866              		.loc 1 193 11 discriminator 3
+ 867 0112 3B6B     		ldr	r3, [r7, #48]
+ 868 0114 9B00     		lsls	r3, r3, #2
+ 869 0116 3833     		adds	r3, r3, #56
+ 870 0118 3B44     		add	r3, r3, r7
+ 871 011a 53F8342C 		ldr	r2, [r3, #-52]
+ 872              		.loc 1 193 27 discriminator 3
+ 873 011e 3B6B     		ldr	r3, [r7, #48]
+ 874 0120 5B00     		lsls	r3, r3, #1
+ 875 0122 3833     		adds	r3, r3, #56
+ 876 0124 3B44     		add	r3, r3, r7
+ 877 0126 33F91C3C 		ldrsh	r3, [r3, #-28]
+ 878              		.loc 1 193 11 discriminator 3
+ 879 012a 1A44     		add	r2, r2, r3
+ 880 012c 3B6B     		ldr	r3, [r7, #48]
+ 881 012e 9B00     		lsls	r3, r3, #2
+ 882 0130 3833     		adds	r3, r3, #56
+ 883 0132 3B44     		add	r3, r3, r7
+ 884 0134 43F8342C 		str	r2, [r3, #-52]
+ 191:./Src/mpu6050.c **** 			data[j] = (data[j] << 8) | ((data[j] >> 8) & 0xFF);
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 20
 
 
- 903 002c 5B00     		lsls	r3, r3, #1
- 904 002e 1833     		adds	r3, r3, #24
- 905 0030 3B44     		add	r3, r3, r7
- 906 0032 33F90C3C 		ldrsh	r3, [r3, #-12]
- 907              		.loc 1 183 20 discriminator 3
- 908 0036 1B02     		lsls	r3, r3, #8
- 909              		.loc 1 183 26 discriminator 3
- 910 0038 1AB2     		sxth	r2, r3
- 911              		.loc 1 183 33 discriminator 3
- 912 003a 7B69     		ldr	r3, [r7, #20]
- 913 003c 5B00     		lsls	r3, r3, #1
- 914 003e 1833     		adds	r3, r3, #24
- 915 0040 3B44     		add	r3, r3, r7
- 916 0042 33F90C3C 		ldrsh	r3, [r3, #-12]
- 917              		.loc 1 183 43 discriminator 3
- 918 0046 9BB2     		uxth	r3, r3
- 919 0048 1B0A     		lsrs	r3, r3, #8
- 920 004a 9BB2     		uxth	r3, r3
- 921 004c 1BB2     		sxth	r3, r3
- 922              		.loc 1 183 26 discriminator 3
- 923 004e 1343     		orrs	r3, r3, r2
- 924 0050 1AB2     		sxth	r2, r3
- 925              		.loc 1 183 10 discriminator 3
- 926 0052 7B69     		ldr	r3, [r7, #20]
- 927 0054 5B00     		lsls	r3, r3, #1
- 928 0056 1833     		adds	r3, r3, #24
- 929 0058 3B44     		add	r3, r3, r7
- 930 005a 23F80C2C 		strh	r2, [r3, #-12]	@ movhi
- 184:./Src/mpu6050.c **** 		tmp[i] -= offset[i];
- 931              		.loc 1 184 10 discriminator 3
- 932 005e 7B69     		ldr	r3, [r7, #20]
- 933 0060 5B00     		lsls	r3, r3, #1
- 934 0062 1833     		adds	r3, r3, #24
- 935 0064 3B44     		add	r3, r3, r7
- 936 0066 33F90C3C 		ldrsh	r3, [r3, #-12]
- 937 006a 9AB2     		uxth	r2, r3
- 938              		.loc 1 184 19 discriminator 3
- 939 006c 1749     		ldr	r1, .L36+4
- 940 006e 7B69     		ldr	r3, [r7, #20]
- 941 0070 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
- 942 0074 9BB2     		uxth	r3, r3
- 943              		.loc 1 184 10 discriminator 3
- 944 0076 D31A     		subs	r3, r2, r3
- 945 0078 9BB2     		uxth	r3, r3
- 946 007a 1AB2     		sxth	r2, r3
- 947 007c 7B69     		ldr	r3, [r7, #20]
- 948 007e 5B00     		lsls	r3, r3, #1
- 949 0080 1833     		adds	r3, r3, #24
- 950 0082 3B44     		add	r3, r3, r7
- 951 0084 23F80C2C 		strh	r2, [r3, #-12]	@ movhi
- 185:./Src/mpu6050.c **** 		data[i] = (float)tmp[i] * accel_unit;
- 952              		.loc 1 185 23 discriminator 3
- 953 0088 7B69     		ldr	r3, [r7, #20]
- 954 008a 5B00     		lsls	r3, r3, #1
- 955 008c 1833     		adds	r3, r3, #24
- 956 008e 3B44     		add	r3, r3, r7
- 957 0090 33F90C3C 		ldrsh	r3, [r3, #-12]
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 21
-
-
- 958              		.loc 1 185 13 discriminator 3
- 959 0094 07EE903A 		vmov	s15, r3	@ int
- 960 0098 B8EEE77A 		vcvt.f32.s32	s14, s15
- 961              		.loc 1 185 27 discriminator 3
- 962 009c 0C4B     		ldr	r3, .L36+8
- 963 009e D3ED007A 		vldr.32	s15, [r3]
- 964              		.loc 1 185 7 discriminator 3
- 965 00a2 7B69     		ldr	r3, [r7, #20]
- 966 00a4 9B00     		lsls	r3, r3, #2
- 967 00a6 7A68     		ldr	r2, [r7, #4]
- 968 00a8 1344     		add	r3, r3, r2
- 969              		.loc 1 185 27 discriminator 3
- 970 00aa 67EE277A 		vmul.f32	s15, s14, s15
- 971              		.loc 1 185 11 discriminator 3
- 972 00ae C3ED007A 		vstr.32	s15, [r3]
- 182:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 973              		.loc 1 182 26 discriminator 3
- 974 00b2 7B69     		ldr	r3, [r7, #20]
- 975 00b4 0133     		adds	r3, r3, #1
- 976 00b6 7B61     		str	r3, [r7, #20]
- 977              	.L34:
- 182:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 978              		.loc 1 182 2 discriminator 1
- 979 00b8 7B69     		ldr	r3, [r7, #20]
- 980 00ba 022B     		cmp	r3, #2
- 981 00bc B5DD     		ble	.L35
- 982              	.LBE6:
- 186:./Src/mpu6050.c **** 	}
- 187:./Src/mpu6050.c **** }
- 983              		.loc 1 187 1
- 984 00be 00BF     		nop
- 985 00c0 00BF     		nop
- 986 00c2 1837     		adds	r7, r7, #24
- 987              	.LCFI25:
- 988              		.cfi_def_cfa_offset 8
- 989 00c4 BD46     		mov	sp, r7
- 990              	.LCFI26:
- 991              		.cfi_def_cfa_register 13
- 992              		@ sp needed
- 993 00c6 80BD     		pop	{r7, pc}
- 994              	.L37:
- 995              		.align	2
- 996              	.L36:
- 997 00c8 00540040 		.word	1073763328
- 998 00cc 00000000 		.word	offset
- 999 00d0 00000000 		.word	accel_unit
- 1000              		.cfi_endproc
- 1001              	.LFE5:
- 1003              		.section	.text.mpu6050_get_temperature,"ax",%progbits
- 1004              		.align	1
- 1005              		.global	mpu6050_get_temperature
- 1006              		.syntax unified
- 1007              		.thumb
- 1008              		.thumb_func
- 1010              	mpu6050_get_temperature:
- 1011              	.LFB6:
- 188:./Src/mpu6050.c **** 
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 22
-
-
- 189:./Src/mpu6050.c **** /*
- 190:./Src/mpu6050.c ****  * Temperature in degree C = (TEMP_OUT register value as a signed quantity) /
- 191:./Src/mpu6050.c ****  * 340 + 36.53
- 192:./Src/mpu6050.c ****  */
- 193:./Src/mpu6050.c **** float mpu6050_get_temperature(void)
- 194:./Src/mpu6050.c **** {
- 1012              		.loc 1 194 1
- 1013              		.cfi_startproc
- 1014              		@ args = 0, pretend = 0, frame = 8
- 1015              		@ frame_needed = 1, uses_anonymous_args = 0
- 1016 0000 80B5     		push	{r7, lr}
- 1017              	.LCFI27:
- 1018              		.cfi_def_cfa_offset 8
- 1019              		.cfi_offset 7, -8
- 1020              		.cfi_offset 14, -4
- 1021 0002 84B0     		sub	sp, sp, #16
- 1022              	.LCFI28:
- 1023              		.cfi_def_cfa_offset 24
- 1024 0004 02AF     		add	r7, sp, #8
- 1025              	.LCFI29:
- 1026              		.cfi_def_cfa 7, 16
- 195:./Src/mpu6050.c **** 	int16_t tmp = 0;
- 1027              		.loc 1 195 10
- 1028 0006 0023     		movs	r3, #0
- 1029 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 885              		.loc 1 191 23 discriminator 3
+ 886 0138 3B6B     		ldr	r3, [r7, #48]
+ 887 013a 0133     		adds	r3, r3, #1
+ 888 013c 3B63     		str	r3, [r7, #48]
+ 889              	.L26:
+ 191:./Src/mpu6050.c **** 			data[j] = (data[j] << 8) | ((data[j] >> 8) & 0xFF);
+ 890              		.loc 1 191 3 discriminator 1
+ 891 013e 3B6B     		ldr	r3, [r7, #48]
+ 892 0140 052B     		cmp	r3, #5
+ 893 0142 CCDD     		ble	.L27
+ 187:./Src/mpu6050.c **** 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
+ 894              		.loc 1 187 33 discriminator 2
+ 895 0144 7B6B     		ldr	r3, [r7, #52]
+ 896 0146 0133     		adds	r3, r3, #1
+ 897 0148 7B63     		str	r3, [r7, #52]
+ 898              	.L25:
+ 187:./Src/mpu6050.c **** 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
+ 899              		.loc 1 187 16 discriminator 1
+ 900 014a FB8D     		ldrh	r3, [r7, #46]
+ 187:./Src/mpu6050.c **** 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
+ 901              		.loc 1 187 2 discriminator 1
+ 902 014c 7A6B     		ldr	r2, [r7, #52]
+ 903 014e 9A42     		cmp	r2, r3
+ 904 0150 B9DB     		blt	.L28
+ 194:./Src/mpu6050.c **** 		}
+ 195:./Src/mpu6050.c **** 	}
  196:./Src/mpu6050.c **** 
- 197:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_TEMP_OUTH, 2,
- 1030              		.loc 1 197 2
- 1031 000a BB1D     		adds	r3, r7, #6
- 1032 000c 0093     		str	r3, [sp]
- 1033 000e 0223     		movs	r3, #2
- 1034 0010 4122     		movs	r2, #65
- 1035 0012 6821     		movs	r1, #104
- 1036 0014 1148     		ldr	r0, .L40
- 1037 0016 FFF7FEFF 		bl	i2c_read_reg
- 198:./Src/mpu6050.c **** 		     (uint8_t *)&tmp);
- 199:./Src/mpu6050.c **** 	tmp = (tmp << 8) | ((tmp >> 8) & 0xFF);
- 1038              		.loc 1 199 13
- 1039 001a B7F90630 		ldrsh	r3, [r7, #6]
- 1040 001e 1B02     		lsls	r3, r3, #8
- 1041              		.loc 1 199 19
- 1042 0020 1AB2     		sxth	r2, r3
- 1043              		.loc 1 199 33
- 1044 0022 B7F90630 		ldrsh	r3, [r7, #6]
- 1045 0026 9BB2     		uxth	r3, r3
- 1046 0028 1B0A     		lsrs	r3, r3, #8
- 1047 002a 9BB2     		uxth	r3, r3
- 1048 002c 1BB2     		sxth	r3, r3
- 1049              		.loc 1 199 19
- 1050 002e 1343     		orrs	r3, r3, r2
- 1051 0030 1BB2     		sxth	r3, r3
- 1052              		.loc 1 199 6
- 1053 0032 FB80     		strh	r3, [r7, #6]	@ movhi
- 200:./Src/mpu6050.c **** 	return (float)tmp * 0.00294117647F + 36.53F;
- 1054              		.loc 1 200 9
- 1055 0034 B7F90630 		ldrsh	r3, [r7, #6]
- 1056 0038 07EE903A 		vmov	s15, r3	@ int
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 23
+ 197:./Src/mpu6050.c **** 	for (i = 0; i < 6; i++) {
+ 905              		.loc 1 197 9
+ 906 0152 0023     		movs	r3, #0
+ 907 0154 7B63     		str	r3, [r7, #52]
+ 908              		.loc 1 197 2
+ 909 0156 10E0     		b	.L29
+ 910              	.L30:
+ 198:./Src/mpu6050.c **** 		bias[i] = (int16_t)(sum[i] / packet_count);
+ 911              		.loc 1 198 26 discriminator 3
+ 912 0158 7B6B     		ldr	r3, [r7, #52]
+ 913 015a 9B00     		lsls	r3, r3, #2
+ 914 015c 3833     		adds	r3, r3, #56
+ 915 015e 3B44     		add	r3, r3, r7
+ 916 0160 53F8342C 		ldr	r2, [r3, #-52]
+ 917              		.loc 1 198 30 discriminator 3
+ 918 0164 FB8D     		ldrh	r3, [r7, #46]
+ 919 0166 92FBF3F3 		sdiv	r3, r2, r3
+ 920              		.loc 1 198 13 discriminator 3
+ 921 016a 19B2     		sxth	r1, r3
+ 922              		.loc 1 198 11 discriminator 3
+ 923 016c 0B4A     		ldr	r2, .L31+16
+ 924 016e 7B6B     		ldr	r3, [r7, #52]
+ 925 0170 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ 197:./Src/mpu6050.c **** 		bias[i] = (int16_t)(sum[i] / packet_count);
+ 926              		.loc 1 197 22 discriminator 3
+ 927 0174 7B6B     		ldr	r3, [r7, #52]
+ 928 0176 0133     		adds	r3, r3, #1
+ 929 0178 7B63     		str	r3, [r7, #52]
+ 930              	.L29:
+ 197:./Src/mpu6050.c **** 		bias[i] = (int16_t)(sum[i] / packet_count);
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 21
 
 
- 1057 003c F8EEE77A 		vcvt.f32.s32	s15, s15
- 1058              		.loc 1 200 20
- 1059 0040 9FED077A 		vldr.32	s14, .L40+4
- 1060 0044 67EE877A 		vmul.f32	s15, s15, s14
- 1061              		.loc 1 200 37
- 1062 0048 9FED067A 		vldr.32	s14, .L40+8
- 1063 004c 77EE877A 		vadd.f32	s15, s15, s14
- 201:./Src/mpu6050.c **** }
- 1064              		.loc 1 201 1
- 1065 0050 B0EE670A 		vmov.f32	s0, s15
- 1066 0054 0837     		adds	r7, r7, #8
- 1067              	.LCFI30:
- 1068              		.cfi_def_cfa_offset 8
- 1069 0056 BD46     		mov	sp, r7
- 1070              	.LCFI31:
- 1071              		.cfi_def_cfa_register 13
- 1072              		@ sp needed
- 1073 0058 80BD     		pop	{r7, pc}
- 1074              	.L41:
- 1075 005a 00BF     		.align	2
- 1076              	.L40:
- 1077 005c 00540040 		.word	1073763328
- 1078 0060 C1C0403B 		.word	994099393
- 1079 0064 B81E1242 		.word	1108483768
- 1080              		.cfi_endproc
- 1081              	.LFE6:
- 1083              		.section	.text.mpu6050_get_gyro,"ax",%progbits
- 1084              		.align	1
- 1085              		.global	mpu6050_get_gyro
- 1086              		.syntax unified
- 1087              		.thumb
- 1088              		.thumb_func
- 1090              	mpu6050_get_gyro:
- 1091              	.LFB7:
- 202:./Src/mpu6050.c **** 
- 203:./Src/mpu6050.c **** void mpu6050_get_gyro(float *data)
- 204:./Src/mpu6050.c **** {
- 1092              		.loc 1 204 1
- 1093              		.cfi_startproc
- 1094              		@ args = 0, pretend = 0, frame = 24
- 1095              		@ frame_needed = 1, uses_anonymous_args = 0
- 1096 0000 80B5     		push	{r7, lr}
- 1097              	.LCFI32:
- 1098              		.cfi_def_cfa_offset 8
- 1099              		.cfi_offset 7, -8
- 1100              		.cfi_offset 14, -4
- 1101 0002 88B0     		sub	sp, sp, #32
- 1102              	.LCFI33:
- 1103              		.cfi_def_cfa_offset 40
- 1104 0004 02AF     		add	r7, sp, #8
- 1105              	.LCFI34:
- 1106              		.cfi_def_cfa 7, 32
- 1107 0006 7860     		str	r0, [r7, #4]
- 205:./Src/mpu6050.c **** 	int16_t tmp[3] = {0};
- 1108              		.loc 1 205 10
- 1109 0008 07F10C03 		add	r3, r7, #12
- 1110 000c 0022     		movs	r2, #0
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 24
+ 931              		.loc 1 197 2 discriminator 1
+ 932 017a 7B6B     		ldr	r3, [r7, #52]
+ 933 017c 052B     		cmp	r3, #5
+ 934 017e EBDD     		ble	.L30
+ 199:./Src/mpu6050.c **** 	}
+ 200:./Src/mpu6050.c **** }
+ 935              		.loc 1 200 1
+ 936 0180 00BF     		nop
+ 937 0182 00BF     		nop
+ 938 0184 3837     		adds	r7, r7, #56
+ 939              	.LCFI20:
+ 940              		.cfi_def_cfa_offset 8
+ 941 0186 BD46     		mov	sp, r7
+ 942              	.LCFI21:
+ 943              		.cfi_def_cfa_register 13
+ 944              		@ sp needed
+ 945 0188 80BD     		pop	{r7, pc}
+ 946              	.L32:
+ 947 018a 00BF     		.align	2
+ 948              	.L31:
+ 949 018c 00540040 		.word	1073763328
+ 950 0190 00000000 		.word	dt
+ 951 0194 00409C46 		.word	1184645120
+ 952 0198 ABAAAAAA 		.word	-1431655765
+ 953 019c 00000000 		.word	bias
+ 954              		.cfi_endproc
+ 955              	.LFE4:
+ 957              		.section	.text.mpu6050_kalman_gyro,"ax",%progbits
+ 958              		.align	1
+ 959              		.global	mpu6050_kalman_gyro
+ 960              		.syntax unified
+ 961              		.thumb
+ 962              		.thumb_func
+ 964              	mpu6050_kalman_gyro:
+ 965              	.LFB5:
+ 201:./Src/mpu6050.c **** 
+ 202:./Src/mpu6050.c **** void mpu6050_kalman_gyro(float (*X)[2], float *Z)
+ 203:./Src/mpu6050.c **** {
+ 966              		.loc 1 203 1
+ 967              		.cfi_startproc
+ 968              		@ args = 0, pretend = 0, frame = 48
+ 969              		@ frame_needed = 1, uses_anonymous_args = 0
+ 970              		@ link register save eliminated.
+ 971 0000 80B4     		push	{r7}
+ 972              	.LCFI22:
+ 973              		.cfi_def_cfa_offset 4
+ 974              		.cfi_offset 7, -4
+ 975 0002 8DB0     		sub	sp, sp, #52
+ 976              	.LCFI23:
+ 977              		.cfi_def_cfa_offset 56
+ 978 0004 00AF     		add	r7, sp, #0
+ 979              	.LCFI24:
+ 980              		.cfi_def_cfa_register 7
+ 981 0006 7860     		str	r0, [r7, #4]
+ 982 0008 3960     		str	r1, [r7]
+ 204:./Src/mpu6050.c **** 	static float P[3][2][2] = {{{1, 0}, {0, 1}},
+ 205:./Src/mpu6050.c **** 				   {{1, 0}, {0, 1}},
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 22
 
 
- 1111 000e 1A60     		str	r2, [r3]
- 1112 0010 9A80     		strh	r2, [r3, #4]	@ movhi
- 206:./Src/mpu6050.c **** 
- 207:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_XOUTH, 6,
- 1113              		.loc 1 207 2
- 1114 0012 07F10C03 		add	r3, r7, #12
- 1115 0016 0093     		str	r3, [sp]
- 1116 0018 0623     		movs	r3, #6
- 1117 001a 4322     		movs	r2, #67
- 1118 001c 6821     		movs	r1, #104
- 1119 001e 2B48     		ldr	r0, .L45
- 1120 0020 FFF7FEFF 		bl	i2c_read_reg
- 1121              	.LBB7:
- 208:./Src/mpu6050.c **** 		     (uint8_t *)&tmp);
- 209:./Src/mpu6050.c **** 
- 210:./Src/mpu6050.c **** 	for (int i = 0; i < 3; i++) {
- 1122              		.loc 1 210 11
- 1123 0024 0023     		movs	r3, #0
- 1124 0026 7B61     		str	r3, [r7, #20]
- 1125              		.loc 1 210 2
- 1126 0028 47E0     		b	.L43
- 1127              	.L44:
- 211:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 1128              		.loc 1 211 16 discriminator 3
- 1129 002a 7B69     		ldr	r3, [r7, #20]
- 1130 002c 5B00     		lsls	r3, r3, #1
- 1131 002e 1833     		adds	r3, r3, #24
- 1132 0030 3B44     		add	r3, r3, r7
- 1133 0032 33F90C3C 		ldrsh	r3, [r3, #-12]
- 1134              		.loc 1 211 20 discriminator 3
- 1135 0036 1B02     		lsls	r3, r3, #8
- 1136              		.loc 1 211 26 discriminator 3
- 1137 0038 1AB2     		sxth	r2, r3
- 1138              		.loc 1 211 33 discriminator 3
- 1139 003a 7B69     		ldr	r3, [r7, #20]
- 1140 003c 5B00     		lsls	r3, r3, #1
- 1141 003e 1833     		adds	r3, r3, #24
- 1142 0040 3B44     		add	r3, r3, r7
- 1143 0042 33F90C3C 		ldrsh	r3, [r3, #-12]
- 1144              		.loc 1 211 43 discriminator 3
- 1145 0046 9BB2     		uxth	r3, r3
- 1146 0048 1B0A     		lsrs	r3, r3, #8
- 1147 004a 9BB2     		uxth	r3, r3
- 1148 004c 1BB2     		sxth	r3, r3
- 1149              		.loc 1 211 26 discriminator 3
- 1150 004e 1343     		orrs	r3, r3, r2
- 1151 0050 1AB2     		sxth	r2, r3
- 1152              		.loc 1 211 10 discriminator 3
- 1153 0052 7B69     		ldr	r3, [r7, #20]
- 1154 0054 5B00     		lsls	r3, r3, #1
- 1155 0056 1833     		adds	r3, r3, #24
- 1156 0058 3B44     		add	r3, r3, r7
- 1157 005a 23F80C2C 		strh	r2, [r3, #-12]	@ movhi
- 212:./Src/mpu6050.c **** 		tmp[i] -= offset[3 + i];
- 1158              		.loc 1 212 10 discriminator 3
- 1159 005e 7B69     		ldr	r3, [r7, #20]
- 1160 0060 5B00     		lsls	r3, r3, #1
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 25
+ 206:./Src/mpu6050.c **** 				   {{1, 0}, {0, 1}}},
+ 207:./Src/mpu6050.c **** 		     Q = 0.001, R = 1;
+ 208:./Src/mpu6050.c **** 	float X_[2] = {0}, P_[2][2] = {0}, K[2] = {0};
+ 983              		.loc 1 208 8
+ 984 000a 07F12403 		add	r3, r7, #36
+ 985 000e 0022     		movs	r2, #0
+ 986 0010 1A60     		str	r2, [r3]
+ 987 0012 5A60     		str	r2, [r3, #4]
+ 988              		.loc 1 208 21
+ 989 0014 07F11403 		add	r3, r7, #20
+ 990 0018 0022     		movs	r2, #0
+ 991 001a 1A60     		str	r2, [r3]
+ 992 001c 5A60     		str	r2, [r3, #4]
+ 993 001e 9A60     		str	r2, [r3, #8]
+ 994 0020 DA60     		str	r2, [r3, #12]
+ 995              		.loc 1 208 37
+ 996 0022 07F10C03 		add	r3, r7, #12
+ 997 0026 0022     		movs	r2, #0
+ 998 0028 1A60     		str	r2, [r3]
+ 999 002a 5A60     		str	r2, [r3, #4]
+ 209:./Src/mpu6050.c **** 	int i;
+ 210:./Src/mpu6050.c **** 
+ 211:./Src/mpu6050.c **** 	for (i = 0; i < 3; i++) {
+ 1000              		.loc 1 211 9
+ 1001 002c 0023     		movs	r3, #0
+ 1002 002e FB62     		str	r3, [r7, #44]
+ 1003              		.loc 1 211 2
+ 1004 0030 12E1     		b	.L34
+ 1005              	.L35:
+ 212:./Src/mpu6050.c **** 		X_[0] = X[i][0] + dt * X[i][1];
+ 1006              		.loc 1 212 12 discriminator 3
+ 1007 0032 FB6A     		ldr	r3, [r7, #44]
+ 1008 0034 DB00     		lsls	r3, r3, #3
+ 1009 0036 7A68     		ldr	r2, [r7, #4]
+ 1010 0038 1344     		add	r3, r3, r2
+ 1011              		.loc 1 212 15 discriminator 3
+ 1012 003a 93ED007A 		vldr.32	s14, [r3]
+ 1013              		.loc 1 212 27 discriminator 3
+ 1014 003e FB6A     		ldr	r3, [r7, #44]
+ 1015 0040 DB00     		lsls	r3, r3, #3
+ 1016 0042 7A68     		ldr	r2, [r7, #4]
+ 1017 0044 1344     		add	r3, r3, r2
+ 1018              		.loc 1 212 30 discriminator 3
+ 1019 0046 D3ED016A 		vldr.32	s13, [r3, #4]
+ 1020              		.loc 1 212 24 discriminator 3
+ 1021 004a 894B     		ldr	r3, .L36
+ 1022 004c D3ED007A 		vldr.32	s15, [r3]
+ 1023 0050 66EEA77A 		vmul.f32	s15, s13, s15
+ 1024              		.loc 1 212 19 discriminator 3
+ 1025 0054 77EE277A 		vadd.f32	s15, s14, s15
+ 1026              		.loc 1 212 9 discriminator 3
+ 1027 0058 C7ED097A 		vstr.32	s15, [r7, #36]
+ 213:./Src/mpu6050.c **** 		X_[1] = X[i][1];
+ 1028              		.loc 1 213 12 discriminator 3
+ 1029 005c FB6A     		ldr	r3, [r7, #44]
+ 1030 005e DB00     		lsls	r3, r3, #3
+ 1031 0060 7A68     		ldr	r2, [r7, #4]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 23
 
 
- 1161 0062 1833     		adds	r3, r3, #24
- 1162 0064 3B44     		add	r3, r3, r7
- 1163 0066 33F90C3C 		ldrsh	r3, [r3, #-12]
- 1164 006a 9AB2     		uxth	r2, r3
- 1165              		.loc 1 212 22 discriminator 3
- 1166 006c 7B69     		ldr	r3, [r7, #20]
- 1167 006e 0333     		adds	r3, r3, #3
- 1168              		.loc 1 212 19 discriminator 3
- 1169 0070 1749     		ldr	r1, .L45+4
- 1170 0072 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
- 1171 0076 9BB2     		uxth	r3, r3
- 1172              		.loc 1 212 10 discriminator 3
- 1173 0078 D31A     		subs	r3, r2, r3
- 1174 007a 9BB2     		uxth	r3, r3
- 1175 007c 1AB2     		sxth	r2, r3
- 1176 007e 7B69     		ldr	r3, [r7, #20]
- 1177 0080 5B00     		lsls	r3, r3, #1
- 1178 0082 1833     		adds	r3, r3, #24
- 1179 0084 3B44     		add	r3, r3, r7
- 1180 0086 23F80C2C 		strh	r2, [r3, #-12]	@ movhi
- 213:./Src/mpu6050.c **** 		data[i] = (float)tmp[i] * gyro_unit;
- 1181              		.loc 1 213 23 discriminator 3
- 1182 008a 7B69     		ldr	r3, [r7, #20]
- 1183 008c 5B00     		lsls	r3, r3, #1
- 1184 008e 1833     		adds	r3, r3, #24
- 1185 0090 3B44     		add	r3, r3, r7
- 1186 0092 33F90C3C 		ldrsh	r3, [r3, #-12]
- 1187              		.loc 1 213 13 discriminator 3
- 1188 0096 07EE903A 		vmov	s15, r3	@ int
- 1189 009a B8EEE77A 		vcvt.f32.s32	s14, s15
- 1190              		.loc 1 213 27 discriminator 3
- 1191 009e 0D4B     		ldr	r3, .L45+8
- 1192 00a0 D3ED007A 		vldr.32	s15, [r3]
- 1193              		.loc 1 213 7 discriminator 3
- 1194 00a4 7B69     		ldr	r3, [r7, #20]
- 1195 00a6 9B00     		lsls	r3, r3, #2
- 1196 00a8 7A68     		ldr	r2, [r7, #4]
- 1197 00aa 1344     		add	r3, r3, r2
- 1198              		.loc 1 213 27 discriminator 3
- 1199 00ac 67EE277A 		vmul.f32	s15, s14, s15
- 1200              		.loc 1 213 11 discriminator 3
- 1201 00b0 C3ED007A 		vstr.32	s15, [r3]
- 210:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 1202              		.loc 1 210 26 discriminator 3
- 1203 00b4 7B69     		ldr	r3, [r7, #20]
- 1204 00b6 0133     		adds	r3, r3, #1
- 1205 00b8 7B61     		str	r3, [r7, #20]
- 1206              	.L43:
- 210:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
- 1207              		.loc 1 210 2 discriminator 1
- 1208 00ba 7B69     		ldr	r3, [r7, #20]
- 1209 00bc 022B     		cmp	r3, #2
- 1210 00be B4DD     		ble	.L44
- 1211              	.LBE7:
- 214:./Src/mpu6050.c **** 	}
- 215:./Src/mpu6050.c **** }
- 1212              		.loc 1 215 1
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 26
+ 1032 0062 1344     		add	r3, r3, r2
+ 1033              		.loc 1 213 15 discriminator 3
+ 1034 0064 5B68     		ldr	r3, [r3, #4]	@ float
+ 1035              		.loc 1 213 9 discriminator 3
+ 1036 0066 BB62     		str	r3, [r7, #40]	@ float
+ 214:./Src/mpu6050.c **** 
+ 215:./Src/mpu6050.c **** 		P_[0][0] = P[i][0][0] + (P[i][0][1] + P[i][1][0]) * dt + Q;
+ 1037              		.loc 1 215 21 discriminator 3
+ 1038 0068 824A     		ldr	r2, .L36+4
+ 1039 006a FB6A     		ldr	r3, [r7, #44]
+ 1040 006c 1B01     		lsls	r3, r3, #4
+ 1041 006e 1344     		add	r3, r3, r2
+ 1042 0070 93ED007A 		vldr.32	s14, [r3]
+ 1043              		.loc 1 215 35 discriminator 3
+ 1044 0074 7F4A     		ldr	r2, .L36+4
+ 1045 0076 FB6A     		ldr	r3, [r7, #44]
+ 1046 0078 1B01     		lsls	r3, r3, #4
+ 1047 007a 1344     		add	r3, r3, r2
+ 1048 007c 0433     		adds	r3, r3, #4
+ 1049 007e D3ED006A 		vldr.32	s13, [r3]
+ 1050              		.loc 1 215 48 discriminator 3
+ 1051 0082 7C4A     		ldr	r2, .L36+4
+ 1052 0084 FB6A     		ldr	r3, [r7, #44]
+ 1053 0086 1B01     		lsls	r3, r3, #4
+ 1054 0088 1344     		add	r3, r3, r2
+ 1055 008a 0833     		adds	r3, r3, #8
+ 1056 008c D3ED007A 		vldr.32	s15, [r3]
+ 1057              		.loc 1 215 39 discriminator 3
+ 1058 0090 76EEA76A 		vadd.f32	s13, s13, s15
+ 1059              		.loc 1 215 53 discriminator 3
+ 1060 0094 764B     		ldr	r3, .L36
+ 1061 0096 D3ED007A 		vldr.32	s15, [r3]
+ 1062 009a 66EEA77A 		vmul.f32	s15, s13, s15
+ 1063              		.loc 1 215 25 discriminator 3
+ 1064 009e 37EE277A 		vadd.f32	s14, s14, s15
+ 1065              		.loc 1 215 58 discriminator 3
+ 1066 00a2 754B     		ldr	r3, .L36+8
+ 1067 00a4 D3ED007A 		vldr.32	s15, [r3]
+ 1068 00a8 77EE277A 		vadd.f32	s15, s14, s15
+ 1069              		.loc 1 215 12 discriminator 3
+ 1070 00ac C7ED057A 		vstr.32	s15, [r7, #20]
+ 216:./Src/mpu6050.c **** 		P_[0][1] = P[i][0][1] + P[i][1][1] * dt;
+ 1071              		.loc 1 216 21 discriminator 3
+ 1072 00b0 704A     		ldr	r2, .L36+4
+ 1073 00b2 FB6A     		ldr	r3, [r7, #44]
+ 1074 00b4 1B01     		lsls	r3, r3, #4
+ 1075 00b6 1344     		add	r3, r3, r2
+ 1076 00b8 0433     		adds	r3, r3, #4
+ 1077 00ba 93ED007A 		vldr.32	s14, [r3]
+ 1078              		.loc 1 216 34 discriminator 3
+ 1079 00be 6D4A     		ldr	r2, .L36+4
+ 1080 00c0 FB6A     		ldr	r3, [r7, #44]
+ 1081 00c2 1B01     		lsls	r3, r3, #4
+ 1082 00c4 1344     		add	r3, r3, r2
+ 1083 00c6 0C33     		adds	r3, r3, #12
+ 1084 00c8 D3ED006A 		vldr.32	s13, [r3]
+ 1085              		.loc 1 216 38 discriminator 3
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 24
 
 
- 1213 00c0 00BF     		nop
- 1214 00c2 00BF     		nop
- 1215 00c4 1837     		adds	r7, r7, #24
- 1216              	.LCFI35:
- 1217              		.cfi_def_cfa_offset 8
- 1218 00c6 BD46     		mov	sp, r7
- 1219              	.LCFI36:
- 1220              		.cfi_def_cfa_register 13
- 1221              		@ sp needed
- 1222 00c8 80BD     		pop	{r7, pc}
- 1223              	.L46:
- 1224 00ca 00BF     		.align	2
- 1225              	.L45:
- 1226 00cc 00540040 		.word	1073763328
- 1227 00d0 00000000 		.word	offset
- 1228 00d4 00000000 		.word	gyro_unit
- 1229              		.cfi_endproc
- 1230              	.LFE7:
- 1232              		.section	.text.mpu6050_selftest,"ax",%progbits
- 1233              		.align	1
- 1234              		.global	mpu6050_selftest
- 1235              		.syntax unified
- 1236              		.thumb
- 1237              		.thumb_func
- 1239              	mpu6050_selftest:
- 1240              	.LFB8:
- 216:./Src/mpu6050.c **** 
- 217:./Src/mpu6050.c **** /**
- 218:./Src/mpu6050.c ****  * @brief Self-Test to get change from foctory trim of the self-test response.
- 219:./Src/mpu6050.c ****  * 	  if |value| < 14, the MPU6050 keep its accuracy, else failed.
- 220:./Src/mpu6050.c ****  *
- 221:./Src/mpu6050.c ****  * @param err error array of gyro and accel change
- 222:./Src/mpu6050.c ****  */
- 223:./Src/mpu6050.c **** void mpu6050_selftest(float *err)
- 224:./Src/mpu6050.c **** {
- 1241              		.loc 1 224 1
- 1242              		.cfi_startproc
- 1243              		@ args = 0, pretend = 0, frame = 40
- 1244              		@ frame_needed = 1, uses_anonymous_args = 0
- 1245 0000 80B5     		push	{r7, lr}
- 1246              	.LCFI37:
- 1247              		.cfi_def_cfa_offset 8
- 1248              		.cfi_offset 7, -8
- 1249              		.cfi_offset 14, -4
- 1250 0002 8CB0     		sub	sp, sp, #48
- 1251              	.LCFI38:
- 1252              		.cfi_def_cfa_offset 56
- 1253 0004 02AF     		add	r7, sp, #8
- 1254              	.LCFI39:
- 1255              		.cfi_def_cfa 7, 48
- 1256 0006 7860     		str	r0, [r7, #4]
- 225:./Src/mpu6050.c **** 	float factory_trim = 0;
- 1257              		.loc 1 225 8
- 1258 0008 4FF00003 		mov	r3, #0
- 1259 000c 7B62     		str	r3, [r7, #36]	@ float
- 226:./Src/mpu6050.c **** 	uint8_t raw_data[4] = {0};
- 1260              		.loc 1 226 10
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 27
+ 1086 00cc 684B     		ldr	r3, .L36
+ 1087 00ce D3ED007A 		vldr.32	s15, [r3]
+ 1088 00d2 66EEA77A 		vmul.f32	s15, s13, s15
+ 1089              		.loc 1 216 25 discriminator 3
+ 1090 00d6 77EE277A 		vadd.f32	s15, s14, s15
+ 1091              		.loc 1 216 12 discriminator 3
+ 1092 00da C7ED067A 		vstr.32	s15, [r7, #24]
+ 217:./Src/mpu6050.c **** 		P_[1][0] = P[i][1][0] + P[i][1][1] * dt;
+ 1093              		.loc 1 217 21 discriminator 3
+ 1094 00de 654A     		ldr	r2, .L36+4
+ 1095 00e0 FB6A     		ldr	r3, [r7, #44]
+ 1096 00e2 1B01     		lsls	r3, r3, #4
+ 1097 00e4 1344     		add	r3, r3, r2
+ 1098 00e6 0833     		adds	r3, r3, #8
+ 1099 00e8 93ED007A 		vldr.32	s14, [r3]
+ 1100              		.loc 1 217 34 discriminator 3
+ 1101 00ec 614A     		ldr	r2, .L36+4
+ 1102 00ee FB6A     		ldr	r3, [r7, #44]
+ 1103 00f0 1B01     		lsls	r3, r3, #4
+ 1104 00f2 1344     		add	r3, r3, r2
+ 1105 00f4 0C33     		adds	r3, r3, #12
+ 1106 00f6 D3ED006A 		vldr.32	s13, [r3]
+ 1107              		.loc 1 217 38 discriminator 3
+ 1108 00fa 5D4B     		ldr	r3, .L36
+ 1109 00fc D3ED007A 		vldr.32	s15, [r3]
+ 1110 0100 66EEA77A 		vmul.f32	s15, s13, s15
+ 1111              		.loc 1 217 25 discriminator 3
+ 1112 0104 77EE277A 		vadd.f32	s15, s14, s15
+ 1113              		.loc 1 217 12 discriminator 3
+ 1114 0108 C7ED077A 		vstr.32	s15, [r7, #28]
+ 218:./Src/mpu6050.c **** 		P_[1][1] = P[i][1][1] + Q;
+ 1115              		.loc 1 218 21 discriminator 3
+ 1116 010c 594A     		ldr	r2, .L36+4
+ 1117 010e FB6A     		ldr	r3, [r7, #44]
+ 1118 0110 1B01     		lsls	r3, r3, #4
+ 1119 0112 1344     		add	r3, r3, r2
+ 1120 0114 0C33     		adds	r3, r3, #12
+ 1121 0116 93ED007A 		vldr.32	s14, [r3]
+ 1122              		.loc 1 218 25 discriminator 3
+ 1123 011a 574B     		ldr	r3, .L36+8
+ 1124 011c D3ED007A 		vldr.32	s15, [r3]
+ 1125 0120 77EE277A 		vadd.f32	s15, s14, s15
+ 1126              		.loc 1 218 12 discriminator 3
+ 1127 0124 C7ED087A 		vstr.32	s15, [r7, #32]
+ 219:./Src/mpu6050.c **** 
+ 220:./Src/mpu6050.c **** 		K[0] = P_[0][1] / (P_[1][1] + R);
+ 1128              		.loc 1 220 15 discriminator 3
+ 1129 0128 D7ED066A 		vldr.32	s13, [r7, #24]
+ 1130              		.loc 1 220 27 discriminator 3
+ 1131 012c 97ED087A 		vldr.32	s14, [r7, #32]
+ 1132              		.loc 1 220 31 discriminator 3
+ 1133 0130 524B     		ldr	r3, .L36+12
+ 1134 0132 D3ED007A 		vldr.32	s15, [r3]
+ 1135 0136 37EE277A 		vadd.f32	s14, s14, s15
+ 1136              		.loc 1 220 19 discriminator 3
+ 1137 013a C6EE877A 		vdiv.f32	s15, s13, s14
+ 1138              		.loc 1 220 8 discriminator 3
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 25
 
 
- 1261 000e 0023     		movs	r3, #0
- 1262 0010 BB61     		str	r3, [r7, #24]
- 227:./Src/mpu6050.c **** 	uint8_t selftest_data[6] = {0};
- 1263              		.loc 1 227 10
- 1264 0012 0023     		movs	r3, #0
- 1265 0014 3B61     		str	r3, [r7, #16]
- 1266 0016 0023     		movs	r3, #0
- 1267 0018 BB82     		strh	r3, [r7, #20]	@ movhi
- 228:./Src/mpu6050.c **** 	uint8_t tmp = 0xE0;
- 1268              		.loc 1 228 10
- 1269 001a E023     		movs	r3, #224
- 1270 001c FB73     		strb	r3, [r7, #15]
- 229:./Src/mpu6050.c **** 
- 230:./Src/mpu6050.c **** 	// Configure the accelorometer and gyroscope self test
- 231:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_ACCEL_CONFIG, 1, &tmp);
- 1271              		.loc 1 231 2
- 1272 001e 07F10F03 		add	r3, r7, #15
- 1273 0022 0093     		str	r3, [sp]
- 1274 0024 0123     		movs	r3, #1
- 1275 0026 1C22     		movs	r2, #28
- 1276 0028 6821     		movs	r1, #104
- 1277 002a 8F48     		ldr	r0, .L53+24
- 1278 002c FFF7FEFF 		bl	i2c_write_reg
- 232:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_CONFIG, 1, &tmp);
- 1279              		.loc 1 232 2
- 1280 0030 07F10F03 		add	r3, r7, #15
- 1281 0034 0093     		str	r3, [sp]
- 1282 0036 0123     		movs	r3, #1
- 1283 0038 1B22     		movs	r2, #27
- 1284 003a 6821     		movs	r1, #104
- 1285 003c 8A48     		ldr	r0, .L53+24
- 1286 003e FFF7FEFF 		bl	i2c_write_reg
- 233:./Src/mpu6050.c **** 
- 234:./Src/mpu6050.c **** 	systick_delay_ms(250);
- 1287              		.loc 1 234 2
- 1288 0042 FA20     		movs	r0, #250
- 1289 0044 FFF7FEFF 		bl	systick_delay_ms
- 235:./Src/mpu6050.c **** 	// Get raw data from self test register
- 236:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_SELF_TEST_X, 4, raw_data);
- 1290              		.loc 1 236 2
- 1291 0048 07F11803 		add	r3, r7, #24
- 1292 004c 0093     		str	r3, [sp]
- 1293 004e 0423     		movs	r3, #4
- 1294 0050 0D22     		movs	r2, #13
- 1295 0052 6821     		movs	r1, #104
- 1296 0054 8448     		ldr	r0, .L53+24
- 1297 0056 FFF7FEFF 		bl	i2c_read_reg
- 1298              	.LBB8:
- 237:./Src/mpu6050.c **** 	// Calculate self test data
- 238:./Src/mpu6050.c **** 	for (int i = 0; i < 3; i++) {
- 1299              		.loc 1 238 11
- 1300 005a 0023     		movs	r3, #0
- 1301 005c 3B62     		str	r3, [r7, #32]
- 1302              		.loc 1 238 2
- 1303 005e 3BE0     		b	.L48
- 1304              	.L49:
- 239:./Src/mpu6050.c **** 		selftest_data[i] = (raw_data[3] >> (2 * (2 - i))) & 0x3;
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 28
+ 1139 013e C7ED037A 		vstr.32	s15, [r7, #12]
+ 221:./Src/mpu6050.c **** 		K[1] = P_[1][1] / (P_[1][1] + R);
+ 1140              		.loc 1 221 15 discriminator 3
+ 1141 0142 D7ED086A 		vldr.32	s13, [r7, #32]
+ 1142              		.loc 1 221 27 discriminator 3
+ 1143 0146 97ED087A 		vldr.32	s14, [r7, #32]
+ 1144              		.loc 1 221 31 discriminator 3
+ 1145 014a 4C4B     		ldr	r3, .L36+12
+ 1146 014c D3ED007A 		vldr.32	s15, [r3]
+ 1147 0150 37EE277A 		vadd.f32	s14, s14, s15
+ 1148              		.loc 1 221 19 discriminator 3
+ 1149 0154 C6EE877A 		vdiv.f32	s15, s13, s14
+ 1150              		.loc 1 221 8 discriminator 3
+ 1151 0158 C7ED047A 		vstr.32	s15, [r7, #16]
+ 222:./Src/mpu6050.c **** 
+ 223:./Src/mpu6050.c **** 		X[i][0] = X_[0] + K[0] * (Z[i] - X[i][1]);
+ 1152              		.loc 1 223 15 discriminator 3
+ 1153 015c 97ED097A 		vldr.32	s14, [r7, #36]
+ 1154              		.loc 1 223 22 discriminator 3
+ 1155 0160 D7ED036A 		vldr.32	s13, [r7, #12]
+ 1156              		.loc 1 223 30 discriminator 3
+ 1157 0164 FB6A     		ldr	r3, [r7, #44]
+ 1158 0166 9B00     		lsls	r3, r3, #2
+ 1159 0168 3A68     		ldr	r2, [r7]
+ 1160 016a 1344     		add	r3, r3, r2
+ 1161 016c 93ED006A 		vldr.32	s12, [r3]
+ 1162              		.loc 1 223 37 discriminator 3
+ 1163 0170 FB6A     		ldr	r3, [r7, #44]
+ 1164 0172 DB00     		lsls	r3, r3, #3
+ 1165 0174 7A68     		ldr	r2, [r7, #4]
+ 1166 0176 1344     		add	r3, r3, r2
+ 1167              		.loc 1 223 40 discriminator 3
+ 1168 0178 D3ED017A 		vldr.32	s15, [r3, #4]
+ 1169              		.loc 1 223 34 discriminator 3
+ 1170 017c 76EE677A 		vsub.f32	s15, s12, s15
+ 1171              		.loc 1 223 26 discriminator 3
+ 1172 0180 66EEA77A 		vmul.f32	s15, s13, s15
+ 1173              		.loc 1 223 4 discriminator 3
+ 1174 0184 FB6A     		ldr	r3, [r7, #44]
+ 1175 0186 DB00     		lsls	r3, r3, #3
+ 1176 0188 7A68     		ldr	r2, [r7, #4]
+ 1177 018a 1344     		add	r3, r3, r2
+ 1178              		.loc 1 223 19 discriminator 3
+ 1179 018c 77EE277A 		vadd.f32	s15, s14, s15
+ 1180              		.loc 1 223 11 discriminator 3
+ 1181 0190 C3ED007A 		vstr.32	s15, [r3]
+ 224:./Src/mpu6050.c **** 		X[i][1] = X_[1] + K[1] * (Z[i] - X[i][1]);
+ 1182              		.loc 1 224 15 discriminator 3
+ 1183 0194 97ED0A7A 		vldr.32	s14, [r7, #40]
+ 1184              		.loc 1 224 22 discriminator 3
+ 1185 0198 D7ED046A 		vldr.32	s13, [r7, #16]
+ 1186              		.loc 1 224 30 discriminator 3
+ 1187 019c FB6A     		ldr	r3, [r7, #44]
+ 1188 019e 9B00     		lsls	r3, r3, #2
+ 1189 01a0 3A68     		ldr	r2, [r7]
+ 1190 01a2 1344     		add	r3, r3, r2
+ 1191 01a4 93ED006A 		vldr.32	s12, [r3]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 26
 
 
- 1305              		.loc 1 239 31 discriminator 3
- 1306 0060 FB7E     		ldrb	r3, [r7, #27]	@ zero_extendqisi2
- 1307 0062 1A46     		mov	r2, r3
- 1308              		.loc 1 239 46 discriminator 3
- 1309 0064 3B6A     		ldr	r3, [r7, #32]
- 1310 0066 C3F10203 		rsb	r3, r3, #2
- 1311              		.loc 1 239 41 discriminator 3
- 1312 006a 5B00     		lsls	r3, r3, #1
- 1313              		.loc 1 239 35 discriminator 3
- 1314 006c 42FA03F3 		asr	r3, r2, r3
- 1315              		.loc 1 239 53 discriminator 3
- 1316 0070 DBB2     		uxtb	r3, r3
- 1317 0072 03F00303 		and	r3, r3, #3
- 1318 0076 D9B2     		uxtb	r1, r3
- 1319              		.loc 1 239 20 discriminator 3
- 1320 0078 07F11002 		add	r2, r7, #16
- 1321 007c 3B6A     		ldr	r3, [r7, #32]
- 1322 007e 1344     		add	r3, r3, r2
- 1323 0080 0A46     		mov	r2, r1
- 1324 0082 1A70     		strb	r2, [r3]
- 240:./Src/mpu6050.c **** 		selftest_data[i] |= (raw_data[i] & 0xE0) >> 3;
- 1325              		.loc 1 240 20 discriminator 3
- 1326 0084 07F11002 		add	r2, r7, #16
- 1327 0088 3B6A     		ldr	r3, [r7, #32]
- 1328 008a 1344     		add	r3, r3, r2
- 1329 008c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 1330 008e 5AB2     		sxtb	r2, r3
- 1331              		.loc 1 240 32 discriminator 3
- 1332 0090 07F11801 		add	r1, r7, #24
- 1333 0094 3B6A     		ldr	r3, [r7, #32]
- 1334 0096 0B44     		add	r3, r3, r1
- 1335 0098 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 1336              		.loc 1 240 44 discriminator 3
- 1337 009a DB10     		asrs	r3, r3, #3
- 1338 009c 5BB2     		sxtb	r3, r3
- 1339 009e 03F01C03 		and	r3, r3, #28
- 1340 00a2 5BB2     		sxtb	r3, r3
- 1341              		.loc 1 240 20 discriminator 3
- 1342 00a4 1343     		orrs	r3, r3, r2
- 1343 00a6 5BB2     		sxtb	r3, r3
- 1344 00a8 D9B2     		uxtb	r1, r3
- 1345 00aa 07F11002 		add	r2, r7, #16
- 1346 00ae 3B6A     		ldr	r3, [r7, #32]
- 1347 00b0 1344     		add	r3, r3, r2
- 1348 00b2 0A46     		mov	r2, r1
- 1349 00b4 1A70     		strb	r2, [r3]
- 241:./Src/mpu6050.c **** 		selftest_data[3 + i] = raw_data[i] & 0x1F;
- 1350              		.loc 1 241 34 discriminator 3
- 1351 00b6 07F11802 		add	r2, r7, #24
- 1352 00ba 3B6A     		ldr	r3, [r7, #32]
- 1353 00bc 1344     		add	r3, r3, r2
- 1354 00be 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
- 1355              		.loc 1 241 19 discriminator 3
- 1356 00c0 3B6A     		ldr	r3, [r7, #32]
- 1357 00c2 0333     		adds	r3, r3, #3
- 1358              		.loc 1 241 38 discriminator 3
- 1359 00c4 02F01F02 		and	r2, r2, #31
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 29
+ 1192              		.loc 1 224 37 discriminator 3
+ 1193 01a8 FB6A     		ldr	r3, [r7, #44]
+ 1194 01aa DB00     		lsls	r3, r3, #3
+ 1195 01ac 7A68     		ldr	r2, [r7, #4]
+ 1196 01ae 1344     		add	r3, r3, r2
+ 1197              		.loc 1 224 40 discriminator 3
+ 1198 01b0 D3ED017A 		vldr.32	s15, [r3, #4]
+ 1199              		.loc 1 224 34 discriminator 3
+ 1200 01b4 76EE677A 		vsub.f32	s15, s12, s15
+ 1201              		.loc 1 224 26 discriminator 3
+ 1202 01b8 66EEA77A 		vmul.f32	s15, s13, s15
+ 1203              		.loc 1 224 4 discriminator 3
+ 1204 01bc FB6A     		ldr	r3, [r7, #44]
+ 1205 01be DB00     		lsls	r3, r3, #3
+ 1206 01c0 7A68     		ldr	r2, [r7, #4]
+ 1207 01c2 1344     		add	r3, r3, r2
+ 1208              		.loc 1 224 19 discriminator 3
+ 1209 01c4 77EE277A 		vadd.f32	s15, s14, s15
+ 1210              		.loc 1 224 11 discriminator 3
+ 1211 01c8 C3ED017A 		vstr.32	s15, [r3, #4]
+ 225:./Src/mpu6050.c **** 
+ 226:./Src/mpu6050.c **** 		P[i][0][0] = P_[0][0] - K[0] * P_[1][0];
+ 1212              		.loc 1 226 21 discriminator 3
+ 1213 01cc 97ED057A 		vldr.32	s14, [r7, #20]
+ 1214              		.loc 1 226 28 discriminator 3
+ 1215 01d0 D7ED036A 		vldr.32	s13, [r7, #12]
+ 1216              		.loc 1 226 39 discriminator 3
+ 1217 01d4 D7ED077A 		vldr.32	s15, [r7, #28]
+ 1218              		.loc 1 226 32 discriminator 3
+ 1219 01d8 66EEA77A 		vmul.f32	s15, s13, s15
+ 1220              		.loc 1 226 25 discriminator 3
+ 1221 01dc 77EE677A 		vsub.f32	s15, s14, s15
+ 1222              		.loc 1 226 14 discriminator 3
+ 1223 01e0 244A     		ldr	r2, .L36+4
+ 1224 01e2 FB6A     		ldr	r3, [r7, #44]
+ 1225 01e4 1B01     		lsls	r3, r3, #4
+ 1226 01e6 1344     		add	r3, r3, r2
+ 1227 01e8 C3ED007A 		vstr.32	s15, [r3]
+ 227:./Src/mpu6050.c **** 		P[i][0][1] = P_[0][1] - K[0] * P_[1][1];
+ 1228              		.loc 1 227 21 discriminator 3
+ 1229 01ec 97ED067A 		vldr.32	s14, [r7, #24]
+ 1230              		.loc 1 227 28 discriminator 3
+ 1231 01f0 D7ED036A 		vldr.32	s13, [r7, #12]
+ 1232              		.loc 1 227 39 discriminator 3
+ 1233 01f4 D7ED087A 		vldr.32	s15, [r7, #32]
+ 1234              		.loc 1 227 32 discriminator 3
+ 1235 01f8 66EEA77A 		vmul.f32	s15, s13, s15
+ 1236              		.loc 1 227 25 discriminator 3
+ 1237 01fc 77EE677A 		vsub.f32	s15, s14, s15
+ 1238              		.loc 1 227 14 discriminator 3
+ 1239 0200 1C4A     		ldr	r2, .L36+4
+ 1240 0202 FB6A     		ldr	r3, [r7, #44]
+ 1241 0204 1B01     		lsls	r3, r3, #4
+ 1242 0206 1344     		add	r3, r3, r2
+ 1243 0208 0433     		adds	r3, r3, #4
+ 1244 020a C3ED007A 		vstr.32	s15, [r3]
+ 228:./Src/mpu6050.c **** 		P[i][1][0] = P_[1][0] * (1 - K[1]);
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 27
 
 
- 1360 00c8 D2B2     		uxtb	r2, r2
- 1361              		.loc 1 241 24 discriminator 3
- 1362 00ca 2833     		adds	r3, r3, #40
- 1363 00cc 3B44     		add	r3, r3, r7
- 1364 00ce 03F8182C 		strb	r2, [r3, #-24]
- 238:./Src/mpu6050.c **** 		selftest_data[i] = (raw_data[3] >> (2 * (2 - i))) & 0x3;
- 1365              		.loc 1 238 26 discriminator 3
- 1366 00d2 3B6A     		ldr	r3, [r7, #32]
- 1367 00d4 0133     		adds	r3, r3, #1
- 1368 00d6 3B62     		str	r3, [r7, #32]
- 1369              	.L48:
- 238:./Src/mpu6050.c **** 		selftest_data[i] = (raw_data[3] >> (2 * (2 - i))) & 0x3;
- 1370              		.loc 1 238 2 discriminator 1
- 1371 00d8 3B6A     		ldr	r3, [r7, #32]
- 1372 00da 022B     		cmp	r3, #2
- 1373 00dc C0DD     		ble	.L49
- 1374              	.LBE8:
- 1375              	.LBB9:
- 242:./Src/mpu6050.c **** 	}
- 243:./Src/mpu6050.c **** 	// Calculate change from factory trim of the Self-Test response
- 244:./Src/mpu6050.c **** 	for (int i = 0; i < 3; i++) {
- 1376              		.loc 1 244 11
- 1377 00de 0023     		movs	r3, #0
- 1378 00e0 FB61     		str	r3, [r7, #28]
- 1379              		.loc 1 244 2
- 1380 00e2 97E0     		b	.L50
- 1381              	.L52:
- 245:./Src/mpu6050.c **** 		// accelerometer
- 246:./Src/mpu6050.c **** 		factory_trim =
- 247:./Src/mpu6050.c **** 			4096.0 * 0.34 *
- 248:./Src/mpu6050.c **** 			powf(0.92 / 0.34, ((float)selftest_data[i] - 1) / 30.0);
- 1382              		.loc 1 248 43
- 1383 00e4 07F11002 		add	r2, r7, #16
- 1384 00e8 FB69     		ldr	r3, [r7, #28]
- 1385 00ea 1344     		add	r3, r3, r2
- 1386 00ec 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 1387              		.loc 1 248 23
- 1388 00ee 07EE903A 		vmov	s15, r3	@ int
- 1389 00f2 F8EE677A 		vcvt.f32.u32	s15, s15
- 1390              		.loc 1 248 47
- 1391 00f6 B7EE007A 		vmov.f32	s14, #1.0e+0
- 1392 00fa 77EEC77A 		vsub.f32	s15, s15, s14
- 1393              		.loc 1 248 4
- 1394 00fe F3EE0E6A 		vmov.f32	s13, #3.0e+1
- 1395 0102 87EEA67A 		vdiv.f32	s14, s15, s13
- 1396 0106 F0EE470A 		vmov.f32	s1, s14
- 1397 010a 9FED580A 		vldr.32	s0, .L53+28
- 1398 010e FFF7FEFF 		bl	powf
- 1399 0112 F0EE407A 		vmov.f32	s15, s0
- 1400 0116 B7EEE77A 		vcvt.f64.f32	d7, s15
- 247:./Src/mpu6050.c **** 			powf(0.92 / 0.34, ((float)selftest_data[i] - 1) / 30.0);
- 1401              		.loc 1 247 18
- 1402 011a 9FED4D6B 		vldr.64	d6, .L53
- 1403 011e 27EE067B 		vmul.f64	d7, d7, d6
- 246:./Src/mpu6050.c **** 			4096.0 * 0.34 *
- 1404              		.loc 1 246 16
- 1405 0122 F7EEC77B 		vcvt.f32.f64	s15, d7
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 30
+ 1245              		.loc 1 228 21 discriminator 3
+ 1246 020e 97ED077A 		vldr.32	s14, [r7, #28]
+ 1247              		.loc 1 228 33 discriminator 3
+ 1248 0212 D7ED047A 		vldr.32	s15, [r7, #16]
+ 1249              		.loc 1 228 30 discriminator 3
+ 1250 0216 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 1251 021a 76EEE77A 		vsub.f32	s15, s13, s15
+ 1252              		.loc 1 228 25 discriminator 3
+ 1253 021e 67EE277A 		vmul.f32	s15, s14, s15
+ 1254              		.loc 1 228 14 discriminator 3
+ 1255 0222 144A     		ldr	r2, .L36+4
+ 1256 0224 FB6A     		ldr	r3, [r7, #44]
+ 1257 0226 1B01     		lsls	r3, r3, #4
+ 1258 0228 1344     		add	r3, r3, r2
+ 1259 022a 0833     		adds	r3, r3, #8
+ 1260 022c C3ED007A 		vstr.32	s15, [r3]
+ 229:./Src/mpu6050.c **** 		P[i][1][1] = P_[1][1] * (1 - K[1]);
+ 1261              		.loc 1 229 21 discriminator 3
+ 1262 0230 97ED087A 		vldr.32	s14, [r7, #32]
+ 1263              		.loc 1 229 33 discriminator 3
+ 1264 0234 D7ED047A 		vldr.32	s15, [r7, #16]
+ 1265              		.loc 1 229 30 discriminator 3
+ 1266 0238 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 1267 023c 76EEE77A 		vsub.f32	s15, s13, s15
+ 1268              		.loc 1 229 25 discriminator 3
+ 1269 0240 67EE277A 		vmul.f32	s15, s14, s15
+ 1270              		.loc 1 229 14 discriminator 3
+ 1271 0244 0B4A     		ldr	r2, .L36+4
+ 1272 0246 FB6A     		ldr	r3, [r7, #44]
+ 1273 0248 1B01     		lsls	r3, r3, #4
+ 1274 024a 1344     		add	r3, r3, r2
+ 1275 024c 0C33     		adds	r3, r3, #12
+ 1276 024e C3ED007A 		vstr.32	s15, [r3]
+ 211:./Src/mpu6050.c **** 		X_[0] = X[i][0] + dt * X[i][1];
+ 1277              		.loc 1 211 22 discriminator 3
+ 1278 0252 FB6A     		ldr	r3, [r7, #44]
+ 1279 0254 0133     		adds	r3, r3, #1
+ 1280 0256 FB62     		str	r3, [r7, #44]
+ 1281              	.L34:
+ 211:./Src/mpu6050.c **** 		X_[0] = X[i][0] + dt * X[i][1];
+ 1282              		.loc 1 211 2 discriminator 1
+ 1283 0258 FB6A     		ldr	r3, [r7, #44]
+ 1284 025a 022B     		cmp	r3, #2
+ 1285 025c 7FF7E9AE 		ble	.L35
+ 230:./Src/mpu6050.c **** 	}
+ 231:./Src/mpu6050.c **** }
+ 1286              		.loc 1 231 1
+ 1287 0260 00BF     		nop
+ 1288 0262 00BF     		nop
+ 1289 0264 3437     		adds	r7, r7, #52
+ 1290              	.LCFI25:
+ 1291              		.cfi_def_cfa_offset 4
+ 1292 0266 BD46     		mov	sp, r7
+ 1293              	.LCFI26:
+ 1294              		.cfi_def_cfa_register 13
+ 1295              		@ sp needed
+ 1296 0268 5DF8047B 		ldr	r7, [sp], #4
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 28
 
 
- 1406 0126 C7ED097A 		vstr.32	s15, [r7, #36]
- 249:./Src/mpu6050.c **** 		err[i] = 100.0 +
- 250:./Src/mpu6050.c **** 			 100.0 * ((float)selftest_data[i] - factory_trim) /
- 1407              		.loc 1 250 34
- 1408 012a 07F11002 		add	r2, r7, #16
- 1409 012e FB69     		ldr	r3, [r7, #28]
- 1410 0130 1344     		add	r3, r3, r2
- 1411 0132 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 1412              		.loc 1 250 14
- 1413 0134 07EE903A 		vmov	s15, r3	@ int
- 1414 0138 B8EE677A 		vcvt.f32.u32	s14, s15
- 1415              		.loc 1 250 38
- 1416 013c D7ED097A 		vldr.32	s15, [r7, #36]
- 1417 0140 77EE677A 		vsub.f32	s15, s14, s15
- 1418 0144 B7EEE77A 		vcvt.f64.f32	d7, s15
- 1419              		.loc 1 250 11
- 1420 0148 9FED436B 		vldr.64	d6, .L53+8
- 1421 014c 27EE065B 		vmul.f64	d5, d7, d6
- 1422              		.loc 1 250 54
- 1423 0150 D7ED097A 		vldr.32	s15, [r7, #36]
- 1424 0154 B7EEE76A 		vcvt.f64.f32	d6, s15
- 1425 0158 85EE067B 		vdiv.f64	d7, d5, d6
- 249:./Src/mpu6050.c **** 		err[i] = 100.0 +
- 1426              		.loc 1 249 18
- 1427 015c 9FED3E6B 		vldr.64	d6, .L53+8
- 1428 0160 37EE067B 		vadd.f64	d7, d7, d6
- 249:./Src/mpu6050.c **** 		err[i] = 100.0 +
- 1429              		.loc 1 249 6
- 1430 0164 FB69     		ldr	r3, [r7, #28]
- 1431 0166 9B00     		lsls	r3, r3, #2
- 1432 0168 7A68     		ldr	r2, [r7, #4]
- 1433 016a 1344     		add	r3, r3, r2
- 249:./Src/mpu6050.c **** 		err[i] = 100.0 +
- 1434              		.loc 1 249 18
- 1435 016c F7EEC77B 		vcvt.f32.f64	s15, d7
- 249:./Src/mpu6050.c **** 		err[i] = 100.0 +
- 1436              		.loc 1 249 10
- 1437 0170 C3ED007A 		vstr.32	s15, [r3]
- 251:./Src/mpu6050.c **** 				 factory_trim;
- 252:./Src/mpu6050.c **** 		// gyro factory trim
- 253:./Src/mpu6050.c **** 		factory_trim =
- 254:./Src/mpu6050.c **** 			25.0 * 131.0 * powf(1.046, selftest_data[3 + i] - 1);
- 1438              		.loc 1 254 47
- 1439 0174 FB69     		ldr	r3, [r7, #28]
- 1440 0176 0333     		adds	r3, r3, #3
- 1441              		.loc 1 254 44
- 1442 0178 2833     		adds	r3, r3, #40
- 1443 017a 3B44     		add	r3, r3, r7
- 1444 017c 13F8183C 		ldrb	r3, [r3, #-24]	@ zero_extendqisi2
- 1445              		.loc 1 254 52
- 1446 0180 013B     		subs	r3, r3, #1
- 1447              		.loc 1 254 19
- 1448 0182 07EE903A 		vmov	s15, r3	@ int
- 1449 0186 F8EEE77A 		vcvt.f32.s32	s15, s15
- 1450 018a F0EE670A 		vmov.f32	s1, s15
- 1451 018e 9FED380A 		vldr.32	s0, .L53+32
- 1452 0192 FFF7FEFF 		bl	powf
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 31
+ 1297              	.LCFI27:
+ 1298              		.cfi_restore 7
+ 1299              		.cfi_def_cfa_offset 0
+ 1300 026c 7047     		bx	lr
+ 1301              	.L37:
+ 1302 026e 00BF     		.align	2
+ 1303              	.L36:
+ 1304 0270 00000000 		.word	dt
+ 1305 0274 00000000 		.word	P.2
+ 1306 0278 00000000 		.word	Q.1
+ 1307 027c 00000000 		.word	R.0
+ 1308              		.cfi_endproc
+ 1309              	.LFE5:
+ 1311              		.section	.text.mpu6050_get_all,"ax",%progbits
+ 1312              		.align	1
+ 1313              		.global	mpu6050_get_all
+ 1314              		.syntax unified
+ 1315              		.thumb
+ 1316              		.thumb_func
+ 1318              	mpu6050_get_all:
+ 1319              	.LFB6:
+ 232:./Src/mpu6050.c **** 
+ 233:./Src/mpu6050.c **** /**
+ 234:./Src/mpu6050.c ****  * @brief data from i2c read function: X_H > X_L > Y_H > Y_L > Z_H > Z_L
+ 235:./Src/mpu6050.c ****  * 	  reverse order: X_L > X_H > Y_L > Y_H > Z_L > Z_H
+ 236:./Src/mpu6050.c ****  * 	  int16 data order: X > Y > Z
+ 237:./Src/mpu6050.c ****  *
+ 238:./Src/mpu6050.c ****  * @param data
+ 239:./Src/mpu6050.c ****  * 	  accelerometer: [0:2]
+ 240:./Src/mpu6050.c ****  * 	  temperature: [3]
+ 241:./Src/mpu6050.c ****  * 	  gyroscope: [4:6]
+ 242:./Src/mpu6050.c ****  */
+ 243:./Src/mpu6050.c **** void mpu6050_get_all(float *data)
+ 244:./Src/mpu6050.c **** {
+ 1320              		.loc 1 244 1
+ 1321              		.cfi_startproc
+ 1322              		@ args = 0, pretend = 0, frame = 32
+ 1323              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1324 0000 80B5     		push	{r7, lr}
+ 1325              	.LCFI28:
+ 1326              		.cfi_def_cfa_offset 8
+ 1327              		.cfi_offset 7, -8
+ 1328              		.cfi_offset 14, -4
+ 1329 0002 8AB0     		sub	sp, sp, #40
+ 1330              	.LCFI29:
+ 1331              		.cfi_def_cfa_offset 48
+ 1332 0004 02AF     		add	r7, sp, #8
+ 1333              	.LCFI30:
+ 1334              		.cfi_def_cfa 7, 40
+ 1335 0006 7860     		str	r0, [r7, #4]
+ 245:./Src/mpu6050.c **** 	int16_t tmp[7] = {0};
+ 1336              		.loc 1 245 10
+ 1337 0008 07F10C03 		add	r3, r7, #12
+ 1338 000c 0022     		movs	r2, #0
+ 1339 000e 1A60     		str	r2, [r3]
+ 1340 0010 5A60     		str	r2, [r3, #4]
+ 1341 0012 9A60     		str	r2, [r3, #8]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 29
 
 
- 1453 0196 F0EE407A 		vmov.f32	s15, s0
- 1454 019a B7EEE77A 		vcvt.f64.f32	d7, s15
- 1455              		.loc 1 254 17
- 1456 019e 9FED306B 		vldr.64	d6, .L53+16
- 1457 01a2 27EE067B 		vmul.f64	d7, d7, d6
- 253:./Src/mpu6050.c **** 			25.0 * 131.0 * powf(1.046, selftest_data[3 + i] - 1);
- 1458              		.loc 1 253 16
- 1459 01a6 F7EEC77B 		vcvt.f32.f64	s15, d7
- 1460 01aa C7ED097A 		vstr.32	s15, [r7, #36]
- 255:./Src/mpu6050.c **** 
- 256:./Src/mpu6050.c **** 		if (i == 1)
- 1461              		.loc 1 256 6
- 1462 01ae FB69     		ldr	r3, [r7, #28]
- 1463 01b0 012B     		cmp	r3, #1
- 1464 01b2 05D1     		bne	.L51
- 257:./Src/mpu6050.c **** 			factory_trim *= -1;
- 1465              		.loc 1 257 17
- 1466 01b4 D7ED097A 		vldr.32	s15, [r7, #36]
- 1467 01b8 F1EE677A 		vneg.f32	s15, s15
- 1468 01bc C7ED097A 		vstr.32	s15, [r7, #36]
- 1469              	.L51:
- 258:./Src/mpu6050.c **** 
- 259:./Src/mpu6050.c **** 		err[3 + i] =
- 260:./Src/mpu6050.c **** 			100 +
- 261:./Src/mpu6050.c **** 			100.0 * ((float)selftest_data[3 + i] - factory_trim) /
- 1470              		.loc 1 261 36 discriminator 2
- 1471 01c0 FB69     		ldr	r3, [r7, #28]
- 1472 01c2 0333     		adds	r3, r3, #3
- 1473              		.loc 1 261 33 discriminator 2
- 1474 01c4 2833     		adds	r3, r3, #40
- 1475 01c6 3B44     		add	r3, r3, r7
- 1476 01c8 13F8183C 		ldrb	r3, [r3, #-24]	@ zero_extendqisi2
- 1477              		.loc 1 261 13 discriminator 2
- 1478 01cc 07EE903A 		vmov	s15, r3	@ int
- 1479 01d0 B8EE677A 		vcvt.f32.u32	s14, s15
- 1480              		.loc 1 261 41 discriminator 2
- 1481 01d4 D7ED097A 		vldr.32	s15, [r7, #36]
- 1482 01d8 77EE677A 		vsub.f32	s15, s14, s15
- 1483 01dc B7EEE77A 		vcvt.f64.f32	d7, s15
- 1484              		.loc 1 261 10 discriminator 2
- 1485 01e0 9FED1D6B 		vldr.64	d6, .L53+8
- 1486 01e4 27EE065B 		vmul.f64	d5, d7, d6
- 1487              		.loc 1 261 57 discriminator 2
- 1488 01e8 D7ED097A 		vldr.32	s15, [r7, #36]
- 1489 01ec B7EEE76A 		vcvt.f64.f32	d6, s15
- 1490 01f0 85EE067B 		vdiv.f64	d7, d5, d6
- 260:./Src/mpu6050.c **** 			100.0 * ((float)selftest_data[3 + i] - factory_trim) /
- 1491              		.loc 1 260 8 discriminator 2
- 1492 01f4 9FED186B 		vldr.64	d6, .L53+8
- 1493 01f8 37EE067B 		vadd.f64	d7, d7, d6
- 259:./Src/mpu6050.c **** 			100 +
- 1494              		.loc 1 259 9 discriminator 2
- 1495 01fc FB69     		ldr	r3, [r7, #28]
- 1496 01fe 0333     		adds	r3, r3, #3
- 259:./Src/mpu6050.c **** 			100 +
- 1497              		.loc 1 259 6 discriminator 2
- 1498 0200 9B00     		lsls	r3, r3, #2
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 32
+ 1342 0014 9A81     		strh	r2, [r3, #12]	@ movhi
+ 246:./Src/mpu6050.c **** 	int i;
+ 247:./Src/mpu6050.c **** 
+ 248:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_ACCEL_XOUTH, 14,
+ 1343              		.loc 1 248 2
+ 1344 0016 07F10C03 		add	r3, r7, #12
+ 1345 001a 0093     		str	r3, [sp]
+ 1346 001c 0E23     		movs	r3, #14
+ 1347 001e 3B22     		movs	r2, #59
+ 1348 0020 6821     		movs	r1, #104
+ 1349 0022 5748     		ldr	r0, .L44+16
+ 1350 0024 FFF7FEFF 		bl	i2c_read_reg
+ 249:./Src/mpu6050.c **** 		     (uint8_t *)tmp);
+ 250:./Src/mpu6050.c **** 
+ 251:./Src/mpu6050.c **** 	for (i = 0; i < 7; i++) {
+ 1351              		.loc 1 251 9
+ 1352 0028 0023     		movs	r3, #0
+ 1353 002a FB61     		str	r3, [r7, #28]
+ 1354              		.loc 1 251 2
+ 1355 002c 95E0     		b	.L39
+ 1356              	.L43:
+ 252:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1357              		.loc 1 252 16
+ 1358 002e FB69     		ldr	r3, [r7, #28]
+ 1359 0030 5B00     		lsls	r3, r3, #1
+ 1360 0032 2033     		adds	r3, r3, #32
+ 1361 0034 3B44     		add	r3, r3, r7
+ 1362 0036 33F9143C 		ldrsh	r3, [r3, #-20]
+ 1363              		.loc 1 252 20
+ 1364 003a 1B02     		lsls	r3, r3, #8
+ 1365              		.loc 1 252 26
+ 1366 003c 1AB2     		sxth	r2, r3
+ 1367              		.loc 1 252 33
+ 1368 003e FB69     		ldr	r3, [r7, #28]
+ 1369 0040 5B00     		lsls	r3, r3, #1
+ 1370 0042 2033     		adds	r3, r3, #32
+ 1371 0044 3B44     		add	r3, r3, r7
+ 1372 0046 33F9143C 		ldrsh	r3, [r3, #-20]
+ 1373              		.loc 1 252 43
+ 1374 004a 9BB2     		uxth	r3, r3
+ 1375 004c 1B0A     		lsrs	r3, r3, #8
+ 1376 004e 9BB2     		uxth	r3, r3
+ 1377 0050 1BB2     		sxth	r3, r3
+ 1378              		.loc 1 252 26
+ 1379 0052 1343     		orrs	r3, r3, r2
+ 1380 0054 1AB2     		sxth	r2, r3
+ 1381              		.loc 1 252 10
+ 1382 0056 FB69     		ldr	r3, [r7, #28]
+ 1383 0058 5B00     		lsls	r3, r3, #1
+ 1384 005a 2033     		adds	r3, r3, #32
+ 1385 005c 3B44     		add	r3, r3, r7
+ 1386 005e 23F8142C 		strh	r2, [r3, #-20]	@ movhi
+ 253:./Src/mpu6050.c **** 
+ 254:./Src/mpu6050.c **** 		if (i < 3) {
+ 1387              		.loc 1 254 6
+ 1388 0062 FB69     		ldr	r3, [r7, #28]
+ 1389 0064 022B     		cmp	r3, #2
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 30
 
 
- 1499 0202 7A68     		ldr	r2, [r7, #4]
- 1500 0204 1344     		add	r3, r3, r2
- 260:./Src/mpu6050.c **** 			100.0 * ((float)selftest_data[3 + i] - factory_trim) /
- 1501              		.loc 1 260 8 discriminator 2
- 1502 0206 F7EEC77B 		vcvt.f32.f64	s15, d7
- 259:./Src/mpu6050.c **** 			100 +
- 1503              		.loc 1 259 14 discriminator 2
- 1504 020a C3ED007A 		vstr.32	s15, [r3]
- 244:./Src/mpu6050.c **** 		// accelerometer
- 1505              		.loc 1 244 26 discriminator 2
- 1506 020e FB69     		ldr	r3, [r7, #28]
- 1507 0210 0133     		adds	r3, r3, #1
- 1508 0212 FB61     		str	r3, [r7, #28]
- 1509              	.L50:
- 244:./Src/mpu6050.c **** 		// accelerometer
- 1510              		.loc 1 244 2 discriminator 1
- 1511 0214 FB69     		ldr	r3, [r7, #28]
- 1512 0216 022B     		cmp	r3, #2
- 1513 0218 7FF764AF 		ble	.L52
- 1514              	.LBE9:
- 262:./Src/mpu6050.c **** 				factory_trim;
+ 1390 0066 2ADC     		bgt	.L40
+ 255:./Src/mpu6050.c **** 			tmp[i] -= bias[i];
+ 1391              		.loc 1 255 11
+ 1392 0068 FB69     		ldr	r3, [r7, #28]
+ 1393 006a 5B00     		lsls	r3, r3, #1
+ 1394 006c 2033     		adds	r3, r3, #32
+ 1395 006e 3B44     		add	r3, r3, r7
+ 1396 0070 33F9143C 		ldrsh	r3, [r3, #-20]
+ 1397 0074 9AB2     		uxth	r2, r3
+ 1398              		.loc 1 255 18
+ 1399 0076 4349     		ldr	r1, .L44+20
+ 1400 0078 FB69     		ldr	r3, [r7, #28]
+ 1401 007a 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
+ 1402 007e 9BB2     		uxth	r3, r3
+ 1403              		.loc 1 255 11
+ 1404 0080 D31A     		subs	r3, r2, r3
+ 1405 0082 9BB2     		uxth	r3, r3
+ 1406 0084 1AB2     		sxth	r2, r3
+ 1407 0086 FB69     		ldr	r3, [r7, #28]
+ 1408 0088 5B00     		lsls	r3, r3, #1
+ 1409 008a 2033     		adds	r3, r3, #32
+ 1410 008c 3B44     		add	r3, r3, r7
+ 1411 008e 23F8142C 		strh	r2, [r3, #-20]	@ movhi
+ 256:./Src/mpu6050.c **** 			data[i] = (float)tmp[i] * accel_unit;
+ 1412              		.loc 1 256 24
+ 1413 0092 FB69     		ldr	r3, [r7, #28]
+ 1414 0094 5B00     		lsls	r3, r3, #1
+ 1415 0096 2033     		adds	r3, r3, #32
+ 1416 0098 3B44     		add	r3, r3, r7
+ 1417 009a 33F9143C 		ldrsh	r3, [r3, #-20]
+ 1418              		.loc 1 256 14
+ 1419 009e 07EE903A 		vmov	s15, r3	@ int
+ 1420 00a2 B8EEE77A 		vcvt.f32.s32	s14, s15
+ 1421              		.loc 1 256 28
+ 1422 00a6 384B     		ldr	r3, .L44+24
+ 1423 00a8 D3ED007A 		vldr.32	s15, [r3]
+ 1424              		.loc 1 256 8
+ 1425 00ac FB69     		ldr	r3, [r7, #28]
+ 1426 00ae 9B00     		lsls	r3, r3, #2
+ 1427 00b0 7A68     		ldr	r2, [r7, #4]
+ 1428 00b2 1344     		add	r3, r3, r2
+ 1429              		.loc 1 256 28
+ 1430 00b4 67EE277A 		vmul.f32	s15, s14, s15
+ 1431              		.loc 1 256 12
+ 1432 00b8 C3ED007A 		vstr.32	s15, [r3]
+ 1433 00bc 4AE0     		b	.L41
+ 1434              	.L40:
+ 257:./Src/mpu6050.c **** 		} else if (i == 3) {
+ 1435              		.loc 1 257 13
+ 1436 00be FB69     		ldr	r3, [r7, #28]
+ 1437 00c0 032B     		cmp	r3, #3
+ 1438 00c2 1CD1     		bne	.L42
+ 258:./Src/mpu6050.c **** 			data[i] = (float)tmp[i] * 0.00294117647 + 36.53;
+ 1439              		.loc 1 258 24
+ 1440 00c4 FB69     		ldr	r3, [r7, #28]
+ 1441 00c6 5B00     		lsls	r3, r3, #1
+ 1442 00c8 2033     		adds	r3, r3, #32
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 31
+
+
+ 1443 00ca 3B44     		add	r3, r3, r7
+ 1444 00cc 33F9143C 		ldrsh	r3, [r3, #-20]
+ 1445              		.loc 1 258 14
+ 1446 00d0 07EE903A 		vmov	s15, r3	@ int
+ 1447 00d4 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1448 00d8 B7EEE77A 		vcvt.f64.f32	d7, s15
+ 1449              		.loc 1 258 28
+ 1450 00dc 9FED246B 		vldr.64	d6, .L44
+ 1451 00e0 27EE067B 		vmul.f64	d7, d7, d6
+ 1452              		.loc 1 258 44
+ 1453 00e4 9FED246B 		vldr.64	d6, .L44+8
+ 1454 00e8 37EE067B 		vadd.f64	d7, d7, d6
+ 1455              		.loc 1 258 8
+ 1456 00ec FB69     		ldr	r3, [r7, #28]
+ 1457 00ee 9B00     		lsls	r3, r3, #2
+ 1458 00f0 7A68     		ldr	r2, [r7, #4]
+ 1459 00f2 1344     		add	r3, r3, r2
+ 1460              		.loc 1 258 44
+ 1461 00f4 F7EEC77B 		vcvt.f32.f64	s15, d7
+ 1462              		.loc 1 258 12
+ 1463 00f8 C3ED007A 		vstr.32	s15, [r3]
+ 1464 00fc 2AE0     		b	.L41
+ 1465              	.L42:
+ 259:./Src/mpu6050.c **** 		} else {
+ 260:./Src/mpu6050.c **** 			tmp[i] -= bias[i - 1];
+ 1466              		.loc 1 260 11
+ 1467 00fe FB69     		ldr	r3, [r7, #28]
+ 1468 0100 5B00     		lsls	r3, r3, #1
+ 1469 0102 2033     		adds	r3, r3, #32
+ 1470 0104 3B44     		add	r3, r3, r7
+ 1471 0106 33F9143C 		ldrsh	r3, [r3, #-20]
+ 1472 010a 9AB2     		uxth	r2, r3
+ 1473              		.loc 1 260 21
+ 1474 010c FB69     		ldr	r3, [r7, #28]
+ 1475 010e 013B     		subs	r3, r3, #1
+ 1476              		.loc 1 260 18
+ 1477 0110 1C49     		ldr	r1, .L44+20
+ 1478 0112 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
+ 1479 0116 9BB2     		uxth	r3, r3
+ 1480              		.loc 1 260 11
+ 1481 0118 D31A     		subs	r3, r2, r3
+ 1482 011a 9BB2     		uxth	r3, r3
+ 1483 011c 1AB2     		sxth	r2, r3
+ 1484 011e FB69     		ldr	r3, [r7, #28]
+ 1485 0120 5B00     		lsls	r3, r3, #1
+ 1486 0122 2033     		adds	r3, r3, #32
+ 1487 0124 3B44     		add	r3, r3, r7
+ 1488 0126 23F8142C 		strh	r2, [r3, #-20]	@ movhi
+ 261:./Src/mpu6050.c **** 			data[i] = (float)tmp[i] * gyro_unit;
+ 1489              		.loc 1 261 24
+ 1490 012a FB69     		ldr	r3, [r7, #28]
+ 1491 012c 5B00     		lsls	r3, r3, #1
+ 1492 012e 2033     		adds	r3, r3, #32
+ 1493 0130 3B44     		add	r3, r3, r7
+ 1494 0132 33F9143C 		ldrsh	r3, [r3, #-20]
+ 1495              		.loc 1 261 14
+ 1496 0136 07EE903A 		vmov	s15, r3	@ int
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 32
+
+
+ 1497 013a B8EEE77A 		vcvt.f32.s32	s14, s15
+ 1498              		.loc 1 261 28
+ 1499 013e 134B     		ldr	r3, .L44+28
+ 1500 0140 D3ED007A 		vldr.32	s15, [r3]
+ 1501              		.loc 1 261 8
+ 1502 0144 FB69     		ldr	r3, [r7, #28]
+ 1503 0146 9B00     		lsls	r3, r3, #2
+ 1504 0148 7A68     		ldr	r2, [r7, #4]
+ 1505 014a 1344     		add	r3, r3, r2
+ 1506              		.loc 1 261 28
+ 1507 014c 67EE277A 		vmul.f32	s15, s14, s15
+ 1508              		.loc 1 261 12
+ 1509 0150 C3ED007A 		vstr.32	s15, [r3]
+ 1510              	.L41:
+ 251:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1511              		.loc 1 251 22 discriminator 2
+ 1512 0154 FB69     		ldr	r3, [r7, #28]
+ 1513 0156 0133     		adds	r3, r3, #1
+ 1514 0158 FB61     		str	r3, [r7, #28]
+ 1515              	.L39:
+ 251:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1516              		.loc 1 251 2 discriminator 1
+ 1517 015a FB69     		ldr	r3, [r7, #28]
+ 1518 015c 062B     		cmp	r3, #6
+ 1519 015e 7FF766AF 		ble	.L43
+ 262:./Src/mpu6050.c **** 		}
  263:./Src/mpu6050.c **** 	}
- 264:./Src/mpu6050.c **** 
- 265:./Src/mpu6050.c **** 	// Clear configuration of the accelorometer and gyroscope self test
- 266:./Src/mpu6050.c **** 	tmp = 0;
- 1515              		.loc 1 266 6
- 1516 021c 0023     		movs	r3, #0
- 1517 021e FB73     		strb	r3, [r7, #15]
- 267:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_ACCEL_CONFIG, 1, &tmp);
- 1518              		.loc 1 267 2
- 1519 0220 07F10F03 		add	r3, r7, #15
- 1520 0224 0093     		str	r3, [sp]
- 1521 0226 0123     		movs	r3, #1
- 1522 0228 1C22     		movs	r2, #28
- 1523 022a 6821     		movs	r1, #104
- 1524 022c 0E48     		ldr	r0, .L53+24
- 1525 022e FFF7FEFF 		bl	i2c_write_reg
- 268:./Src/mpu6050.c **** 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_CONFIG, 1, &tmp);
- 1526              		.loc 1 268 2
- 1527 0232 07F10F03 		add	r3, r7, #15
- 1528 0236 0093     		str	r3, [sp]
- 1529 0238 0123     		movs	r3, #1
- 1530 023a 1B22     		movs	r2, #27
- 1531 023c 6821     		movs	r1, #104
- 1532 023e 0A48     		ldr	r0, .L53+24
- 1533 0240 FFF7FEFF 		bl	i2c_write_reg
- 269:./Src/mpu6050.c **** }...
- 1534              		.loc 1 269 1
- 1535 0244 00BF     		nop
- 1536 0246 2837     		adds	r7, r7, #40
- 1537              	.LCFI40:
- 1538              		.cfi_def_cfa_offset 8
- 1539 0248 BD46     		mov	sp, r7
- 1540              	.LCFI41:
- 1541              		.cfi_def_cfa_register 13
- 1542              		@ sp needed
- 1543 024a 80BD     		pop	{r7, pc}
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 33
+ 264:./Src/mpu6050.c **** }
+ 1520              		.loc 1 264 1
+ 1521 0162 00BF     		nop
+ 1522 0164 00BF     		nop
+ 1523 0166 2037     		adds	r7, r7, #32
+ 1524              	.LCFI31:
+ 1525              		.cfi_def_cfa_offset 8
+ 1526 0168 BD46     		mov	sp, r7
+ 1527              	.LCFI32:
+ 1528              		.cfi_def_cfa_register 13
+ 1529              		@ sp needed
+ 1530 016a 80BD     		pop	{r7, pc}
+ 1531              	.L45:
+ 1532 016c AFF30080 		.align	3
+ 1533              	.L44:
+ 1534 0170 BE650318 		.word	402875838
+ 1535 0174 1818683F 		.word	1063786520
+ 1536 0178 A4703D0A 		.word	171798692
+ 1537 017c D7434240 		.word	1078084567
+ 1538 0180 00540040 		.word	1073763328
+ 1539 0184 00000000 		.word	bias
+ 1540 0188 00000000 		.word	accel_unit
+ 1541 018c 00000000 		.word	gyro_unit
+ 1542              		.cfi_endproc
+ 1543              	.LFE6:
+ 1545              		.section	.text.mpu6050_get_accel,"ax",%progbits
+ 1546              		.align	1
+ 1547              		.global	mpu6050_get_accel
+ 1548              		.syntax unified
+ 1549              		.thumb
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 33
 
 
- 1544              	.L54:
- 1545 024c AFF30080 		.align	3
- 1546              	.L53:
- 1547 0250 C3F5285C 		.word	1546188227
- 1548 0254 8FC29540 		.word	1083556495
- 1549 0258 00000000 		.word	0
- 1550 025c 00005940 		.word	1079574528
- 1551 0260 00000000 		.word	0
- 1552 0264 0096A940 		.word	1084855808
- 1553 0268 00540040 		.word	1073763328
- 1554 026c 2D2D2D40 		.word	1076702509
- 1555 0270 54E3853F 		.word	1065739092
- 1556              		.cfi_endproc
- 1557              	.LFE8:
- 1559              		.text
- 1560              	.Letext0:
- 1561              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 1562              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 1563              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s 			page 34
+ 1550              		.thumb_func
+ 1552              	mpu6050_get_accel:
+ 1553              	.LFB7:
+ 265:./Src/mpu6050.c **** 
+ 266:./Src/mpu6050.c **** void mpu6050_get_accel(float *data)
+ 267:./Src/mpu6050.c **** {
+ 1554              		.loc 1 267 1
+ 1555              		.cfi_startproc
+ 1556              		@ args = 0, pretend = 0, frame = 24
+ 1557              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1558 0000 80B5     		push	{r7, lr}
+ 1559              	.LCFI33:
+ 1560              		.cfi_def_cfa_offset 8
+ 1561              		.cfi_offset 7, -8
+ 1562              		.cfi_offset 14, -4
+ 1563 0002 88B0     		sub	sp, sp, #32
+ 1564              	.LCFI34:
+ 1565              		.cfi_def_cfa_offset 40
+ 1566 0004 02AF     		add	r7, sp, #8
+ 1567              	.LCFI35:
+ 1568              		.cfi_def_cfa 7, 32
+ 1569 0006 7860     		str	r0, [r7, #4]
+ 268:./Src/mpu6050.c **** 	int16_t tmp[3] = {0};
+ 1570              		.loc 1 268 10
+ 1571 0008 07F10C03 		add	r3, r7, #12
+ 1572 000c 0022     		movs	r2, #0
+ 1573 000e 1A60     		str	r2, [r3]
+ 1574 0010 9A80     		strh	r2, [r3, #4]	@ movhi
+ 269:./Src/mpu6050.c **** 	int i;
+ 270:./Src/mpu6050.c **** 
+ 271:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_ACCEL_XOUTH, 6,
+ 1575              		.loc 1 271 2
+ 1576 0012 07F10C03 		add	r3, r7, #12
+ 1577 0016 0093     		str	r3, [sp]
+ 1578 0018 0623     		movs	r3, #6
+ 1579 001a 3B22     		movs	r2, #59
+ 1580 001c 6821     		movs	r1, #104
+ 1581 001e 2A48     		ldr	r0, .L49
+ 1582 0020 FFF7FEFF 		bl	i2c_read_reg
+ 272:./Src/mpu6050.c **** 		     (uint8_t *)tmp);
+ 273:./Src/mpu6050.c **** 
+ 274:./Src/mpu6050.c **** 	for (i = 0; i < 3; i++) {
+ 1583              		.loc 1 274 9
+ 1584 0024 0023     		movs	r3, #0
+ 1585 0026 7B61     		str	r3, [r7, #20]
+ 1586              		.loc 1 274 2
+ 1587 0028 46E0     		b	.L47
+ 1588              	.L48:
+ 275:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1589              		.loc 1 275 16 discriminator 3
+ 1590 002a 7B69     		ldr	r3, [r7, #20]
+ 1591 002c 5B00     		lsls	r3, r3, #1
+ 1592 002e 1833     		adds	r3, r3, #24
+ 1593 0030 3B44     		add	r3, r3, r7
+ 1594 0032 33F90C3C 		ldrsh	r3, [r3, #-12]
+ 1595              		.loc 1 275 20 discriminator 3
+ 1596 0036 1B02     		lsls	r3, r3, #8
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 34
+
+
+ 1597              		.loc 1 275 26 discriminator 3
+ 1598 0038 1AB2     		sxth	r2, r3
+ 1599              		.loc 1 275 33 discriminator 3
+ 1600 003a 7B69     		ldr	r3, [r7, #20]
+ 1601 003c 5B00     		lsls	r3, r3, #1
+ 1602 003e 1833     		adds	r3, r3, #24
+ 1603 0040 3B44     		add	r3, r3, r7
+ 1604 0042 33F90C3C 		ldrsh	r3, [r3, #-12]
+ 1605              		.loc 1 275 43 discriminator 3
+ 1606 0046 9BB2     		uxth	r3, r3
+ 1607 0048 1B0A     		lsrs	r3, r3, #8
+ 1608 004a 9BB2     		uxth	r3, r3
+ 1609 004c 1BB2     		sxth	r3, r3
+ 1610              		.loc 1 275 26 discriminator 3
+ 1611 004e 1343     		orrs	r3, r3, r2
+ 1612 0050 1AB2     		sxth	r2, r3
+ 1613              		.loc 1 275 10 discriminator 3
+ 1614 0052 7B69     		ldr	r3, [r7, #20]
+ 1615 0054 5B00     		lsls	r3, r3, #1
+ 1616 0056 1833     		adds	r3, r3, #24
+ 1617 0058 3B44     		add	r3, r3, r7
+ 1618 005a 23F80C2C 		strh	r2, [r3, #-12]	@ movhi
+ 276:./Src/mpu6050.c **** 		tmp[i] -= bias[i];
+ 1619              		.loc 1 276 10 discriminator 3
+ 1620 005e 7B69     		ldr	r3, [r7, #20]
+ 1621 0060 5B00     		lsls	r3, r3, #1
+ 1622 0062 1833     		adds	r3, r3, #24
+ 1623 0064 3B44     		add	r3, r3, r7
+ 1624 0066 33F90C3C 		ldrsh	r3, [r3, #-12]
+ 1625 006a 9AB2     		uxth	r2, r3
+ 1626              		.loc 1 276 17 discriminator 3
+ 1627 006c 1749     		ldr	r1, .L49+4
+ 1628 006e 7B69     		ldr	r3, [r7, #20]
+ 1629 0070 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
+ 1630 0074 9BB2     		uxth	r3, r3
+ 1631              		.loc 1 276 10 discriminator 3
+ 1632 0076 D31A     		subs	r3, r2, r3
+ 1633 0078 9BB2     		uxth	r3, r3
+ 1634 007a 1AB2     		sxth	r2, r3
+ 1635 007c 7B69     		ldr	r3, [r7, #20]
+ 1636 007e 5B00     		lsls	r3, r3, #1
+ 1637 0080 1833     		adds	r3, r3, #24
+ 1638 0082 3B44     		add	r3, r3, r7
+ 1639 0084 23F80C2C 		strh	r2, [r3, #-12]	@ movhi
+ 277:./Src/mpu6050.c **** 		data[i] = (float)tmp[i] * accel_unit;
+ 1640              		.loc 1 277 23 discriminator 3
+ 1641 0088 7B69     		ldr	r3, [r7, #20]
+ 1642 008a 5B00     		lsls	r3, r3, #1
+ 1643 008c 1833     		adds	r3, r3, #24
+ 1644 008e 3B44     		add	r3, r3, r7
+ 1645 0090 33F90C3C 		ldrsh	r3, [r3, #-12]
+ 1646              		.loc 1 277 13 discriminator 3
+ 1647 0094 07EE903A 		vmov	s15, r3	@ int
+ 1648 0098 B8EEE77A 		vcvt.f32.s32	s14, s15
+ 1649              		.loc 1 277 27 discriminator 3
+ 1650 009c 0C4B     		ldr	r3, .L49+8
+ 1651 009e D3ED007A 		vldr.32	s15, [r3]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 35
+
+
+ 1652              		.loc 1 277 7 discriminator 3
+ 1653 00a2 7B69     		ldr	r3, [r7, #20]
+ 1654 00a4 9B00     		lsls	r3, r3, #2
+ 1655 00a6 7A68     		ldr	r2, [r7, #4]
+ 1656 00a8 1344     		add	r3, r3, r2
+ 1657              		.loc 1 277 27 discriminator 3
+ 1658 00aa 67EE277A 		vmul.f32	s15, s14, s15
+ 1659              		.loc 1 277 11 discriminator 3
+ 1660 00ae C3ED007A 		vstr.32	s15, [r3]
+ 274:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1661              		.loc 1 274 22 discriminator 3
+ 1662 00b2 7B69     		ldr	r3, [r7, #20]
+ 1663 00b4 0133     		adds	r3, r3, #1
+ 1664 00b6 7B61     		str	r3, [r7, #20]
+ 1665              	.L47:
+ 274:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1666              		.loc 1 274 2 discriminator 1
+ 1667 00b8 7B69     		ldr	r3, [r7, #20]
+ 1668 00ba 022B     		cmp	r3, #2
+ 1669 00bc B5DD     		ble	.L48
+ 278:./Src/mpu6050.c **** 	}
+ 279:./Src/mpu6050.c **** }
+ 1670              		.loc 1 279 1
+ 1671 00be 00BF     		nop
+ 1672 00c0 00BF     		nop
+ 1673 00c2 1837     		adds	r7, r7, #24
+ 1674              	.LCFI36:
+ 1675              		.cfi_def_cfa_offset 8
+ 1676 00c4 BD46     		mov	sp, r7
+ 1677              	.LCFI37:
+ 1678              		.cfi_def_cfa_register 13
+ 1679              		@ sp needed
+ 1680 00c6 80BD     		pop	{r7, pc}
+ 1681              	.L50:
+ 1682              		.align	2
+ 1683              	.L49:
+ 1684 00c8 00540040 		.word	1073763328
+ 1685 00cc 00000000 		.word	bias
+ 1686 00d0 00000000 		.word	accel_unit
+ 1687              		.cfi_endproc
+ 1688              	.LFE7:
+ 1690              		.section	.text.mpu6050_get_temperature,"ax",%progbits
+ 1691              		.align	1
+ 1692              		.global	mpu6050_get_temperature
+ 1693              		.syntax unified
+ 1694              		.thumb
+ 1695              		.thumb_func
+ 1697              	mpu6050_get_temperature:
+ 1698              	.LFB8:
+ 280:./Src/mpu6050.c **** 
+ 281:./Src/mpu6050.c **** /*
+ 282:./Src/mpu6050.c ****  * Temperature in degree C = (TEMP_OUT register value as a signed quantity) /
+ 283:./Src/mpu6050.c ****  * 340 + 36.53
+ 284:./Src/mpu6050.c ****  */
+ 285:./Src/mpu6050.c **** float mpu6050_get_temperature(void)
+ 286:./Src/mpu6050.c **** {
+ 1699              		.loc 1 286 1
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 36
+
+
+ 1700              		.cfi_startproc
+ 1701              		@ args = 0, pretend = 0, frame = 8
+ 1702              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1703 0000 80B5     		push	{r7, lr}
+ 1704              	.LCFI38:
+ 1705              		.cfi_def_cfa_offset 8
+ 1706              		.cfi_offset 7, -8
+ 1707              		.cfi_offset 14, -4
+ 1708 0002 84B0     		sub	sp, sp, #16
+ 1709              	.LCFI39:
+ 1710              		.cfi_def_cfa_offset 24
+ 1711 0004 02AF     		add	r7, sp, #8
+ 1712              	.LCFI40:
+ 1713              		.cfi_def_cfa 7, 16
+ 287:./Src/mpu6050.c **** 	int16_t tmp = 0;
+ 1714              		.loc 1 287 10
+ 1715 0006 0023     		movs	r3, #0
+ 1716 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 288:./Src/mpu6050.c **** 
+ 289:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_TEMP_OUTH, 2,
+ 1717              		.loc 1 289 2
+ 1718 000a BB1D     		adds	r3, r7, #6
+ 1719 000c 0093     		str	r3, [sp]
+ 1720 000e 0223     		movs	r3, #2
+ 1721 0010 4122     		movs	r2, #65
+ 1722 0012 6821     		movs	r1, #104
+ 1723 0014 1848     		ldr	r0, .L53+16
+ 1724 0016 FFF7FEFF 		bl	i2c_read_reg
+ 290:./Src/mpu6050.c **** 		     (uint8_t *)&tmp);
+ 291:./Src/mpu6050.c **** 	tmp = (tmp << 8) | ((tmp >> 8) & 0xFF);
+ 1725              		.loc 1 291 13
+ 1726 001a B7F90630 		ldrsh	r3, [r7, #6]
+ 1727 001e 1B02     		lsls	r3, r3, #8
+ 1728              		.loc 1 291 19
+ 1729 0020 1AB2     		sxth	r2, r3
+ 1730              		.loc 1 291 33
+ 1731 0022 B7F90630 		ldrsh	r3, [r7, #6]
+ 1732 0026 9BB2     		uxth	r3, r3
+ 1733 0028 1B0A     		lsrs	r3, r3, #8
+ 1734 002a 9BB2     		uxth	r3, r3
+ 1735 002c 1BB2     		sxth	r3, r3
+ 1736              		.loc 1 291 19
+ 1737 002e 1343     		orrs	r3, r3, r2
+ 1738 0030 1BB2     		sxth	r3, r3
+ 1739              		.loc 1 291 6
+ 1740 0032 FB80     		strh	r3, [r7, #6]	@ movhi
+ 292:./Src/mpu6050.c **** 	return (float)tmp * 0.00294117647 + 36.53;
+ 1741              		.loc 1 292 9
+ 1742 0034 B7F90630 		ldrsh	r3, [r7, #6]
+ 1743 0038 07EE903A 		vmov	s15, r3	@ int
+ 1744 003c F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1745 0040 B7EEE77A 		vcvt.f64.f32	d7, s15
+ 1746              		.loc 1 292 20
+ 1747 0044 9FED086B 		vldr.64	d6, .L53
+ 1748 0048 27EE067B 		vmul.f64	d7, d7, d6
+ 1749              		.loc 1 292 36
+ 1750 004c 9FED086B 		vldr.64	d6, .L53+8
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 37
+
+
+ 1751 0050 37EE067B 		vadd.f64	d7, d7, d6
+ 1752 0054 F7EEC77B 		vcvt.f32.f64	s15, d7
+ 293:./Src/mpu6050.c **** }
+ 1753              		.loc 1 293 1
+ 1754 0058 B0EE670A 		vmov.f32	s0, s15
+ 1755 005c 0837     		adds	r7, r7, #8
+ 1756              	.LCFI41:
+ 1757              		.cfi_def_cfa_offset 8
+ 1758 005e BD46     		mov	sp, r7
+ 1759              	.LCFI42:
+ 1760              		.cfi_def_cfa_register 13
+ 1761              		@ sp needed
+ 1762 0060 80BD     		pop	{r7, pc}
+ 1763              	.L54:
+ 1764 0062 00BFAFF3 		.align	3
+ 1764      0080
+ 1765              	.L53:
+ 1766 0068 BE650318 		.word	402875838
+ 1767 006c 1818683F 		.word	1063786520
+ 1768 0070 A4703D0A 		.word	171798692
+ 1769 0074 D7434240 		.word	1078084567
+ 1770 0078 00540040 		.word	1073763328
+ 1771              		.cfi_endproc
+ 1772              	.LFE8:
+ 1774              		.section	.text.mpu6050_get_gyro,"ax",%progbits
+ 1775              		.align	1
+ 1776              		.global	mpu6050_get_gyro
+ 1777              		.syntax unified
+ 1778              		.thumb
+ 1779              		.thumb_func
+ 1781              	mpu6050_get_gyro:
+ 1782              	.LFB9:
+ 294:./Src/mpu6050.c **** 
+ 295:./Src/mpu6050.c **** void mpu6050_get_gyro(float *data)
+ 296:./Src/mpu6050.c **** {
+ 1783              		.loc 1 296 1
+ 1784              		.cfi_startproc
+ 1785              		@ args = 0, pretend = 0, frame = 24
+ 1786              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1787 0000 80B5     		push	{r7, lr}
+ 1788              	.LCFI43:
+ 1789              		.cfi_def_cfa_offset 8
+ 1790              		.cfi_offset 7, -8
+ 1791              		.cfi_offset 14, -4
+ 1792 0002 88B0     		sub	sp, sp, #32
+ 1793              	.LCFI44:
+ 1794              		.cfi_def_cfa_offset 40
+ 1795 0004 02AF     		add	r7, sp, #8
+ 1796              	.LCFI45:
+ 1797              		.cfi_def_cfa 7, 32
+ 1798 0006 7860     		str	r0, [r7, #4]
+ 297:./Src/mpu6050.c **** 	int16_t tmp[3] = {0};
+ 1799              		.loc 1 297 10
+ 1800 0008 07F10C03 		add	r3, r7, #12
+ 1801 000c 0022     		movs	r2, #0
+ 1802 000e 1A60     		str	r2, [r3]
+ 1803 0010 9A80     		strh	r2, [r3, #4]	@ movhi
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 38
+
+
+ 298:./Src/mpu6050.c **** 	int i;
+ 299:./Src/mpu6050.c **** 
+ 300:./Src/mpu6050.c **** 	i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_GYRO_XOUTH, 6,
+ 1804              		.loc 1 300 2
+ 1805 0012 07F10C03 		add	r3, r7, #12
+ 1806 0016 0093     		str	r3, [sp]
+ 1807 0018 0623     		movs	r3, #6
+ 1808 001a 4322     		movs	r2, #67
+ 1809 001c 6821     		movs	r1, #104
+ 1810 001e 2B48     		ldr	r0, .L58
+ 1811 0020 FFF7FEFF 		bl	i2c_read_reg
+ 301:./Src/mpu6050.c **** 		     (uint8_t *)&tmp);
+ 302:./Src/mpu6050.c **** 
+ 303:./Src/mpu6050.c **** 	for (i = 0; i < 3; i++) {
+ 1812              		.loc 1 303 9
+ 1813 0024 0023     		movs	r3, #0
+ 1814 0026 7B61     		str	r3, [r7, #20]
+ 1815              		.loc 1 303 2
+ 1816 0028 47E0     		b	.L56
+ 1817              	.L57:
+ 304:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1818              		.loc 1 304 16 discriminator 3
+ 1819 002a 7B69     		ldr	r3, [r7, #20]
+ 1820 002c 5B00     		lsls	r3, r3, #1
+ 1821 002e 1833     		adds	r3, r3, #24
+ 1822 0030 3B44     		add	r3, r3, r7
+ 1823 0032 33F90C3C 		ldrsh	r3, [r3, #-12]
+ 1824              		.loc 1 304 20 discriminator 3
+ 1825 0036 1B02     		lsls	r3, r3, #8
+ 1826              		.loc 1 304 26 discriminator 3
+ 1827 0038 1AB2     		sxth	r2, r3
+ 1828              		.loc 1 304 33 discriminator 3
+ 1829 003a 7B69     		ldr	r3, [r7, #20]
+ 1830 003c 5B00     		lsls	r3, r3, #1
+ 1831 003e 1833     		adds	r3, r3, #24
+ 1832 0040 3B44     		add	r3, r3, r7
+ 1833 0042 33F90C3C 		ldrsh	r3, [r3, #-12]
+ 1834              		.loc 1 304 43 discriminator 3
+ 1835 0046 9BB2     		uxth	r3, r3
+ 1836 0048 1B0A     		lsrs	r3, r3, #8
+ 1837 004a 9BB2     		uxth	r3, r3
+ 1838 004c 1BB2     		sxth	r3, r3
+ 1839              		.loc 1 304 26 discriminator 3
+ 1840 004e 1343     		orrs	r3, r3, r2
+ 1841 0050 1AB2     		sxth	r2, r3
+ 1842              		.loc 1 304 10 discriminator 3
+ 1843 0052 7B69     		ldr	r3, [r7, #20]
+ 1844 0054 5B00     		lsls	r3, r3, #1
+ 1845 0056 1833     		adds	r3, r3, #24
+ 1846 0058 3B44     		add	r3, r3, r7
+ 1847 005a 23F80C2C 		strh	r2, [r3, #-12]	@ movhi
+ 305:./Src/mpu6050.c **** 		tmp[i] -= bias[3 + i];
+ 1848              		.loc 1 305 10 discriminator 3
+ 1849 005e 7B69     		ldr	r3, [r7, #20]
+ 1850 0060 5B00     		lsls	r3, r3, #1
+ 1851 0062 1833     		adds	r3, r3, #24
+ 1852 0064 3B44     		add	r3, r3, r7
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 39
+
+
+ 1853 0066 33F90C3C 		ldrsh	r3, [r3, #-12]
+ 1854 006a 9AB2     		uxth	r2, r3
+ 1855              		.loc 1 305 20 discriminator 3
+ 1856 006c 7B69     		ldr	r3, [r7, #20]
+ 1857 006e 0333     		adds	r3, r3, #3
+ 1858              		.loc 1 305 17 discriminator 3
+ 1859 0070 1749     		ldr	r1, .L58+4
+ 1860 0072 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
+ 1861 0076 9BB2     		uxth	r3, r3
+ 1862              		.loc 1 305 10 discriminator 3
+ 1863 0078 D31A     		subs	r3, r2, r3
+ 1864 007a 9BB2     		uxth	r3, r3
+ 1865 007c 1AB2     		sxth	r2, r3
+ 1866 007e 7B69     		ldr	r3, [r7, #20]
+ 1867 0080 5B00     		lsls	r3, r3, #1
+ 1868 0082 1833     		adds	r3, r3, #24
+ 1869 0084 3B44     		add	r3, r3, r7
+ 1870 0086 23F80C2C 		strh	r2, [r3, #-12]	@ movhi
+ 306:./Src/mpu6050.c **** 		data[i] = (float)tmp[i] * gyro_unit;
+ 1871              		.loc 1 306 23 discriminator 3
+ 1872 008a 7B69     		ldr	r3, [r7, #20]
+ 1873 008c 5B00     		lsls	r3, r3, #1
+ 1874 008e 1833     		adds	r3, r3, #24
+ 1875 0090 3B44     		add	r3, r3, r7
+ 1876 0092 33F90C3C 		ldrsh	r3, [r3, #-12]
+ 1877              		.loc 1 306 13 discriminator 3
+ 1878 0096 07EE903A 		vmov	s15, r3	@ int
+ 1879 009a B8EEE77A 		vcvt.f32.s32	s14, s15
+ 1880              		.loc 1 306 27 discriminator 3
+ 1881 009e 0D4B     		ldr	r3, .L58+8
+ 1882 00a0 D3ED007A 		vldr.32	s15, [r3]
+ 1883              		.loc 1 306 7 discriminator 3
+ 1884 00a4 7B69     		ldr	r3, [r7, #20]
+ 1885 00a6 9B00     		lsls	r3, r3, #2
+ 1886 00a8 7A68     		ldr	r2, [r7, #4]
+ 1887 00aa 1344     		add	r3, r3, r2
+ 1888              		.loc 1 306 27 discriminator 3
+ 1889 00ac 67EE277A 		vmul.f32	s15, s14, s15
+ 1890              		.loc 1 306 11 discriminator 3
+ 1891 00b0 C3ED007A 		vstr.32	s15, [r3]
+ 303:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1892              		.loc 1 303 22 discriminator 3
+ 1893 00b4 7B69     		ldr	r3, [r7, #20]
+ 1894 00b6 0133     		adds	r3, r3, #1
+ 1895 00b8 7B61     		str	r3, [r7, #20]
+ 1896              	.L56:
+ 303:./Src/mpu6050.c **** 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
+ 1897              		.loc 1 303 2 discriminator 1
+ 1898 00ba 7B69     		ldr	r3, [r7, #20]
+ 1899 00bc 022B     		cmp	r3, #2
+ 1900 00be B4DD     		ble	.L57
+ 307:./Src/mpu6050.c **** 	}
+ 308:./Src/mpu6050.c **** }...
+ 1901              		.loc 1 308 1
+ 1902 00c0 00BF     		nop
+ 1903 00c2 00BF     		nop
+ 1904 00c4 1837     		adds	r7, r7, #24
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 40
+
+
+ 1905              	.LCFI46:
+ 1906              		.cfi_def_cfa_offset 8
+ 1907 00c6 BD46     		mov	sp, r7
+ 1908              	.LCFI47:
+ 1909              		.cfi_def_cfa_register 13
+ 1910              		@ sp needed
+ 1911 00c8 80BD     		pop	{r7, pc}
+ 1912              	.L59:
+ 1913 00ca 00BF     		.align	2
+ 1914              	.L58:
+ 1915 00cc 00540040 		.word	1073763328
+ 1916 00d0 00000000 		.word	bias
+ 1917 00d4 00000000 		.word	gyro_unit
+ 1918              		.cfi_endproc
+ 1919              	.LFE9:
+ 1921              		.section	.data.P.2,"aw"
+ 1922              		.align	2
+ 1925              	P.2:
+ 1926 0000 0000803F 		.word	1065353216
+ 1927 0004 00000000 		.word	0
+ 1928 0008 00000000 		.word	0
+ 1929 000c 0000803F 		.word	1065353216
+ 1930 0010 0000803F 		.word	1065353216
+ 1931 0014 00000000 		.word	0
+ 1932 0018 00000000 		.word	0
+ 1933 001c 0000803F 		.word	1065353216
+ 1934 0020 0000803F 		.word	1065353216
+ 1935 0024 00000000 		.word	0
+ 1936 0028 00000000 		.word	0
+ 1937 002c 0000803F 		.word	1065353216
+ 1938              		.section	.data.Q.1,"aw"
+ 1939              		.align	2
+ 1942              	Q.1:
+ 1943 0000 6F12833A 		.word	981668463
+ 1944              		.section	.data.R.0,"aw"
+ 1945              		.align	2
+ 1948              	R.0:
+ 1949 0000 0000803F 		.word	1065353216
+ 1950              		.text
+ 1951              	.Letext0:
+ 1952              		.file 2 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1953              		.file 3 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 1954              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s 			page 41
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 mpu6050.c
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:19     .bss.gyro_unit:00000000 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:22     .bss.gyro_unit:00000000 gyro_unit
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:25     .bss.accel_unit:00000000 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:28     .bss.accel_unit:00000000 accel_unit
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:31     .bss.offset:00000000 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:34     .bss.offset:00000000 offset
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:37     .text.mpu6050_power_on:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:43     .text.mpu6050_power_on:00000000 mpu6050_power_on
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:85     .text.mpu6050_power_on:00000034 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:91     .text.mpu6050_default_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:97     .text.mpu6050_default_init:00000000 mpu6050_default_init
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:174    .text.mpu6050_default_init:00000064 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:183    .text.mpu6050_init:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:189    .text.mpu6050_init:00000000 mpu6050_init
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:367    .text.mpu6050_calibration:00000000 mpu6050_calibration
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:354    .text.mpu6050_init:000000fc $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:362    .text.mpu6050_calibration:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:615    .text.mpu6050_calibration:00000180 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:622    .text.mpu6050_get_all:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:628    .text.mpu6050_get_all:00000000 mpu6050_get_all
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:846    .text.mpu6050_get_all:00000170 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:857    .text.mpu6050_get_accel:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:863    .text.mpu6050_get_accel:00000000 mpu6050_get_accel
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:997    .text.mpu6050_get_accel:000000c8 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1004   .text.mpu6050_get_temperature:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1010   .text.mpu6050_get_temperature:00000000 mpu6050_get_temperature
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1077   .text.mpu6050_get_temperature:0000005c $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1084   .text.mpu6050_get_gyro:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1090   .text.mpu6050_get_gyro:00000000 mpu6050_get_gyro
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1226   .text.mpu6050_get_gyro:000000cc $d
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1233   .text.mpu6050_selftest:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1239   .text.mpu6050_selftest:00000000 mpu6050_selftest
-C:\Users\DCS_LAB\AppData\Local\Temp\cc1VsazP.s:1547   .text.mpu6050_selftest:00000250 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:19     .data.dt:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:22     .data.dt:00000000 dt
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:25     .bss.gyro_unit:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:28     .bss.gyro_unit:00000000 gyro_unit
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:31     .bss.accel_unit:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:34     .bss.accel_unit:00000000 accel_unit
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:37     .bss.bias:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:40     .bss.bias:00000000 bias
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:43     .text.mpu6050_power_on:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:49     .text.mpu6050_power_on:00000000 mpu6050_power_on
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:91     .text.mpu6050_power_on:00000034 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:97     .text.mpu6050_selftest:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:103    .text.mpu6050_selftest:00000000 mpu6050_selftest
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:407    .text.mpu6050_selftest:00000250 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:420    .text.mpu6050_default_init:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:426    .text.mpu6050_default_init:00000000 mpu6050_default_init
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:503    .text.mpu6050_default_init:00000064 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:512    .text.mpu6050_init:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:518    .text.mpu6050_init:00000000 mpu6050_init
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:708    .text.calibration:00000000 calibration
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:694    .text.mpu6050_init:00000118 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:703    .text.calibration:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:949    .text.calibration:0000018c $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:958    .text.mpu6050_kalman_gyro:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:964    .text.mpu6050_kalman_gyro:00000000 mpu6050_kalman_gyro
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1304   .text.mpu6050_kalman_gyro:00000270 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1925   .data.P.2:00000000 P.2
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1942   .data.Q.1:00000000 Q.1
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1948   .data.R.0:00000000 R.0
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1312   .text.mpu6050_get_all:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1318   .text.mpu6050_get_all:00000000 mpu6050_get_all
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1534   .text.mpu6050_get_all:00000170 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1546   .text.mpu6050_get_accel:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1552   .text.mpu6050_get_accel:00000000 mpu6050_get_accel
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1684   .text.mpu6050_get_accel:000000c8 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1691   .text.mpu6050_get_temperature:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1697   .text.mpu6050_get_temperature:00000000 mpu6050_get_temperature
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1766   .text.mpu6050_get_temperature:00000068 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1775   .text.mpu6050_get_gyro:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1781   .text.mpu6050_get_gyro:00000000 mpu6050_get_gyro
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1915   .text.mpu6050_get_gyro:000000cc $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1922   .data.P.2:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1939   .data.Q.1:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\cc0xCXj2.s:1945   .data.R.0:00000000 $d
 
 UNDEFINED SYMBOLS
 systick_delay_ms

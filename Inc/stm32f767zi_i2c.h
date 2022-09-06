@@ -10,7 +10,6 @@
 
 #include "stm32f767zi_gpio.h"
 #include "stm32f767zi_hal.h"
-#include "stm32f767zi_systick.h"
 // Control register 1
 #define I2C_CR1_PE              1U              // Peripheral enable
 #define I2C_CR1_TXIE            (1U << 1)       // TX Interrupt enable

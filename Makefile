@@ -6,7 +6,7 @@ TARGET = main
 # debug build?
 DEBUG = 1
 # build path
-BUILD_DIR = Build
+BUILD_DIR = build
 
 # C sources
 C_SOURCES =  $(wildcard ./Src/*.c)

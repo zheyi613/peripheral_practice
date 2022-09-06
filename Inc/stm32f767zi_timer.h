@@ -20,5 +20,6 @@
 
 void tim1_1Hz_init(void);
 void tim1_1Hz_interrupt_init(void);
+void tim1_interrupt_init(uint16_t freq);
 
 #endif

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s 			page 1
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -18,34 +18,39 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s 			page 1
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.rodata
-  19              		.align	2
-  20              	.LC0:
-  21 0000 4368616E 		.ascii	"Change from Factory Trim: \000"
-  21      67652066 
-  21      726F6D20 
-  21      46616374 
-  21      6F727920 
-  22 001b 00       		.align	2
-  23              	.LC1:
-  24 001c 252E3266 		.ascii	"%.2f, \000"
-  24      2C2000
-  25 0023 00       		.align	2
-  26              	.LC2:
-  27 0024 0D00     		.ascii	"\015\000"
-  28 0026 0000     		.align	2
-  29              	.LC3:
-  30 0028 252E3266 		.ascii	"%.2f \000"
-  30      2000
-  31              		.section	.text.main,"ax",%progbits
-  32              		.align	1
-  33              		.global	main
-  34              		.syntax unified
-  35              		.thumb
-  36              		.thumb_func
-  38              	main:
-  39              	.LFB3:
-  40              		.file 1 "./Src/main.c"
+  18              		.global	flag_get
+  19              		.section	.bss.flag_get,"aw",%nobits
+  22              	flag_get:
+  23 0000 00       		.space	1
+  24              		.section	.rodata
+  25              		.align	2
+  26              	.LC0:
+  27 0000 4368616E 		.ascii	"Change from Factory Trim:\015\000"
+  27      67652066 
+  27      726F6D20 
+  27      46616374 
+  27      6F727920 
+  28 001b 00       		.align	2
+  29              	.LC1:
+  30 001c 252E3266 		.ascii	"%.2f, \000"
+  30      2C2000
+  31 0023 00       		.align	2
+  32              	.LC2:
+  33 0024 0D00     		.ascii	"\015\000"
+  34 0026 0000     		.align	2
+  35              	.LC3:
+  36 0028 252E3266 		.ascii	"%.2f %.3f \000"
+  36      20252E33 
+  36      662000
+  37              		.section	.text.main,"ax",%progbits
+  38              		.align	1
+  39              		.global	main
+  40              		.syntax unified
+  41              		.thumb
+  42              		.thumb_func
+  44              	main:
+  45              	.LFB3:
+  46              		.file 1 "./Src/main.c"
    1:./Src/main.c  **** /**
    2:./Src/main.c  ****  * @file test_mpu6050.c
    3:./Src/main.c  ****  * @author zheyi613 (zheyi880613@gmail.com)
@@ -53,221 +58,347 @@ ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s 			page 1
    5:./Src/main.c  ****  * @date 2022-08-26
    6:./Src/main.c  ****  */
    7:./Src/main.c  **** 
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 2
+
+
    8:./Src/main.c  **** #include "mpu6050.h"
    9:./Src/main.c  **** #include "stm32f767zi_gpio.h"
   10:./Src/main.c  **** #include "stm32f767zi_hal.h"
   11:./Src/main.c  **** #include "stm32f767zi_i2c.h"
   12:./Src/main.c  **** #include "stm32f767zi_systick.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s 			page 2
-
-
-  13:./Src/main.c  **** #include "stm32f767zi_usart.h"
-  14:./Src/main.c  **** #include <stdio.h>
-  15:./Src/main.c  **** 
-  16:./Src/main.c  **** int main(void)
-  17:./Src/main.c  **** {
-  41              		.loc 1 17 1
-  42              		.cfi_startproc
-  43              		@ args = 0, pretend = 0, frame = 64
-  44              		@ frame_needed = 1, uses_anonymous_args = 0
-  45 0000 80B5     		push	{r7, lr}
-  46              	.LCFI0:
-  47              		.cfi_def_cfa_offset 8
-  48              		.cfi_offset 7, -8
-  49              		.cfi_offset 14, -4
-  50 0002 90B0     		sub	sp, sp, #64
-  51              	.LCFI1:
-  52              		.cfi_def_cfa_offset 72
-  53 0004 00AF     		add	r7, sp, #0
-  54              	.LCFI2:
-  55              		.cfi_def_cfa_register 7
-  18:./Src/main.c  **** 	float get[7] = {0};
-  56              		.loc 1 18 8
-  57 0006 07F11C03 		add	r3, r7, #28
-  58 000a 0022     		movs	r2, #0
-  59 000c 1A60     		str	r2, [r3]
-  60 000e 5A60     		str	r2, [r3, #4]
-  61 0010 9A60     		str	r2, [r3, #8]
-  62 0012 DA60     		str	r2, [r3, #12]
-  63 0014 1A61     		str	r2, [r3, #16]
-  64 0016 5A61     		str	r2, [r3, #20]
-  65 0018 9A61     		str	r2, [r3, #24]
-  19:./Src/main.c  **** 	float err[6] = {0};
-  66              		.loc 1 19 8
-  67 001a 3B1D     		adds	r3, r7, #4
-  68 001c 0022     		movs	r2, #0
-  69 001e 1A60     		str	r2, [r3]
-  70 0020 5A60     		str	r2, [r3, #4]
-  71 0022 9A60     		str	r2, [r3, #8]
-  72 0024 DA60     		str	r2, [r3, #12]
-  73 0026 1A61     		str	r2, [r3, #16]
-  74 0028 5A61     		str	r2, [r3, #20]
-  20:./Src/main.c  **** 	
-  21:./Src/main.c  **** 	fpu_enable();
-  75              		.loc 1 21 2
-  76 002a 294B     		ldr	r3, .L7
-  77 002c 4FF47002 		mov	r2, #15728640
-  78 0030 1A60     		str	r2, [r3]
-  22:./Src/main.c  **** 	usart3_default_init();
-  79              		.loc 1 22 2
-  80 0032 FFF7FEFF 		bl	usart3_default_init
-  23:./Src/main.c  **** 	i2c1_master_default_init();
-  81              		.loc 1 23 2
-  82 0036 FFF7FEFF 		bl	i2c1_master_default_init
-  24:./Src/main.c  **** 	mpu6050_power_on();
-  83              		.loc 1 24 2
-  84 003a FFF7FEFF 		bl	mpu6050_power_on
+  13:./Src/main.c  **** #include "stm32f767zi_timer.h"
+  14:./Src/main.c  **** #include "stm32f767zi_usart.h"
+  15:./Src/main.c  **** #include <stdbool.h>
+  16:./Src/main.c  **** #include <stdio.h>
+  17:./Src/main.c  **** 
+  18:./Src/main.c  **** bool flag_get = false;
+  19:./Src/main.c  **** 
+  20:./Src/main.c  **** int main(void)
+  21:./Src/main.c  **** {
+  47              		.loc 1 21 1
+  48              		.cfi_startproc
+  49              		@ args = 0, pretend = 0, frame = 72
+  50              		@ frame_needed = 1, uses_anonymous_args = 0
+  51 0000 80B5     		push	{r7, lr}
+  52              	.LCFI0:
+  53              		.cfi_def_cfa_offset 8
+  54              		.cfi_offset 7, -8
+  55              		.cfi_offset 14, -4
+  56 0002 94B0     		sub	sp, sp, #80
+  57              	.LCFI1:
+  58              		.cfi_def_cfa_offset 88
+  59 0004 02AF     		add	r7, sp, #8
+  60              	.LCFI2:
+  61              		.cfi_def_cfa 7, 80
+  22:./Src/main.c  **** 	float get[3] = {0};
+  62              		.loc 1 22 8
+  63 0006 07F13403 		add	r3, r7, #52
+  64 000a 0022     		movs	r2, #0
+  65 000c 1A60     		str	r2, [r3]
+  66 000e 5A60     		str	r2, [r3, #4]
+  67 0010 9A60     		str	r2, [r3, #8]
+  23:./Src/main.c  **** 	float err[6] = {0};
+  68              		.loc 1 23 8
+  69 0012 07F11C03 		add	r3, r7, #28
+  70 0016 0022     		movs	r2, #0
+  71 0018 1A60     		str	r2, [r3]
+  72 001a 5A60     		str	r2, [r3, #4]
+  73 001c 9A60     		str	r2, [r3, #8]
+  74 001e DA60     		str	r2, [r3, #12]
+  75 0020 1A61     		str	r2, [r3, #16]
+  76 0022 5A61     		str	r2, [r3, #20]
+  24:./Src/main.c  **** 	float state[3][2] = {0};
+  77              		.loc 1 24 8
+  78 0024 3B1D     		adds	r3, r7, #4
+  79 0026 0022     		movs	r2, #0
+  80 0028 1A60     		str	r2, [r3]
+  81 002a 5A60     		str	r2, [r3, #4]
+  82 002c 9A60     		str	r2, [r3, #8]
+  83 002e DA60     		str	r2, [r3, #12]
+  84 0030 1A61     		str	r2, [r3, #16]
+  85 0032 5A61     		str	r2, [r3, #20]
   25:./Src/main.c  **** 
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s 			page 3
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 3
 
 
-  26:./Src/main.c  **** 	mpu6050_selftest(err);
-  85              		.loc 1 26 2
-  86 003e 3B1D     		adds	r3, r7, #4
-  87 0040 1846     		mov	r0, r3
-  88 0042 FFF7FEFF 		bl	mpu6050_selftest
-  27:./Src/main.c  **** 	printf("Change from Factory Trim: ");
-  89              		.loc 1 27 2
-  90 0046 2348     		ldr	r0, .L7+4
-  91 0048 FFF7FEFF 		bl	printf
-  92              	.LBB2:
-  28:./Src/main.c  **** 	
-  29:./Src/main.c  **** 	for (int i = 0; i < 6; i++) {
-  93              		.loc 1 29 11
-  94 004c 0023     		movs	r3, #0
-  95 004e FB63     		str	r3, [r7, #60]
-  96              		.loc 1 29 2
-  97 0050 10E0     		b	.L2
-  98              	.L3:
-  30:./Src/main.c  **** 		printf("%.2f, ", err[i]);
-  99              		.loc 1 30 23 discriminator 3
- 100 0052 FB6B     		ldr	r3, [r7, #60]
- 101 0054 9B00     		lsls	r3, r3, #2
- 102 0056 4033     		adds	r3, r3, #64
- 103 0058 3B44     		add	r3, r3, r7
- 104 005a 3C3B     		subs	r3, r3, #60
- 105 005c D3ED007A 		vldr.32	s15, [r3]
- 106              		.loc 1 30 3 discriminator 3
- 107 0060 B7EEE77A 		vcvt.f64.f32	d7, s15
- 108 0064 53EC172B 		vmov	r2, r3, d7
- 109 0068 1B48     		ldr	r0, .L7+8
- 110 006a FFF7FEFF 		bl	printf
-  29:./Src/main.c  **** 		printf("%.2f, ", err[i]);
- 111              		.loc 1 29 26 discriminator 3
- 112 006e FB6B     		ldr	r3, [r7, #60]
- 113 0070 0133     		adds	r3, r3, #1
- 114 0072 FB63     		str	r3, [r7, #60]
- 115              	.L2:
-  29:./Src/main.c  **** 		printf("%.2f, ", err[i]);
- 116              		.loc 1 29 2 discriminator 1
- 117 0074 FB6B     		ldr	r3, [r7, #60]
- 118 0076 052B     		cmp	r3, #5
- 119 0078 EBDD     		ble	.L3
- 120              	.LBE2:
-  31:./Src/main.c  **** 	}
-  32:./Src/main.c  **** 
-  33:./Src/main.c  **** 	printf("\r\n");
- 121              		.loc 1 33 2
- 122 007a 1848     		ldr	r0, .L7+12
- 123 007c FFF7FEFF 		bl	puts
-  34:./Src/main.c  **** 	mpu6050_init(100, 2, 250);
- 124              		.loc 1 34 2
- 125 0080 FA22     		movs	r2, #250
- 126 0082 0221     		movs	r1, #2
- 127 0084 6420     		movs	r0, #100
- 128 0086 FFF7FEFF 		bl	mpu6050_init
- 129              	.L6:
-  35:./Src/main.c  **** 
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s 			page 4
+  26:./Src/main.c  **** 	fpu_enable();
+  86              		.loc 1 26 2
+  87 0034 364B     		ldr	r3, .L8
+  88 0036 4FF47002 		mov	r2, #15728640
+  89 003a 1A60     		str	r2, [r3]
+  27:./Src/main.c  **** 	usart3_default_init();
+  90              		.loc 1 27 2
+  91 003c FFF7FEFF 		bl	usart3_default_init
+  28:./Src/main.c  **** 	i2c1_master_default_init();
+  92              		.loc 1 28 2
+  93 0040 FFF7FEFF 		bl	i2c1_master_default_init
+  29:./Src/main.c  **** 	tim1_interrupt_init(100);
+  94              		.loc 1 29 2
+  95 0044 6420     		movs	r0, #100
+  96 0046 FFF7FEFF 		bl	tim1_interrupt_init
+  30:./Src/main.c  **** 	mpu6050_power_on();
+  97              		.loc 1 30 2
+  98 004a FFF7FEFF 		bl	mpu6050_power_on
+  31:./Src/main.c  **** 
+  32:./Src/main.c  **** 	mpu6050_selftest(err);
+  99              		.loc 1 32 2
+ 100 004e 07F11C03 		add	r3, r7, #28
+ 101 0052 1846     		mov	r0, r3
+ 102 0054 FFF7FEFF 		bl	mpu6050_selftest
+  33:./Src/main.c  **** 	printf("Change from Factory Trim:\r\n");
+ 103              		.loc 1 33 2
+ 104 0058 2E48     		ldr	r0, .L8+4
+ 105 005a FFF7FEFF 		bl	puts
+ 106              	.LBB2:
+  34:./Src/main.c  **** 
+  35:./Src/main.c  **** 	for (int i = 0; i < 6; i++) {
+ 107              		.loc 1 35 11
+ 108 005e 0023     		movs	r3, #0
+ 109 0060 7B64     		str	r3, [r7, #68]
+ 110              		.loc 1 35 2
+ 111 0062 10E0     		b	.L2
+ 112              	.L3:
+  36:./Src/main.c  **** 		printf("%.2f, ", err[i]);
+ 113              		.loc 1 36 23 discriminator 3
+ 114 0064 7B6C     		ldr	r3, [r7, #68]
+ 115 0066 9B00     		lsls	r3, r3, #2
+ 116 0068 4833     		adds	r3, r3, #72
+ 117 006a 3B44     		add	r3, r3, r7
+ 118 006c 2C3B     		subs	r3, r3, #44
+ 119 006e D3ED007A 		vldr.32	s15, [r3]
+ 120              		.loc 1 36 3 discriminator 3
+ 121 0072 B7EEE77A 		vcvt.f64.f32	d7, s15
+ 122 0076 53EC172B 		vmov	r2, r3, d7
+ 123 007a 2748     		ldr	r0, .L8+8
+ 124 007c FFF7FEFF 		bl	printf
+  35:./Src/main.c  **** 		printf("%.2f, ", err[i]);
+ 125              		.loc 1 35 26 discriminator 3
+ 126 0080 7B6C     		ldr	r3, [r7, #68]
+ 127 0082 0133     		adds	r3, r3, #1
+ 128 0084 7B64     		str	r3, [r7, #68]
+ 129              	.L2:
+  35:./Src/main.c  **** 		printf("%.2f, ", err[i]);
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 4
 
 
-  36:./Src/main.c  **** 	while (1) {
-  37:./Src/main.c  **** 		mpu6050_get_all(get);
- 130              		.loc 1 37 3
- 131 008a 07F11C03 		add	r3, r7, #28
- 132 008e 1846     		mov	r0, r3
- 133 0090 FFF7FEFF 		bl	mpu6050_get_all
- 134              	.LBB3:
-  38:./Src/main.c  **** 		// mpu6050_get_gyro(get);
-  39:./Src/main.c  **** 
-  40:./Src/main.c  **** 		for (int i = 0; i < 7; i++)
- 135              		.loc 1 40 12
- 136 0094 0023     		movs	r3, #0
- 137 0096 BB63     		str	r3, [r7, #56]
- 138              		.loc 1 40 3
- 139 0098 10E0     		b	.L4
- 140              	.L5:
-  41:./Src/main.c  **** 			printf("%.2f ", get[i]);
- 141              		.loc 1 41 23 discriminator 3
- 142 009a BB6B     		ldr	r3, [r7, #56]
- 143 009c 9B00     		lsls	r3, r3, #2
- 144 009e 4033     		adds	r3, r3, #64
- 145 00a0 3B44     		add	r3, r3, r7
- 146 00a2 243B     		subs	r3, r3, #36
- 147 00a4 D3ED007A 		vldr.32	s15, [r3]
- 148              		.loc 1 41 4 discriminator 3
- 149 00a8 B7EEE77A 		vcvt.f64.f32	d7, s15
- 150 00ac 53EC172B 		vmov	r2, r3, d7
- 151 00b0 0B48     		ldr	r0, .L7+16
- 152 00b2 FFF7FEFF 		bl	printf
-  40:./Src/main.c  **** 			printf("%.2f ", get[i]);
- 153              		.loc 1 40 27 discriminator 3
- 154 00b6 BB6B     		ldr	r3, [r7, #56]
- 155 00b8 0133     		adds	r3, r3, #1
- 156 00ba BB63     		str	r3, [r7, #56]
- 157              	.L4:
-  40:./Src/main.c  **** 			printf("%.2f ", get[i]);
- 158              		.loc 1 40 3 discriminator 1
- 159 00bc BB6B     		ldr	r3, [r7, #56]
- 160 00be 062B     		cmp	r3, #6
- 161 00c0 EBDD     		ble	.L5
- 162              	.LBE3:
-  42:./Src/main.c  **** 
-  43:./Src/main.c  **** 		printf("\r\n");
- 163              		.loc 1 43 3
- 164 00c2 0648     		ldr	r0, .L7+12
- 165 00c4 FFF7FEFF 		bl	puts
-  44:./Src/main.c  **** 		systick_delay_ms(10);
- 166              		.loc 1 44 3
- 167 00c8 0A20     		movs	r0, #10
- 168 00ca FFF7FEFF 		bl	systick_delay_ms
-  37:./Src/main.c  **** 		// mpu6050_get_gyro(get);
- 169              		.loc 1 37 3
- 170 00ce DCE7     		b	.L6
- 171              	.L8:
- 172              		.align	2
- 173              	.L7:
- 174 00d0 88ED00E0 		.word	-536810104
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s 			page 5
+ 130              		.loc 1 35 2 discriminator 1
+ 131 0086 7B6C     		ldr	r3, [r7, #68]
+ 132 0088 052B     		cmp	r3, #5
+ 133 008a EBDD     		ble	.L3
+ 134              	.LBE2:
+  37:./Src/main.c  **** 	}
+  38:./Src/main.c  **** 
+  39:./Src/main.c  **** 	printf("\r\n");
+ 135              		.loc 1 39 2
+ 136 008c 2348     		ldr	r0, .L8+12
+ 137 008e FFF7FEFF 		bl	puts
+  40:./Src/main.c  **** 	mpu6050_init(100, 2, 250);
+ 138              		.loc 1 40 2
+ 139 0092 FA22     		movs	r2, #250
+ 140 0094 0221     		movs	r1, #2
+ 141 0096 6420     		movs	r0, #100
+ 142 0098 FFF7FEFF 		bl	mpu6050_init
+ 143              	.L7:
+  41:./Src/main.c  **** 
+  42:./Src/main.c  **** 	while (1) {
+  43:./Src/main.c  **** 		if (flag_get) {
+ 144              		.loc 1 43 7
+ 145 009c 204B     		ldr	r3, .L8+16
+ 146 009e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 147              		.loc 1 43 6
+ 148 00a0 002B     		cmp	r3, #0
+ 149 00a2 FBD0     		beq	.L7
+  44:./Src/main.c  **** 			mpu6050_get_gyro(get);
+ 150              		.loc 1 44 4
+ 151 00a4 07F13403 		add	r3, r7, #52
+ 152 00a8 1846     		mov	r0, r3
+ 153 00aa FFF7FEFF 		bl	mpu6050_get_gyro
+  45:./Src/main.c  **** 			mpu6050_kalman_gyro(state, get);
+ 154              		.loc 1 45 4
+ 155 00ae 07F13402 		add	r2, r7, #52
+ 156 00b2 3B1D     		adds	r3, r7, #4
+ 157 00b4 1146     		mov	r1, r2
+ 158 00b6 1846     		mov	r0, r3
+ 159 00b8 FFF7FEFF 		bl	mpu6050_kalman_gyro
+ 160              	.LBB3:
+  46:./Src/main.c  **** 
+  47:./Src/main.c  **** 			for (int i = 0; i < 3; i++) {
+ 161              		.loc 1 47 13
+ 162 00bc 0023     		movs	r3, #0
+ 163 00be 3B64     		str	r3, [r7, #64]
+ 164              		.loc 1 47 4
+ 165 00c0 1BE0     		b	.L5
+ 166              	.L6:
+  48:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
+ 167              		.loc 1 48 34 discriminator 3
+ 168 00c2 3B6C     		ldr	r3, [r7, #64]
+ 169 00c4 DB00     		lsls	r3, r3, #3
+ 170 00c6 4833     		adds	r3, r3, #72
+ 171 00c8 3B44     		add	r3, r3, r7
+ 172 00ca 443B     		subs	r3, r3, #68
+ 173 00cc D3ED007A 		vldr.32	s15, [r3]
+ 174              		.loc 1 48 5 discriminator 3
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 5
 
 
- 175 00d4 00000000 		.word	.LC0
- 176 00d8 1C000000 		.word	.LC1
- 177 00dc 24000000 		.word	.LC2
- 178 00e0 28000000 		.word	.LC3
- 179              		.cfi_endproc
- 180              	.LFE3:
- 182              		.text
- 183              	.Letext0:
- 184              		.file 2 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 185              		.file 3 "e:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
-ARM GAS  C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s 			page 6
+ 175 00d0 B7EEE76A 		vcvt.f64.f32	d6, s15
+ 176              		.loc 1 48 47 discriminator 3
+ 177 00d4 3B6C     		ldr	r3, [r7, #64]
+ 178 00d6 DB00     		lsls	r3, r3, #3
+ 179 00d8 4833     		adds	r3, r3, #72
+ 180 00da 3B44     		add	r3, r3, r7
+ 181 00dc 403B     		subs	r3, r3, #64
+ 182 00de D3ED007A 		vldr.32	s15, [r3]
+ 183              		.loc 1 48 5 discriminator 3
+ 184 00e2 B7EEE77A 		vcvt.f64.f32	d7, s15
+ 185 00e6 8DED007B 		vstr.64	d7, [sp]
+ 186 00ea 53EC162B 		vmov	r2, r3, d6
+ 187 00ee 0D48     		ldr	r0, .L8+20
+ 188 00f0 FFF7FEFF 		bl	printf
+  47:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
+ 189              		.loc 1 47 28 discriminator 3
+ 190 00f4 3B6C     		ldr	r3, [r7, #64]
+ 191 00f6 0133     		adds	r3, r3, #1
+ 192 00f8 3B64     		str	r3, [r7, #64]
+ 193              	.L5:
+  47:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
+ 194              		.loc 1 47 4 discriminator 1
+ 195 00fa 3B6C     		ldr	r3, [r7, #64]
+ 196 00fc 022B     		cmp	r3, #2
+ 197 00fe E0DD     		ble	.L6
+ 198              	.LBE3:
+  49:./Src/main.c  **** 			}
+  50:./Src/main.c  **** 
+  51:./Src/main.c  **** 			printf("\r\n");
+ 199              		.loc 1 51 4
+ 200 0100 0648     		ldr	r0, .L8+12
+ 201 0102 FFF7FEFF 		bl	puts
+  52:./Src/main.c  **** 			flag_get = false;
+ 202              		.loc 1 52 13
+ 203 0106 064B     		ldr	r3, .L8+16
+ 204 0108 0022     		movs	r2, #0
+ 205 010a 1A70     		strb	r2, [r3]
+  43:./Src/main.c  **** 			mpu6050_get_gyro(get);
+ 206              		.loc 1 43 6
+ 207 010c C6E7     		b	.L7
+ 208              	.L9:
+ 209 010e 00BF     		.align	2
+ 210              	.L8:
+ 211 0110 88ED00E0 		.word	-536810104
+ 212 0114 00000000 		.word	.LC0
+ 213 0118 1C000000 		.word	.LC1
+ 214 011c 24000000 		.word	.LC2
+ 215 0120 00000000 		.word	flag_get
+ 216 0124 28000000 		.word	.LC3
+ 217              		.cfi_endproc
+ 218              	.LFE3:
+ 220              		.section	.text.TIM1_UP_TIM10_IRQHandler,"ax",%progbits
+ 221              		.align	1
+ 222              		.global	TIM1_UP_TIM10_IRQHandler
+ 223              		.syntax unified
+ 224              		.thumb
+ 225              		.thumb_func
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 6
+
+
+ 227              	TIM1_UP_TIM10_IRQHandler:
+ 228              	.LFB4:
+  53:./Src/main.c  **** 		}
+  54:./Src/main.c  **** 	}
+  55:./Src/main.c  **** 
+  56:./Src/main.c  **** 	return 0;
+  57:./Src/main.c  **** }
+  58:./Src/main.c  **** 
+  59:./Src/main.c  **** void TIM1_UP_TIM10_IRQHandler(void)
+  60:./Src/main.c  **** {
+ 229              		.loc 1 60 1
+ 230              		.cfi_startproc
+ 231              		@ args = 0, pretend = 0, frame = 0
+ 232              		@ frame_needed = 1, uses_anonymous_args = 0
+ 233              		@ link register save eliminated.
+ 234 0000 80B4     		push	{r7}
+ 235              	.LCFI3:
+ 236              		.cfi_def_cfa_offset 4
+ 237              		.cfi_offset 7, -4
+ 238 0002 00AF     		add	r7, sp, #0
+ 239              	.LCFI4:
+ 240              		.cfi_def_cfa_register 7
+  61:./Src/main.c  **** 	// Check whether update interrupt is pending
+  62:./Src/main.c  **** 	if ((TIM1->SR & TIM_SR_UIF) != 0) {
+ 241              		.loc 1 62 11
+ 242 0004 094B     		ldr	r3, .L13
+ 243 0006 1B69     		ldr	r3, [r3, #16]
+ 244              		.loc 1 62 16
+ 245 0008 03F00103 		and	r3, r3, #1
+ 246              		.loc 1 62 5
+ 247 000c 002B     		cmp	r3, #0
+ 248 000e 08D0     		beq	.L12
+  63:./Src/main.c  **** 		// Clear the update interrupt flag
+  64:./Src/main.c  **** 		TIM1->SR &= ~TIM_SR_UIF;
+ 249              		.loc 1 64 12
+ 250 0010 064B     		ldr	r3, .L13
+ 251 0012 1B69     		ldr	r3, [r3, #16]
+ 252 0014 054A     		ldr	r2, .L13
+ 253 0016 23F00103 		bic	r3, r3, #1
+ 254 001a 1361     		str	r3, [r2, #16]
+  65:./Src/main.c  **** 		// enable get data flag
+  66:./Src/main.c  **** 		flag_get = true;
+ 255              		.loc 1 66 12
+ 256 001c 044B     		ldr	r3, .L13+4
+ 257 001e 0122     		movs	r2, #1
+ 258 0020 1A70     		strb	r2, [r3]
+ 259              	.L12:
+  67:./Src/main.c  **** 	}
+  68:./Src/main.c  **** }...
+ 260              		.loc 1 68 1
+ 261 0022 00BF     		nop
+ 262 0024 BD46     		mov	sp, r7
+ 263              	.LCFI5:
+ 264              		.cfi_def_cfa_register 13
+ 265              		@ sp needed
+ 266 0026 5DF8047B 		ldr	r7, [sp], #4
+ 267              	.LCFI6:
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 7
+
+
+ 268              		.cfi_restore 7
+ 269              		.cfi_def_cfa_offset 0
+ 270 002a 7047     		bx	lr
+ 271              	.L14:
+ 272              		.align	2
+ 273              	.L13:
+ 274 002c 00000140 		.word	1073807360
+ 275 0030 00000000 		.word	flag_get
+ 276              		.cfi_endproc
+ 277              	.LFE4:
+ 279              		.text
+ 280              	.Letext0:
+ 281              		.file 2 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 282              		.file 3 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 283              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s:19     .rodata:00000000 $d
-C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s:32     .text.main:00000000 $t
-C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s:38     .text.main:00000000 main
-C:\Users\DCS_LAB\AppData\Local\Temp\ccOa9ssk.s:174    .text.main:000000d0 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:22     .bss.flag_get:00000000 flag_get
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:23     .bss.flag_get:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:25     .rodata:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:38     .text.main:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:44     .text.main:00000000 main
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:211    .text.main:00000110 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:221    .text.TIM1_UP_TIM10_IRQHandler:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:227    .text.TIM1_UP_TIM10_IRQHandler:00000000 TIM1_UP_TIM10_IRQHandler
+C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:274    .text.TIM1_UP_TIM10_IRQHandler:0000002c $d
 
 UNDEFINED SYMBOLS
 usart3_default_init
 i2c1_master_default_init
+tim1_interrupt_init
 mpu6050_power_on
 mpu6050_selftest
-printf
 puts
+printf
 mpu6050_init
-mpu6050_get_all
-systick_delay_ms
+mpu6050_get_gyro
+mpu6050_kalman_gyro
