@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 1
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 1
    5:./Src/main.c  ****  * @date 2022-08-26
    6:./Src/main.c  ****  */
    7:./Src/main.c  **** 
-ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 2
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s 			page 2
 
 
    8:./Src/main.c  **** #include "mpu6050.h"
@@ -77,319 +77,339 @@ ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 1
   21:./Src/main.c  **** {
   47              		.loc 1 21 1
   48              		.cfi_startproc
-  49              		@ args = 0, pretend = 0, frame = 72
+  49              		@ args = 0, pretend = 0, frame = 96
   50              		@ frame_needed = 1, uses_anonymous_args = 0
   51 0000 80B5     		push	{r7, lr}
   52              	.LCFI0:
   53              		.cfi_def_cfa_offset 8
   54              		.cfi_offset 7, -8
   55              		.cfi_offset 14, -4
-  56 0002 94B0     		sub	sp, sp, #80
+  56 0002 9AB0     		sub	sp, sp, #104
   57              	.LCFI1:
-  58              		.cfi_def_cfa_offset 88
+  58              		.cfi_def_cfa_offset 112
   59 0004 02AF     		add	r7, sp, #8
   60              	.LCFI2:
-  61              		.cfi_def_cfa 7, 80
-  22:./Src/main.c  **** 	float get[3] = {0};
+  61              		.cfi_def_cfa 7, 104
+  22:./Src/main.c  **** 	float get[7] = {0};
   62              		.loc 1 22 8
-  63 0006 07F13403 		add	r3, r7, #52
+  63 0006 07F13C03 		add	r3, r7, #60
   64 000a 0022     		movs	r2, #0
   65 000c 1A60     		str	r2, [r3]
   66 000e 5A60     		str	r2, [r3, #4]
   67 0010 9A60     		str	r2, [r3, #8]
+  68 0012 DA60     		str	r2, [r3, #12]
+  69 0014 1A61     		str	r2, [r3, #16]
+  70 0016 5A61     		str	r2, [r3, #20]
+  71 0018 9A61     		str	r2, [r3, #24]
   23:./Src/main.c  **** 	float err[6] = {0};
-  68              		.loc 1 23 8
-  69 0012 07F11C03 		add	r3, r7, #28
-  70 0016 0022     		movs	r2, #0
-  71 0018 1A60     		str	r2, [r3]
-  72 001a 5A60     		str	r2, [r3, #4]
-  73 001c 9A60     		str	r2, [r3, #8]
-  74 001e DA60     		str	r2, [r3, #12]
-  75 0020 1A61     		str	r2, [r3, #16]
-  76 0022 5A61     		str	r2, [r3, #20]
+  72              		.loc 1 23 8
+  73 001a 07F12403 		add	r3, r7, #36
+  74 001e 0022     		movs	r2, #0
+  75 0020 1A60     		str	r2, [r3]
+  76 0022 5A60     		str	r2, [r3, #4]
+  77 0024 9A60     		str	r2, [r3, #8]
+  78 0026 DA60     		str	r2, [r3, #12]
+  79 0028 1A61     		str	r2, [r3, #16]
+  80 002a 5A61     		str	r2, [r3, #20]
   24:./Src/main.c  **** 	float state[3][2] = {0};
-  77              		.loc 1 24 8
-  78 0024 3B1D     		adds	r3, r7, #4
-  79 0026 0022     		movs	r2, #0
-  80 0028 1A60     		str	r2, [r3]
-  81 002a 5A60     		str	r2, [r3, #4]
-  82 002c 9A60     		str	r2, [r3, #8]
-  83 002e DA60     		str	r2, [r3, #12]
-  84 0030 1A61     		str	r2, [r3, #16]
-  85 0032 5A61     		str	r2, [r3, #20]
-  25:./Src/main.c  **** 
-ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 3
+  81              		.loc 1 24 8
+  82 002c 07F10C03 		add	r3, r7, #12
+  83 0030 0022     		movs	r2, #0
+  84 0032 1A60     		str	r2, [r3]
+  85 0034 5A60     		str	r2, [r3, #4]
+  86 0036 9A60     		str	r2, [r3, #8]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s 			page 3
 
 
-  26:./Src/main.c  **** 	fpu_enable();
-  86              		.loc 1 26 2
-  87 0034 364B     		ldr	r3, .L8
-  88 0036 4FF47002 		mov	r2, #15728640
-  89 003a 1A60     		str	r2, [r3]
-  27:./Src/main.c  **** 	usart3_default_init();
-  90              		.loc 1 27 2
-  91 003c FFF7FEFF 		bl	usart3_default_init
-  28:./Src/main.c  **** 	i2c1_master_default_init();
-  92              		.loc 1 28 2
-  93 0040 FFF7FEFF 		bl	i2c1_master_default_init
-  29:./Src/main.c  **** 	tim1_interrupt_init(100);
-  94              		.loc 1 29 2
-  95 0044 6420     		movs	r0, #100
-  96 0046 FFF7FEFF 		bl	tim1_interrupt_init
-  30:./Src/main.c  **** 	mpu6050_power_on();
-  97              		.loc 1 30 2
-  98 004a FFF7FEFF 		bl	mpu6050_power_on
-  31:./Src/main.c  **** 
-  32:./Src/main.c  **** 	mpu6050_selftest(err);
-  99              		.loc 1 32 2
- 100 004e 07F11C03 		add	r3, r7, #28
- 101 0052 1846     		mov	r0, r3
- 102 0054 FFF7FEFF 		bl	mpu6050_selftest
-  33:./Src/main.c  **** 	printf("Change from Factory Trim:\r\n");
- 103              		.loc 1 33 2
- 104 0058 2E48     		ldr	r0, .L8+4
- 105 005a FFF7FEFF 		bl	puts
- 106              	.LBB2:
-  34:./Src/main.c  **** 
-  35:./Src/main.c  **** 	for (int i = 0; i < 6; i++) {
- 107              		.loc 1 35 11
- 108 005e 0023     		movs	r3, #0
- 109 0060 7B64     		str	r3, [r7, #68]
- 110              		.loc 1 35 2
- 111 0062 10E0     		b	.L2
- 112              	.L3:
+  87 0038 DA60     		str	r2, [r3, #12]
+  88 003a 1A61     		str	r2, [r3, #16]
+  89 003c 5A61     		str	r2, [r3, #20]
+  25:./Src/main.c  **** 	float position[3] = {0};
+  90              		.loc 1 25 8
+  91 003e 3B46     		mov	r3, r7
+  92 0040 0022     		movs	r2, #0
+  93 0042 1A60     		str	r2, [r3]
+  94 0044 5A60     		str	r2, [r3, #4]
+  95 0046 9A60     		str	r2, [r3, #8]
+  26:./Src/main.c  **** 
+  27:./Src/main.c  **** 	fpu_enable();
+  96              		.loc 1 27 2
+  97 0048 3A4B     		ldr	r3, .L8
+  98 004a 4FF47002 		mov	r2, #15728640
+  99 004e 1A60     		str	r2, [r3]
+  28:./Src/main.c  **** 	usart3_default_init();
+ 100              		.loc 1 28 2
+ 101 0050 FFF7FEFF 		bl	usart3_default_init
+  29:./Src/main.c  **** 	i2c1_master_default_init();
+ 102              		.loc 1 29 2
+ 103 0054 FFF7FEFF 		bl	i2c1_master_default_init
+  30:./Src/main.c  **** 	tim1_interrupt_init(100);
+ 104              		.loc 1 30 2
+ 105 0058 6420     		movs	r0, #100
+ 106 005a FFF7FEFF 		bl	tim1_interrupt_init
+  31:./Src/main.c  **** 	mpu6050_power_on();
+ 107              		.loc 1 31 2
+ 108 005e FFF7FEFF 		bl	mpu6050_power_on
+  32:./Src/main.c  **** 
+  33:./Src/main.c  **** 	mpu6050_selftest(err);
+ 109              		.loc 1 33 2
+ 110 0062 07F12403 		add	r3, r7, #36
+ 111 0066 1846     		mov	r0, r3
+ 112 0068 FFF7FEFF 		bl	mpu6050_selftest
+  34:./Src/main.c  **** 	printf("Change from Factory Trim:\r\n");
+ 113              		.loc 1 34 2
+ 114 006c 3248     		ldr	r0, .L8+4
+ 115 006e FFF7FEFF 		bl	puts
+ 116              	.LBB2:
+  35:./Src/main.c  **** 
+  36:./Src/main.c  **** 	for (int i = 0; i < 6; i++) {
+ 117              		.loc 1 36 11
+ 118 0072 0023     		movs	r3, #0
+ 119 0074 FB65     		str	r3, [r7, #92]
+ 120              		.loc 1 36 2
+ 121 0076 10E0     		b	.L2
+ 122              	.L3:
+  37:./Src/main.c  **** 		printf("%.2f, ", err[i]);
+ 123              		.loc 1 37 23 discriminator 3
+ 124 0078 FB6D     		ldr	r3, [r7, #92]
+ 125 007a 9B00     		lsls	r3, r3, #2
+ 126 007c 6033     		adds	r3, r3, #96
+ 127 007e 3B44     		add	r3, r3, r7
+ 128 0080 3C3B     		subs	r3, r3, #60
+ 129 0082 D3ED007A 		vldr.32	s15, [r3]
+ 130              		.loc 1 37 3 discriminator 3
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s 			page 4
+
+
+ 131 0086 B7EEE77A 		vcvt.f64.f32	d7, s15
+ 132 008a 53EC172B 		vmov	r2, r3, d7
+ 133 008e 2B48     		ldr	r0, .L8+8
+ 134 0090 FFF7FEFF 		bl	printf
   36:./Src/main.c  **** 		printf("%.2f, ", err[i]);
- 113              		.loc 1 36 23 discriminator 3
- 114 0064 7B6C     		ldr	r3, [r7, #68]
- 115 0066 9B00     		lsls	r3, r3, #2
- 116 0068 4833     		adds	r3, r3, #72
- 117 006a 3B44     		add	r3, r3, r7
- 118 006c 2C3B     		subs	r3, r3, #44
- 119 006e D3ED007A 		vldr.32	s15, [r3]
- 120              		.loc 1 36 3 discriminator 3
- 121 0072 B7EEE77A 		vcvt.f64.f32	d7, s15
- 122 0076 53EC172B 		vmov	r2, r3, d7
- 123 007a 2748     		ldr	r0, .L8+8
- 124 007c FFF7FEFF 		bl	printf
-  35:./Src/main.c  **** 		printf("%.2f, ", err[i]);
- 125              		.loc 1 35 26 discriminator 3
- 126 0080 7B6C     		ldr	r3, [r7, #68]
- 127 0082 0133     		adds	r3, r3, #1
- 128 0084 7B64     		str	r3, [r7, #68]
- 129              	.L2:
-  35:./Src/main.c  **** 		printf("%.2f, ", err[i]);
-ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 4
+ 135              		.loc 1 36 26 discriminator 3
+ 136 0094 FB6D     		ldr	r3, [r7, #92]
+ 137 0096 0133     		adds	r3, r3, #1
+ 138 0098 FB65     		str	r3, [r7, #92]
+ 139              	.L2:
+  36:./Src/main.c  **** 		printf("%.2f, ", err[i]);
+ 140              		.loc 1 36 2 discriminator 1
+ 141 009a FB6D     		ldr	r3, [r7, #92]
+ 142 009c 052B     		cmp	r3, #5
+ 143 009e EBDD     		ble	.L3
+ 144              	.LBE2:
+  38:./Src/main.c  **** 	}
+  39:./Src/main.c  **** 
+  40:./Src/main.c  **** 	printf("\r\n");
+ 145              		.loc 1 40 2
+ 146 00a0 2748     		ldr	r0, .L8+12
+ 147 00a2 FFF7FEFF 		bl	puts
+  41:./Src/main.c  **** 	mpu6050_init(100, 2, 250);
+ 148              		.loc 1 41 2
+ 149 00a6 FA22     		movs	r2, #250
+ 150 00a8 0221     		movs	r1, #2
+ 151 00aa 6420     		movs	r0, #100
+ 152 00ac FFF7FEFF 		bl	mpu6050_init
+  42:./Src/main.c  **** 	mpu6050_get_position(position);
+ 153              		.loc 1 42 2
+ 154 00b0 3B46     		mov	r3, r7
+ 155 00b2 1846     		mov	r0, r3
+ 156 00b4 FFF7FEFF 		bl	mpu6050_get_position
+  43:./Src/main.c  **** 	tim1_interrupt_init(100);
+ 157              		.loc 1 43 2
+ 158 00b8 6420     		movs	r0, #100
+ 159 00ba FFF7FEFF 		bl	tim1_interrupt_init
+ 160              	.L7:
+  44:./Src/main.c  **** 
+  45:./Src/main.c  **** 	while (1) {
+  46:./Src/main.c  **** 		if (flag_get) {
+ 161              		.loc 1 46 7
+ 162 00be 214B     		ldr	r3, .L8+16
+ 163 00c0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 164              		.loc 1 46 6
+ 165 00c2 002B     		cmp	r3, #0
+ 166 00c4 FBD0     		beq	.L7
+  47:./Src/main.c  **** 			mpu6050_get_gyro(get);
+ 167              		.loc 1 47 4
+ 168 00c6 07F13C03 		add	r3, r7, #60
+ 169 00ca 1846     		mov	r0, r3
+ 170 00cc FFF7FEFF 		bl	mpu6050_get_gyro
+  48:./Src/main.c  **** 			mpu6050_kalman_gyro(state, get);
+ 171              		.loc 1 48 4
+ 172 00d0 07F13C02 		add	r2, r7, #60
+ 173 00d4 07F10C03 		add	r3, r7, #12
+ 174 00d8 1146     		mov	r1, r2
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s 			page 5
 
 
- 130              		.loc 1 35 2 discriminator 1
- 131 0086 7B6C     		ldr	r3, [r7, #68]
- 132 0088 052B     		cmp	r3, #5
- 133 008a EBDD     		ble	.L3
- 134              	.LBE2:
-  37:./Src/main.c  **** 	}
-  38:./Src/main.c  **** 
-  39:./Src/main.c  **** 	printf("\r\n");
- 135              		.loc 1 39 2
- 136 008c 2348     		ldr	r0, .L8+12
- 137 008e FFF7FEFF 		bl	puts
-  40:./Src/main.c  **** 	mpu6050_init(100, 2, 250);
- 138              		.loc 1 40 2
- 139 0092 FA22     		movs	r2, #250
- 140 0094 0221     		movs	r1, #2
- 141 0096 6420     		movs	r0, #100
- 142 0098 FFF7FEFF 		bl	mpu6050_init
- 143              	.L7:
-  41:./Src/main.c  **** 
-  42:./Src/main.c  **** 	while (1) {
-  43:./Src/main.c  **** 		if (flag_get) {
- 144              		.loc 1 43 7
- 145 009c 204B     		ldr	r3, .L8+16
- 146 009e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 147              		.loc 1 43 6
- 148 00a0 002B     		cmp	r3, #0
- 149 00a2 FBD0     		beq	.L7
-  44:./Src/main.c  **** 			mpu6050_get_gyro(get);
- 150              		.loc 1 44 4
- 151 00a4 07F13403 		add	r3, r7, #52
- 152 00a8 1846     		mov	r0, r3
- 153 00aa FFF7FEFF 		bl	mpu6050_get_gyro
-  45:./Src/main.c  **** 			mpu6050_kalman_gyro(state, get);
- 154              		.loc 1 45 4
- 155 00ae 07F13402 		add	r2, r7, #52
- 156 00b2 3B1D     		adds	r3, r7, #4
- 157 00b4 1146     		mov	r1, r2
- 158 00b6 1846     		mov	r0, r3
- 159 00b8 FFF7FEFF 		bl	mpu6050_kalman_gyro
- 160              	.LBB3:
-  46:./Src/main.c  **** 
-  47:./Src/main.c  **** 			for (int i = 0; i < 3; i++) {
- 161              		.loc 1 47 13
- 162 00bc 0023     		movs	r3, #0
- 163 00be 3B64     		str	r3, [r7, #64]
- 164              		.loc 1 47 4
- 165 00c0 1BE0     		b	.L5
- 166              	.L6:
-  48:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
- 167              		.loc 1 48 34 discriminator 3
- 168 00c2 3B6C     		ldr	r3, [r7, #64]
- 169 00c4 DB00     		lsls	r3, r3, #3
- 170 00c6 4833     		adds	r3, r3, #72
- 171 00c8 3B44     		add	r3, r3, r7
- 172 00ca 443B     		subs	r3, r3, #68
- 173 00cc D3ED007A 		vldr.32	s15, [r3]
- 174              		.loc 1 48 5 discriminator 3
-ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 5
+ 175 00da 1846     		mov	r0, r3
+ 176 00dc FFF7FEFF 		bl	mpu6050_kalman_gyro
+ 177              	.LBB3:
+  49:./Src/main.c  **** 
+  50:./Src/main.c  **** 			for (int i = 0; i < 3; i++) {
+ 178              		.loc 1 50 13
+ 179 00e0 0023     		movs	r3, #0
+ 180 00e2 BB65     		str	r3, [r7, #88]
+ 181              		.loc 1 50 4
+ 182 00e4 1BE0     		b	.L5
+ 183              	.L6:
+  51:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
+ 184              		.loc 1 51 34 discriminator 3
+ 185 00e6 BB6D     		ldr	r3, [r7, #88]
+ 186 00e8 DB00     		lsls	r3, r3, #3
+ 187 00ea 6033     		adds	r3, r3, #96
+ 188 00ec 3B44     		add	r3, r3, r7
+ 189 00ee 543B     		subs	r3, r3, #84
+ 190 00f0 D3ED007A 		vldr.32	s15, [r3]
+ 191              		.loc 1 51 5 discriminator 3
+ 192 00f4 B7EEE76A 		vcvt.f64.f32	d6, s15
+ 193              		.loc 1 51 47 discriminator 3
+ 194 00f8 BB6D     		ldr	r3, [r7, #88]
+ 195 00fa DB00     		lsls	r3, r3, #3
+ 196 00fc 6033     		adds	r3, r3, #96
+ 197 00fe 3B44     		add	r3, r3, r7
+ 198 0100 503B     		subs	r3, r3, #80
+ 199 0102 D3ED007A 		vldr.32	s15, [r3]
+ 200              		.loc 1 51 5 discriminator 3
+ 201 0106 B7EEE77A 		vcvt.f64.f32	d7, s15
+ 202 010a 8DED007B 		vstr.64	d7, [sp]
+ 203 010e 53EC162B 		vmov	r2, r3, d6
+ 204 0112 0D48     		ldr	r0, .L8+20
+ 205 0114 FFF7FEFF 		bl	printf
+  50:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
+ 206              		.loc 1 50 28 discriminator 3
+ 207 0118 BB6D     		ldr	r3, [r7, #88]
+ 208 011a 0133     		adds	r3, r3, #1
+ 209 011c BB65     		str	r3, [r7, #88]
+ 210              	.L5:
+  50:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
+ 211              		.loc 1 50 4 discriminator 1
+ 212 011e BB6D     		ldr	r3, [r7, #88]
+ 213 0120 022B     		cmp	r3, #2
+ 214 0122 E0DD     		ble	.L6
+ 215              	.LBE3:
+  52:./Src/main.c  **** 			}
+  53:./Src/main.c  **** 
+  54:./Src/main.c  **** 			printf("\r\n");
+ 216              		.loc 1 54 4
+ 217 0124 0648     		ldr	r0, .L8+12
+ 218 0126 FFF7FEFF 		bl	puts
+  55:./Src/main.c  **** 			flag_get = false;
+ 219              		.loc 1 55 13
+ 220 012a 064B     		ldr	r3, .L8+16
+ 221 012c 0022     		movs	r2, #0
+ 222 012e 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s 			page 6
 
 
- 175 00d0 B7EEE76A 		vcvt.f64.f32	d6, s15
- 176              		.loc 1 48 47 discriminator 3
- 177 00d4 3B6C     		ldr	r3, [r7, #64]
- 178 00d6 DB00     		lsls	r3, r3, #3
- 179 00d8 4833     		adds	r3, r3, #72
- 180 00da 3B44     		add	r3, r3, r7
- 181 00dc 403B     		subs	r3, r3, #64
- 182 00de D3ED007A 		vldr.32	s15, [r3]
- 183              		.loc 1 48 5 discriminator 3
- 184 00e2 B7EEE77A 		vcvt.f64.f32	d7, s15
- 185 00e6 8DED007B 		vstr.64	d7, [sp]
- 186 00ea 53EC162B 		vmov	r2, r3, d6
- 187 00ee 0D48     		ldr	r0, .L8+20
- 188 00f0 FFF7FEFF 		bl	printf
-  47:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
- 189              		.loc 1 47 28 discriminator 3
- 190 00f4 3B6C     		ldr	r3, [r7, #64]
- 191 00f6 0133     		adds	r3, r3, #1
- 192 00f8 3B64     		str	r3, [r7, #64]
- 193              	.L5:
-  47:./Src/main.c  **** 				printf("%.2f %.3f ", state[i][0], state[i][1]);
- 194              		.loc 1 47 4 discriminator 1
- 195 00fa 3B6C     		ldr	r3, [r7, #64]
- 196 00fc 022B     		cmp	r3, #2
- 197 00fe E0DD     		ble	.L6
- 198              	.LBE3:
-  49:./Src/main.c  **** 			}
-  50:./Src/main.c  **** 
-  51:./Src/main.c  **** 			printf("\r\n");
- 199              		.loc 1 51 4
- 200 0100 0648     		ldr	r0, .L8+12
- 201 0102 FFF7FEFF 		bl	puts
-  52:./Src/main.c  **** 			flag_get = false;
- 202              		.loc 1 52 13
- 203 0106 064B     		ldr	r3, .L8+16
- 204 0108 0022     		movs	r2, #0
- 205 010a 1A70     		strb	r2, [r3]
-  43:./Src/main.c  **** 			mpu6050_get_gyro(get);
- 206              		.loc 1 43 6
- 207 010c C6E7     		b	.L7
- 208              	.L9:
- 209 010e 00BF     		.align	2
- 210              	.L8:
- 211 0110 88ED00E0 		.word	-536810104
- 212 0114 00000000 		.word	.LC0
- 213 0118 1C000000 		.word	.LC1
- 214 011c 24000000 		.word	.LC2
- 215 0120 00000000 		.word	flag_get
- 216 0124 28000000 		.word	.LC3
- 217              		.cfi_endproc
- 218              	.LFE3:
- 220              		.section	.text.TIM1_UP_TIM10_IRQHandler,"ax",%progbits
- 221              		.align	1
- 222              		.global	TIM1_UP_TIM10_IRQHandler
- 223              		.syntax unified
- 224              		.thumb
- 225              		.thumb_func
-ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 6
-
-
- 227              	TIM1_UP_TIM10_IRQHandler:
- 228              	.LFB4:
-  53:./Src/main.c  **** 		}
-  54:./Src/main.c  **** 	}
-  55:./Src/main.c  **** 
-  56:./Src/main.c  **** 	return 0;
-  57:./Src/main.c  **** }
+  46:./Src/main.c  **** 			mpu6050_get_gyro(get);
+ 223              		.loc 1 46 6
+ 224 0130 C5E7     		b	.L7
+ 225              	.L9:
+ 226 0132 00BF     		.align	2
+ 227              	.L8:
+ 228 0134 88ED00E0 		.word	-536810104
+ 229 0138 00000000 		.word	.LC0
+ 230 013c 1C000000 		.word	.LC1
+ 231 0140 24000000 		.word	.LC2
+ 232 0144 00000000 		.word	flag_get
+ 233 0148 28000000 		.word	.LC3
+ 234              		.cfi_endproc
+ 235              	.LFE3:
+ 237              		.section	.text.TIM1_UP_TIM10_IRQHandler,"ax",%progbits
+ 238              		.align	1
+ 239              		.global	TIM1_UP_TIM10_IRQHandler
+ 240              		.syntax unified
+ 241              		.thumb
+ 242              		.thumb_func
+ 244              	TIM1_UP_TIM10_IRQHandler:
+ 245              	.LFB4:
+  56:./Src/main.c  **** 		}
+  57:./Src/main.c  **** 	}
   58:./Src/main.c  **** 
-  59:./Src/main.c  **** void TIM1_UP_TIM10_IRQHandler(void)
-  60:./Src/main.c  **** {
- 229              		.loc 1 60 1
- 230              		.cfi_startproc
- 231              		@ args = 0, pretend = 0, frame = 0
- 232              		@ frame_needed = 1, uses_anonymous_args = 0
- 233              		@ link register save eliminated.
- 234 0000 80B4     		push	{r7}
- 235              	.LCFI3:
- 236              		.cfi_def_cfa_offset 4
- 237              		.cfi_offset 7, -4
- 238 0002 00AF     		add	r7, sp, #0
- 239              	.LCFI4:
- 240              		.cfi_def_cfa_register 7
-  61:./Src/main.c  **** 	// Check whether update interrupt is pending
-  62:./Src/main.c  **** 	if ((TIM1->SR & TIM_SR_UIF) != 0) {
- 241              		.loc 1 62 11
- 242 0004 094B     		ldr	r3, .L13
- 243 0006 1B69     		ldr	r3, [r3, #16]
- 244              		.loc 1 62 16
- 245 0008 03F00103 		and	r3, r3, #1
- 246              		.loc 1 62 5
- 247 000c 002B     		cmp	r3, #0
- 248 000e 08D0     		beq	.L12
-  63:./Src/main.c  **** 		// Clear the update interrupt flag
-  64:./Src/main.c  **** 		TIM1->SR &= ~TIM_SR_UIF;
- 249              		.loc 1 64 12
- 250 0010 064B     		ldr	r3, .L13
- 251 0012 1B69     		ldr	r3, [r3, #16]
- 252 0014 054A     		ldr	r2, .L13
- 253 0016 23F00103 		bic	r3, r3, #1
- 254 001a 1361     		str	r3, [r2, #16]
-  65:./Src/main.c  **** 		// enable get data flag
-  66:./Src/main.c  **** 		flag_get = true;
- 255              		.loc 1 66 12
- 256 001c 044B     		ldr	r3, .L13+4
- 257 001e 0122     		movs	r2, #1
- 258 0020 1A70     		strb	r2, [r3]
- 259              	.L12:
-  67:./Src/main.c  **** 	}
-  68:./Src/main.c  **** }...
- 260              		.loc 1 68 1
- 261 0022 00BF     		nop
- 262 0024 BD46     		mov	sp, r7
- 263              	.LCFI5:
- 264              		.cfi_def_cfa_register 13
- 265              		@ sp needed
- 266 0026 5DF8047B 		ldr	r7, [sp], #4
- 267              	.LCFI6:
-ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 7
+  59:./Src/main.c  **** 	return 0;
+  60:./Src/main.c  **** }
+  61:./Src/main.c  **** 
+  62:./Src/main.c  **** void TIM1_UP_TIM10_IRQHandler(void)
+  63:./Src/main.c  **** {
+ 246              		.loc 1 63 1
+ 247              		.cfi_startproc
+ 248              		@ args = 0, pretend = 0, frame = 0
+ 249              		@ frame_needed = 1, uses_anonymous_args = 0
+ 250              		@ link register save eliminated.
+ 251 0000 80B4     		push	{r7}
+ 252              	.LCFI3:
+ 253              		.cfi_def_cfa_offset 4
+ 254              		.cfi_offset 7, -4
+ 255 0002 00AF     		add	r7, sp, #0
+ 256              	.LCFI4:
+ 257              		.cfi_def_cfa_register 7
+  64:./Src/main.c  **** 	// Check whether update interrupt is pending
+  65:./Src/main.c  **** 	if ((TIM1->SR & TIM_SR_UIF) != 0) {
+ 258              		.loc 1 65 11
+ 259 0004 094B     		ldr	r3, .L13
+ 260 0006 1B69     		ldr	r3, [r3, #16]
+ 261              		.loc 1 65 16
+ 262 0008 03F00103 		and	r3, r3, #1
+ 263              		.loc 1 65 5
+ 264 000c 002B     		cmp	r3, #0
+ 265 000e 08D0     		beq	.L12
+  66:./Src/main.c  **** 		// Clear the update interrupt flag
+  67:./Src/main.c  **** 		TIM1->SR &= ~TIM_SR_UIF;
+ 266              		.loc 1 67 12
+ 267 0010 064B     		ldr	r3, .L13
+ 268 0012 1B69     		ldr	r3, [r3, #16]
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s 			page 7
 
 
- 268              		.cfi_restore 7
- 269              		.cfi_def_cfa_offset 0
- 270 002a 7047     		bx	lr
- 271              	.L14:
- 272              		.align	2
- 273              	.L13:
- 274 002c 00000140 		.word	1073807360
- 275 0030 00000000 		.word	flag_get
- 276              		.cfi_endproc
- 277              	.LFE4:
- 279              		.text
- 280              	.Letext0:
- 281              		.file 2 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
- 282              		.file 3 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
- 283              		.file 4 "./Inc/stm32f767zi_hal.h"
-ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s 			page 8
+ 269 0014 054A     		ldr	r2, .L13
+ 270 0016 23F00103 		bic	r3, r3, #1
+ 271 001a 1361     		str	r3, [r2, #16]
+  68:./Src/main.c  **** 		// enable get data flag
+  69:./Src/main.c  **** 		flag_get = true;
+ 272              		.loc 1 69 12
+ 273 001c 044B     		ldr	r3, .L13+4
+ 274 001e 0122     		movs	r2, #1
+ 275 0020 1A70     		strb	r2, [r3]
+ 276              	.L12:
+  70:./Src/main.c  **** 	}
+  71:./Src/main.c  **** }...
+ 277              		.loc 1 71 1
+ 278 0022 00BF     		nop
+ 279 0024 BD46     		mov	sp, r7
+ 280              	.LCFI5:
+ 281              		.cfi_def_cfa_register 13
+ 282              		@ sp needed
+ 283 0026 5DF8047B 		ldr	r7, [sp], #4
+ 284              	.LCFI6:
+ 285              		.cfi_restore 7
+ 286              		.cfi_def_cfa_offset 0
+ 287 002a 7047     		bx	lr
+ 288              	.L14:
+ 289              		.align	2
+ 290              	.L13:
+ 291 002c 00000140 		.word	1073807360
+ 292 0030 00000000 		.word	flag_get
+ 293              		.cfi_endproc
+ 294              	.LFE4:
+ 296              		.text
+ 297              	.Letext0:
+ 298              		.file 2 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 299              		.file 3 "d:\\gcc-arm-none-eabi-10.3-2021.10\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 300              		.file 4 "./Inc/stm32f767zi_hal.h"
+ARM GAS  C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:22     .bss.flag_get:00000000 flag_get
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:23     .bss.flag_get:00000000 $d
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:25     .rodata:00000000 $d
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:38     .text.main:00000000 $t
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:44     .text.main:00000000 main
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:211    .text.main:00000110 $d
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:221    .text.TIM1_UP_TIM10_IRQHandler:00000000 $t
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:227    .text.TIM1_UP_TIM10_IRQHandler:00000000 TIM1_UP_TIM10_IRQHandler
-C:\Users\LINZHE~1\AppData\Local\Temp\ccxLx6OS.s:274    .text.TIM1_UP_TIM10_IRQHandler:0000002c $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:22     .bss.flag_get:00000000 flag_get
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:23     .bss.flag_get:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:25     .rodata:00000000 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:38     .text.main:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:44     .text.main:00000000 main
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:228    .text.main:00000134 $d
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:238    .text.TIM1_UP_TIM10_IRQHandler:00000000 $t
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:244    .text.TIM1_UP_TIM10_IRQHandler:00000000 TIM1_UP_TIM10_IRQHandler
+C:\Users\LINZHE~1\AppData\Local\Temp\ccvF3VHf.s:291    .text.TIM1_UP_TIM10_IRQHandler:0000002c $d
 
 UNDEFINED SYMBOLS
 usart3_default_init
@@ -400,5 +420,6 @@ mpu6050_selftest
 puts
 printf
 mpu6050_init
+mpu6050_get_position
 mpu6050_get_gyro
 mpu6050_kalman_gyro

@@ -204,7 +204,7 @@ void mpu6050_kalman_gyro(float (*X)[2], float *Z)
 	static float P[3][2][2] = {{{1, 0}, {0, 1}},
 				   {{1, 0}, {0, 1}},
 				   {{1, 0}, {0, 1}}},
-		     Q = 0.001, R = 1;
+		     Q = 0.01, R = 1;
 	float X_[2] = {0}, P_[2][2] = {0}, K[2] = {0};
 	int i;
 
@@ -227,6 +227,55 @@ void mpu6050_kalman_gyro(float (*X)[2], float *Z)
 		P[i][0][1] = P_[0][1] - K[0] * P_[1][1];
 		P[i][1][0] = P_[1][0] * (1 - K[1]);
 		P[i][1][1] = P_[1][1] * (1 - K[1]);
+	}
+}
+
+// void mpu6050_kalman(float *data)
+// {
+// 	static float P[3][2][2] = {0}, Q = 0.001, R = 0.1;
+// 	float X_[2] = {0}, P_[2][2] = {0}, K[2] = {0};
+// 	int i;
+
+// 	for (i = 0; i < 3; i++) {
+// 		X_[0] = X[i][0] - dt * X[i][1];
+// 		X_[1] = X[i][1];
+
+// 		P_[0][0] = P[i][0][0] + (P[i][0][1] + P[i][1][0]) * dt + P[i][1][1]
+// * dt * dt + Q; 		P_[0][1] = P[i][0][1] + P[i][1][1] * dt; 		P_[1][0] = P[i][1][0]
+// + P[i][1][1] * dt; 		P_[1][1] = P[i][1][1] + Q;
+
+// 		K[0] = P_[0][1] / (P_[1][1] + R);
+// 		K[1] = P_[1][1] / (P_[1][1] + R);
+
+// 		X[i][0] = X_[0] + K[0] * (Z[i] - X[i][1]);
+// 		X[i][1] = X_[1] + K[1] * (Z[i] - X[i][1]);
+
+// 		P[i][0][0] = P_[0][0] - K[0] * P_[1][0];
+// 		P[i][0][1] = P_[0][1] - K[0] * P_[1][1];
+// 		P[i][1][0] = P_[1][0] * (1 - K[1]);
+// 		P[i][1][1] = P_[1][1] * (1 - K[1]);
+// 	}
+// }
+
+/**
+ * @brief get static pitch, yaw and roll by accelerometer
+ *
+ * @param data [0]: pitch, [1]: yaw, [2]: roll
+ */
+void mpu6050_get_position(float *data)
+{
+	int i;
+	float g_squre;
+
+	for (i = 0; i < 3; i++) {
+		g_squre += (float)bias[i] * (float)bias[i];
+	}
+
+	for (i = 0; i < 3; i++) {
+		data[i] = atan2f(
+			(float)bias[i],
+			sqrtf(g_squre - (float)bias[i] * (float)bias[i]));
+		data[i] *= 180 / PI;
 	}
 }
 
@@ -273,7 +322,7 @@ void mpu6050_get_accel(float *data)
 
 	for (i = 0; i < 3; i++) {
 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
-		tmp[i] -= bias[i];
+		// tmp[i] -= bias[i];
 		data[i] = (float)tmp[i] * accel_unit;
 	}
 }
@@ -304,5 +353,8 @@ void mpu6050_get_gyro(float *data)
 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
 		tmp[i] -= bias[3 + i];
 		data[i] = (float)tmp[i] * gyro_unit;
+
+		if ((data[i] < 0.1) && (data[i] > -0.1))
+			data[i] = 0;
 	}
 }

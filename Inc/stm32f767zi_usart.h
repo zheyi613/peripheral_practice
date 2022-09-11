@@ -10,6 +10,7 @@
 
 #include "stm32f767zi_gpio.h"
 #include "stm32f767zi_hal.h"
+#include "stm32f767zi_systick.h"
 
 // Control register 1
 #define USART_CR1_UE_POS        0

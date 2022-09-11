@@ -19,9 +19,10 @@ bool flag_get = false;
 
 int main(void)
 {
-	float get[3] = {0};
+	float get[7] = {0};
 	float err[6] = {0};
 	float state[3][2] = {0};
+	float position[3] = {0};
 
 	fpu_enable();
 	usart3_default_init();
@@ -38,6 +39,8 @@ int main(void)
 
 	printf("\r\n");
 	mpu6050_init(100, 2, 250);
+	mpu6050_get_position(position);
+	tim1_interrupt_init(100);
 
 	while (1) {
 		if (flag_get) {

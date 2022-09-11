@@ -11,6 +11,8 @@
 #include "stm32f767zi_i2c.h"
 #include "stm32f767zi_systick.h"
 #include "math.h"
+
+#define PI acos(-1)
 /*
  * Line Connection:
  * PG2 (3.16V, 25mA) <----> Vdd (2.375 < voltage < 3.46, current > 3.9mA)
@@ -152,6 +154,7 @@ void mpu6050_selftest(float *err);
 void mpu6050_default_init(void);
 void mpu6050_init(uint16_t sample_rate, uint8_t acce_range, uint16_t gyro_range);
 void mpu6050_kalman_gyro(float (*X)[2], float *Z);
+void mpu6050_get_position(float *data);
 void mpu6050_get_all(float *data);
 float mpu6050_get_temperature(void);
 void mpu6050_get_gyro(float *data);

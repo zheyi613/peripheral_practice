@@ -42,6 +42,7 @@ void usart3_default_init(void)
 	GPIOD->MODER |= GPIO_MODE_ALTFN << 2 * USART3_RX_POS;
 	// Set alternate function to USART. GPIO_AFRH = AF7(0b0111) | AF7 << 4
 	GPIOD->AFR[1] |= (USART3_AF << 4) | USART3_AF;
+	systick_delay_ms(10);
 	// Enable clock to USART3 module
 	RCC->APB1ENR |= USART3_CLK_EN;
 	// Configure USART parameters (TE, RE, PS, PCE, M, STOP)
