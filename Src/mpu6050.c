@@ -7,12 +7,11 @@
 
 #include "mpu6050.h"
 
-static void calibration(void);
+static void calibration(uint16_t sample_rate);
 
-static float dt = 0.001;
 static float gyro_unit = 0;
 static float accel_unit = 0;
-static int16_t bias[6] = {0};
+static int16_t gyro_bias[3] = {0};
 
 /* Use PG2 as Vdd of MPU6050 */
 void mpu6050_power_on(void)
@@ -124,7 +123,6 @@ void mpu6050_init(uint16_t sample_rate, uint8_t accel_range,
 
 	mpu6050_default_init();
 
-	dt = 1.0 / (float)sample_rate;
 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_SMPLRT_DIV, 1, &div);
 	// Set low pass filter
 	while (1000 > tmp) {
@@ -156,10 +154,10 @@ void mpu6050_init(uint16_t sample_rate, uint8_t accel_range,
 		      (uint8_t *)&tmp);
 	systick_delay_ms(500);
 
-	calibration();
+	calibration(sample_rate);
 }
 
-static void calibration(void)
+static void calibration(uint16_t sample_rate)
 {
 	uint8_t tmp = MPU6050_USER_CTRL_FIFO_EN;
 	uint16_t fifo_count = 0;
@@ -167,6 +165,7 @@ static void calibration(void)
 	int i, j;
 	int16_t data[6] = {0};
 	int32_t sum[6] = {0};
+	float sum_squares = 0;
 
 	// Enable FIFO
 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_USER_CTRL, 1, &tmp);
@@ -174,7 +173,7 @@ static void calibration(void)
 	tmp = 0x78;
 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_EN, 1, &tmp);
 	// According to sample division to delay time
-	systick_delay_ms((int)(20000 * dt));
+	systick_delay_ms(10000 / (int)sample_rate);
 	// Disable accel and gyro FIFO
 	tmp = 0;
 	i2c_write_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_EN, 1, &tmp);
@@ -183,7 +182,7 @@ static void calibration(void)
 		     (uint8_t *)&fifo_count);
 	fifo_count = (fifo_count << 8) | (fifo_count >> 8);
 	packet_count = fifo_count / 12;
-	// Read FIFO data and calculate bias
+	// Read FIFO data and calculate gain/bias
 	for (i = 0; i < packet_count; i++) {
 		i2c_read_reg(I2C1, MPU6050_ADDRESS, MPU6050_FIFO_R_W, 12,
 			     (uint8_t *)data);
@@ -194,89 +193,62 @@ static void calibration(void)
 		}
 	}
 
-	for (i = 0; i < 6; i++) {
-		bias[i] = (int16_t)(sum[i] / packet_count);
+	for (i = 0; i < 3; i++) {
+		sum[i] /= packet_count;
+		sum_squares += (float)sum[i] * (float)sum[i];
+		gyro_bias[i] = (int16_t)(sum[i + 3] / packet_count);
 	}
+	// Change accel unit by accel gain
+	accel_unit *= 16384.0 / sqrtf(sum_squares);
 }
 
-void mpu6050_kalman_gyro(float (*X)[2], float *Z)
+void mpu6050_kalman(float (*X)[2], float *angle, float *rate, float dt)
 {
-	static float P[3][2][2] = {{{1, 0}, {0, 1}},
-				   {{1, 0}, {0, 1}},
-				   {{1, 0}, {0, 1}}},
-		     Q = 0.01, R = 1;
+	static float P[2][2][2] = {0}, Q = 0.08, R = 0.5;
 	float X_[2] = {0}, P_[2][2] = {0}, K[2] = {0};
 	int i;
 
-	for (i = 0; i < 3; i++) {
-		X_[0] = X[i][0] + dt * X[i][1];
+	for (i = 0; i < 2; i++) {
+		X_[0] = X[i][0] + dt * (rate[i] - X[i][1]);
 		X_[1] = X[i][1];
 
-		P_[0][0] = P[i][0][0] + (P[i][0][1] + P[i][1][0]) * dt + Q;
-		P_[0][1] = P[i][0][1] + P[i][1][1] * dt;
-		P_[1][0] = P[i][1][0] + P[i][1][1] * dt;
-		P_[1][1] = P[i][1][1] + Q;
+		P_[0][0] =
+			P[i][0][0] +
+			(-P[i][0][1] - P[i][1][0] + P[i][1][1] * dt + Q) * dt;
+		P_[0][1] = P[i][0][1] - P[i][1][1] * dt;
+		P_[1][0] = P[i][1][0] - P[i][1][1] * dt;
+		P_[1][1] = P[i][1][1] + Q * dt;
 
-		K[0] = P_[0][1] / (P_[1][1] + R);
-		K[1] = P_[1][1] / (P_[1][1] + R);
+		K[0] = P_[0][0] / (P_[0][0] + R);
+		K[1] = P_[1][0] / (P_[0][0] + R);
 
-		X[i][0] = X_[0] + K[0] * (Z[i] - X[i][1]);
-		X[i][1] = X_[1] + K[1] * (Z[i] - X[i][1]);
+		X[i][0] = X_[0] + K[0] * (angle[i] - X[i][0]);
+		X[i][1] = X_[1] + K[1] * (angle[i] - X[i][0]);
 
-		P[i][0][0] = P_[0][0] - K[0] * P_[1][0];
-		P[i][0][1] = P_[0][1] - K[0] * P_[1][1];
-		P[i][1][0] = P_[1][0] * (1 - K[1]);
-		P[i][1][1] = P_[1][1] * (1 - K[1]);
+		P[i][0][0] = P_[0][0] - K[0] * P_[0][0];
+		P[i][0][1] = P_[0][1] - K[0] * P_[0][1];
+		P[i][1][0] = P_[1][0] - K[1] * P_[0][0];
+		P[i][1][1] = P_[1][1] - K[1] * P_[0][1];
 	}
+	// Yaw can't use filter to decrease noise, so use threshold to eliminate
+	if (rate[2] < 0.08 && rate[2] > -0.08)
+		rate[2] = 0;
+	X[2][0] = X[i][0] + dt * rate[2];
+	X[2][1] = rate[2];
 }
 
-// void mpu6050_kalman(float *data)
-// {
-// 	static float P[3][2][2] = {0}, Q = 0.001, R = 0.1;
-// 	float X_[2] = {0}, P_[2][2] = {0}, K[2] = {0};
-// 	int i;
-
-// 	for (i = 0; i < 3; i++) {
-// 		X_[0] = X[i][0] - dt * X[i][1];
-// 		X_[1] = X[i][1];
-
-// 		P_[0][0] = P[i][0][0] + (P[i][0][1] + P[i][1][0]) * dt + P[i][1][1]
-// * dt * dt + Q; 		P_[0][1] = P[i][0][1] + P[i][1][1] * dt; 		P_[1][0] = P[i][1][0]
-// + P[i][1][1] * dt; 		P_[1][1] = P[i][1][1] + Q;
-
-// 		K[0] = P_[0][1] / (P_[1][1] + R);
-// 		K[1] = P_[1][1] / (P_[1][1] + R);
-
-// 		X[i][0] = X_[0] + K[0] * (Z[i] - X[i][1]);
-// 		X[i][1] = X_[1] + K[1] * (Z[i] - X[i][1]);
-
-// 		P[i][0][0] = P_[0][0] - K[0] * P_[1][0];
-// 		P[i][0][1] = P_[0][1] - K[0] * P_[1][1];
-// 		P[i][1][0] = P_[1][0] * (1 - K[1]);
-// 		P[i][1][1] = P_[1][1] * (1 - K[1]);
-// 	}
-// }
-
 /**
- * @brief get static pitch, yaw and roll by accelerometer
+ * @brief get static attitude by measuring gravity of accelerometer
  *
- * @param data [0]: pitch, [1]: yaw, [2]: roll
+ * @param accel x, y, z
+ * @param euler roll, pitch, yaw(unknown)
  */
-void mpu6050_get_position(float *data)
+void mpu6050_static_attitude(float *accel, float *euler)
 {
-	int i;
-	float g_squre;
-
-	for (i = 0; i < 3; i++) {
-		g_squre += (float)bias[i] * (float)bias[i];
-	}
-
-	for (i = 0; i < 3; i++) {
-		data[i] = atan2f(
-			(float)bias[i],
-			sqrtf(g_squre - (float)bias[i] * (float)bias[i]));
-		data[i] *= 180 / PI;
-	}
+	euler[0] = atan2f(accel[1], accel[2]) * 180 / PI;
+	euler[1] = -atan2f(accel[0],
+			   sqrtf(accel[1] * accel[1] + accel[2] * accel[2])) *
+		   	   180 / PI;
 }
 
 /**
@@ -301,13 +273,16 @@ void mpu6050_get_all(float *data)
 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
 
 		if (i < 3) {
-			tmp[i] -= bias[i];
+			// tmp[i] -= gyro_bias[i];
 			data[i] = (float)tmp[i] * accel_unit;
 		} else if (i == 3) {
 			data[i] = (float)tmp[i] * 0.00294117647 + 36.53;
 		} else {
-			tmp[i] -= bias[i - 1];
+			tmp[i] -= gyro_bias[i - 4];
 			data[i] = (float)tmp[i] * gyro_unit;
+
+			// if ((data[i] < 0.1) && (data[i] > -0.1))
+			// 	data[i] = 0;
 		}
 	}
 }
@@ -322,7 +297,6 @@ void mpu6050_get_accel(float *data)
 
 	for (i = 0; i < 3; i++) {
 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
-		// tmp[i] -= bias[i];
 		data[i] = (float)tmp[i] * accel_unit;
 	}
 }
@@ -351,7 +325,7 @@ void mpu6050_get_gyro(float *data)
 
 	for (i = 0; i < 3; i++) {
 		tmp[i] = (tmp[i] << 8) | ((tmp[i] >> 8) & 0xFF);
-		tmp[i] -= bias[3 + i];
+		tmp[i] -= gyro_bias[i];
 		data[i] = (float)tmp[i] * gyro_unit;
 
 		if ((data[i] < 0.1) && (data[i] > -0.1))
