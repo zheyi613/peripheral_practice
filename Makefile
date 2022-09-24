@@ -15,6 +15,7 @@ C_SOURCES =  $(wildcard ./Src/*.c)
 # C_SOURCES = $(filter-out ./Src/main.c, $(ALL_C_SOURCES))
 # C_SOURCES += ./test/test_led_button.c
 # C_SOURCES += ./test/test_usart.c
+# C_SOURCES += ./test/test_adc
 # C_SOURCES += ./test/test_i2c.c
 # ASM sources
 ASM_SOURCES = startup_stm32f767xx.s
