@@ -12,7 +12,7 @@ void pa4_adc1_init(void)
 	/*      Configure the ADC GPIO pin      */
 
 	// Enable clock access to GPIOA
-	RCC->AHB1ENR |= GPIOA_CLE_EN;
+	RCC->AHB1ENR |= GPIOA_CLK_EN;
 	// Set PA4 mode to analog mode
 	GPIOA->MODER |= (GPIO_MODE_ANALOG << 8);
 
@@ -35,7 +35,7 @@ void pa4_adc1_interrupt_init(void)
 	/*      Configure the ADC GPIO pin      */
 
 	// Enable clock access to GPIOA
-	RCC->AHB1ENR |= GPIOA_CLE_EN;
+	RCC->AHB1ENR |= GPIOA_CLK_EN;
 	// Set PA4 mode to analog mode
 	GPIOA->MODER |= (GPIO_MODE_ANALOG << 8);
 
